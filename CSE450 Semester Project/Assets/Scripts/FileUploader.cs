@@ -8,12 +8,28 @@ using UnityEngine.UI;
 
 public class FileUploader : MonoBehaviour
 {
-    public GameObject creaturePrefab;
-    public GameObject audioCreaturePrefab;
-    public GameObject imgCreaturePrefab;
 
-    private string[] imageFiles = { ".png", ".jpg", ".jpeg" };
+    [Header("Default Creature")]
+    public GameObject defaultCreaturePrefab;
+    [Header("Audio Creature")]
+    public GameObject audioCreaturePrefab;
+    [Header("Image Creature")]
+    public GameObject imageCreaturePrefab;
+    [Header("Video Creature")]
+    public GameObject videoCreaturePrefab;
+    [Header("Document Creature")]
+    public GameObject documentCreaturePrefab;
+    [Header("Archive Creature")]
+    public GameObject archiveCreaturePrefab;
+    [Header("Code Creature")]
+    public GameObject codeCreaturePrefab;
+
+    private string[] imageFiles = { ".png", ".jpg", ".jpeg", ".gif", ".webp" };
     private string[] audioFiles = { ".wav", ".mp3" };
+    private string[] videoFiles = { ".mp4", ".mov" };
+    private string[] documentFiles = { ".pdf", ".doc", ".docx", ".xls", ".xlsx", ".ppt", ".pptx", ".txt" };
+    private string[] archiveFiles = { ".zip", ".rar", ".tar", ".gz" };
+    private string[] codeFiles = { ".cs", ".js", ".jsx", ".ts", ".tsx", ".html", ".css", ".json", ".xml", ".yml", ".yaml", ".cpp", ".h", ".java", ".py", ".rb", ".php" };
 
     public void UploadNewFile()
     {
@@ -23,26 +39,28 @@ public class FileUploader : MonoBehaviour
             var name = Path.GetFileName(path);
             GameObject.Find("SelectedFile").GetComponent<Text>().text = name;
             FileInfo fi = new FileInfo(path);
-            var extension = fi.Extension;
+            var extension = fi.Extension.ToLowerInvariant();
             long size = fi.Length;
             Debug.Log(extension + ", " + size);
             Debug.Log(fi.ToString());
 
+            GameObject prefabToUse = defaultCreaturePrefab;
+
             if (imageFiles.Contains(extension))
-            {
-                var mon = GameObject.Instantiate(imgCreaturePrefab);
-                mon.GetComponent<CreatureSelect>().InitCreature(name, size);
-            }
+                prefabToUse = imageCreaturePrefab;
             else if (audioFiles.Contains(extension))
-            {
-                var mon = GameObject.Instantiate(audioCreaturePrefab);
-                mon.GetComponent<CreatureSelect>().InitCreature(name, size);
-            }
-            else
-            {
-                var mon = Instantiate(creaturePrefab);
-                mon.GetComponent<CreatureSelect>().InitCreature(name, size);
-            }
+                prefabToUse = audioCreaturePrefab;
+            else if (videoFiles.Contains(extension))
+                prefabToUse = videoCreaturePrefab;
+            else if (documentFiles.Contains(extension))
+                prefabToUse = documentCreaturePrefab;
+            else if (archiveFiles.Contains(extension))
+                prefabToUse = archiveCreaturePrefab;
+            else if (codeFiles.Contains(extension))
+                prefabToUse = codeCreaturePrefab;
+
+            var mon = Instantiate(prefabToUse);
+            mon.GetComponent<CreatureSelect>().InitCreature(name, size);
         }
     }
 }

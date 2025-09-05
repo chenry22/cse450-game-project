@@ -390,9 +390,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b341600ca20040919a15c7047ebc39d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  creaturePrefab: {fileID: 7391808108981735557, guid: 15db8f04f20cd4a0091cf81c671ed2db, type: 3}
+  defaultCreaturePrefab: {fileID: 7391808108981735557, guid: 15db8f04f20cd4a0091cf81c671ed2db, type: 3}
   audioCreaturePrefab: {fileID: 2116424259406268166, guid: 84bb3fab7f6c341a4bef94b5424981b3, type: 3}
-  imgCreaturePrefab: {fileID: 1371606621957378201, guid: c4e83682d54ed402a9b922c357a41575, type: 3}
+  imageCreaturePrefab: {fileID: 1371606621957378201, guid: c4e83682d54ed402a9b922c357a41575, type: 3}
+  videoCreaturePrefab: {fileID: 1371606621957378201, guid: d0f5be427d536470fa9d79dfeeb2aa10, type: 3}
+  documentCreaturePrefab: {fileID: 1371606621957378201, guid: 54b9c88c64b77482488a33fb9d74d257, type: 3}
+  archiveCreaturePrefab: {fileID: 1371606621957378201, guid: 30a108f0c95f74bbb8de0654f89fb970, type: 3}
+  codeCreaturePrefab: {fileID: 1371606621957378201, guid: 1d907fce3e0104bd19e41a3973bcb244, type: 3}
 --- !u!1 &677096050
 GameObject:
   m_ObjectHideFlags: 0
