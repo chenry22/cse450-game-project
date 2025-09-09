@@ -24,12 +24,12 @@ public class FileUploader : MonoBehaviour
     [Header("Code Creature")]
     public GameObject codeCreaturePrefab;
 
-    private string[] imageFiles = { ".png", ".jpg", ".jpeg", ".gif", ".webp" };
-    private string[] audioFiles = { ".wav", ".mp3" };
-    private string[] videoFiles = { ".mp4", ".mov" };
-    private string[] documentFiles = { ".pdf", ".doc", ".docx", ".xls", ".xlsx", ".ppt", ".pptx", ".txt" };
-    private string[] archiveFiles = { ".zip", ".rar", ".tar", ".gz" };
-    private string[] codeFiles = { ".cs", ".js", ".jsx", ".ts", ".tsx", ".html", ".css", ".json", ".xml", ".yml", ".yaml", ".cpp", ".h", ".java", ".py", ".rb", ".php" };
+    private HashSet<string> imageFiles = new HashSet<string> { ".png", ".jpg", ".jpeg", ".gif", ".webp" };
+    private HashSet<string> audioFiles = new HashSet<string> { ".wav", ".mp3" };
+    private HashSet<string> videoFiles = new HashSet<string> { ".mp4", ".mov" };
+    private HashSet<string> documentFiles = new HashSet<string> { ".pdf", ".doc", ".docx", ".xls", ".xlsx", ".ppt", ".pptx", ".txt" };
+    private HashSet<string> archiveFiles = new HashSet<string> { ".zip", ".rar", ".tar", ".gz" };
+    private HashSet<string> codeFiles = new HashSet<string> { ".cs", ".js", ".jsx", ".ts", ".tsx", ".html", ".css", ".json", ".xml", ".yml", ".yaml", ".cpp", ".h", ".java", ".py", ".rb", ".php" };
 
     public void UploadNewFile()
     {
