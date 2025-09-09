@@ -48,7 +48,14 @@ namespace FileAnalysis
                 { "script", 5 },
                 { "canvas", 4 },
                 { "style", 3 },
-                { "time", 3 }
+                { "time", 3 },
+                { "p", 1},
+                { "h1", 1 },
+                { "h2", 2 },
+                { "h3", 3 },
+                { "h4", 4 },
+                { "h5", 5 },
+                { "h6", 6 }
             };
 
             var cutting_weights = new Dictionary<string, int>()
@@ -70,7 +77,14 @@ namespace FileAnalysis
                 { "audio", 3 },
                 { "script", 2 },
                 { "link", 3 },
-                { "iframe", 3 }
+                { "iframe", 3 },
+                { "p", 1},
+                { "h1", 1 },
+                { "h2", 2 },
+                { "h3", 3 },
+                { "h4", 4 },
+                { "h5", 5 },
+                { "h6", 6 }
             };
 
             var stamina_weights = new Dictionary<string, int>()
