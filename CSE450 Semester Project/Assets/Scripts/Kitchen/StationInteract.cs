@@ -36,13 +36,11 @@ public class StationInteract : MonoBehaviour {
         if (interactable) {
             switch (station) {
                 case Station.Toss:
-                    if (Input.GetKeyDown(KeyCode.E)) {
+                    if (Input.GetKeyDown(KeyCode.E) && stationGame != null) {
                         helpText.gameObject.SetActive(false);
-                        if (stationGame != null) {
-                            stationGame.SetActive(true);
-                            stationGame.GetComponent<TossGameManager>().BeginTossGame();
-                            interactable = false;
-                        }
+                        stationGame.SetActive(true);
+                        stationGame.GetComponent<TossGameManager>().BeginTossGame();
+                        interactable = false;
                     }
                     break;
                 case Station.Top:
@@ -60,9 +58,10 @@ public class StationInteract : MonoBehaviour {
                     }
                     break;
                 case Station.Cut:
-                    if (Input.GetKeyDown(KeyCode.E)) {
+                    if (Input.GetKeyDown(KeyCode.E) && stationGame != null) {
                         helpText.gameObject.SetActive(false);
-                        Debug.Log("[E] Cut trigger!");
+                        stationGame.SetActive(true);
+                        stationGame.GetComponent<CutGameManager>().BeginCutGame();
                         interactable = false;
                     }
                     break;

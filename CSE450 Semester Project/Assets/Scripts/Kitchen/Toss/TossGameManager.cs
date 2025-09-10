@@ -75,6 +75,7 @@ public class TossGameManager : MonoBehaviour {
         actualGame.SetActive(false);
         progress = 0;
         quality = 100;
+        dough.gameObject.transform.GetChild(0).transform.localScale = Vector2.one;
         progressFill.transform.localPosition = new Vector3(-0.5f, 0);
         progressFill.transform.localScale = new Vector3(0, 0);
     }

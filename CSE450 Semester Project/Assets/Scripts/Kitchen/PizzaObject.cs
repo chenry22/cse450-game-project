@@ -22,7 +22,13 @@ public class PizzaObject : MonoBehaviour {
     public void InitializePizza(int tossQuality) {
         this.tossQuality = tossQuality;
     }
-    public bool IsTopped() {
+    public void CutPizza(int cutQuality) {
+        this.cutQuality = cutQuality;
+    }
+
+    // state management helpers
+    public bool IsTopped()
+    {
         return toppings != null;
     }
     public bool IsCut() {
