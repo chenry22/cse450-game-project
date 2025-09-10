@@ -75,9 +75,7 @@ public class CutGameManager : MonoBehaviour
         }
     }
 
-
-    // this does not work... and i dont really understand the rotation of any of this...
-    // so i give up for now
+    // compares cut angles to target cut lines and computes score based on cumulative difference/error
     private int CalculateCutScore()
     {
         int quality = 0;

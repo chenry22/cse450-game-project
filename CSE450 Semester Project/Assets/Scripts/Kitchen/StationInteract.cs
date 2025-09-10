@@ -44,9 +44,10 @@ public class StationInteract : MonoBehaviour {
                     }
                     break;
                 case Station.Top:
-                    if (Input.GetKeyDown(KeyCode.E)) {
+                    if (Input.GetKeyDown(KeyCode.E) && stationGame != null) {
                         helpText.gameObject.SetActive(false);
-                        Debug.Log("[E] Top trigger!");
+                        stationGame.SetActive(true);
+                        stationGame.GetComponent<TopGameManager>().BeginTopGame();
                         interactable = false;
                     }
                     break;
@@ -75,7 +76,7 @@ public class StationInteract : MonoBehaviour {
                             playerPie.localPosition = Vector2.zero;
                         } else {
                             tablePie.transform.parent = GameObject.FindWithTag("Player").transform;
-                            tablePie.transform.localPosition = new Vector2(1f, 0);
+                            tablePie.transform.localPosition = new Vector2(0.6f, 0.2f);
                         }
                     }
                     break;
@@ -126,9 +127,6 @@ public class StationInteract : MonoBehaviour {
                     // player must be holding a pizza object
                     if (currPie == null) {
                         helpText.text = "You must be holding a pizza to do this";
-                    }
-                    else if (currPie.IsTopped()) {
-                        helpText.text = "This pizza is already topped";
                     } else {
                         StartInteraction();
                     }

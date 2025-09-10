@@ -56,7 +56,7 @@ public class TossGameManager : MonoBehaviour {
             var newPie = Instantiate(pizza);
             newPie.GetComponent<PizzaObject>().InitializePizza(quality);
             newPie.transform.parent = GameObject.FindWithTag("Player").transform;
-            newPie.transform.localPosition = new Vector2(0.2f, 0);
+            newPie.transform.localPosition = new Vector2(0.6f, 0.2f);
         }
     }
 
