@@ -9,10 +9,10 @@ using UnityEngine;
 
 public class TossGameManager : MonoBehaviour {
     private const float progressPerToss = 0.06f; // out of 1.0f
-    private const int qualityLossPerMistake = 10; // out of 100
-    private const float baseDoughSpeed = 4.5f;
+    private const int qualityLossPerMistake = 5; // out of 100
+    private const float baseDoughSpeed = 5f;
     private const float doughSpeedIncrease = 1f;
-    private const float maxDoughSpeed = 14f; // max speed of back and forth movement
+    private const float maxDoughSpeed = 15f; // max speed of back and forth movement
     private const int rotationVelocityScale = 80; // basically a slider for how extreme the spin will be on each toss
     private const float tossSquareMinScale = 0.7f; // scale at which pie is totally circular, probably shouldn't change
     private const string mainHelpText = "[<] [>] or [A] [D] to toss\n[Q] to cancel";
@@ -28,7 +28,6 @@ public class TossGameManager : MonoBehaviour {
     public GameObject actualGame;
 
     [Header("UI")]
-    public TMP_Text countdown;
     public GameObject progressFill;
     public TMP_Text qualityTxt;
     public TMP_Text helpTxt;
@@ -66,8 +65,9 @@ public class TossGameManager : MonoBehaviour {
         // TODO: replace this with final script
         GameObject.FindWithTag("Player").GetComponent<TempPlayerMove>().ToggleMovement();
         ResetTossGame();
-        countdown.gameObject.SetActive(true);
-        StartCoroutine(DoCountdown());
+        
+        actualGame.SetActive(true);
+        StartCoroutine(ActivateDough(1f));
     }
     public void ResetTossGame() {
         helpTxt.text = mainHelpText;
@@ -87,18 +87,7 @@ public class TossGameManager : MonoBehaviour {
     }
 
 
-    // async manager functions
-    private IEnumerator DoCountdown() {
-        var count = 3;
-        while (count > 0) {
-            countdown.text = "" + count;
-            yield return new WaitForSeconds(1);
-            count--;
-        }
-        countdown.gameObject.SetActive(false);
-        actualGame.SetActive(true);
-        yield return ActivateDough(0.3f);
-    }
+    // allow for delay to give reaction time
     private IEnumerator ActivateDough(float delay) {
         yield return new WaitForSeconds(delay); // small delay to allow for some reaction time
         gameActive = true;

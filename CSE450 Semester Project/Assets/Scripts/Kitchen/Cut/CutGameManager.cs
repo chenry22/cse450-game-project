@@ -14,17 +14,23 @@ using UnityEngine;
 // TODO: it would also be cool to transfer the cuts made onto the actual pizza object
 // and this wouldn't be too crazy since we're storing them as GameObjects already
 
-public class CutGameManager : MonoBehaviour
-{
+public class CutGameManager : MonoBehaviour {
+    // VARS AFFECTING GAMEPLAY
     private const int numCuts = 4;
     private const int baseRotationSpeed = 110; // in degrees per second
-    private const int rotationSpeedIncrease = 38; // how much to speed up after each cut
-    private const float qualityLenience = 5f;
+    private const int rotationSpeedIncrease = 32; // how much to speed up after each cut
+    private const int closeEnoughDegrees = 3; // if a cut is within this many degrees, it is considered perfect (no penalty)
+    private const float qualityLenience = 2f;
     // used to calculate penalty for cut error
     // formula is [ maxQuality - (degreesOff / qualityLenience) ]
     // basically # of degrees a cut has to be off to subtract 1 point from quality score
+
+
+    // Text to show
     private const string mainHelpText = "[Space] to cut\n[Q] to cancel";
     private const string completionHelpTxt = "[E] to continue";
+
+
 
     [Header("Game")]
     public Rigidbody2D pie;
@@ -33,7 +39,6 @@ public class CutGameManager : MonoBehaviour
     public GameObject actualGame;
 
     [Header("UI")]
-    public TMP_Text countdown;
     public TMP_Text progressTxt;
     public TMP_Text helpTxt;
 
@@ -43,10 +48,8 @@ public class CutGameManager : MonoBehaviour
 
     private int rotationSpeed = 0;
 
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
+    void Update() {
+        if (Input.GetKeyDown(KeyCode.Q)) {
             // end game without saving progress
             // basically kill this UI
             gameActive = false;
@@ -56,34 +59,28 @@ public class CutGameManager : MonoBehaviour
             // TODO: This is currently interfacing with the placeholder movement script (should be changed)
             GameObject.FindWithTag("Player").GetComponent<TempPlayerMove>().ToggleMovement();
         }
-        else if (!gameActive && cuts.Count == numCuts && Input.GetKeyDown(KeyCode.E))
-        {
+        else if (!gameActive && cuts.Count == numCuts && Input.GetKeyDown(KeyCode.E)) {
             gameObject.SetActive(false); // basically just kill UI
             GameObject.FindWithTag("Player").GetComponent<TempPlayerMove>().ToggleMovement();
             Debug.Log("GAME END TRIGGERED");
 
             // set cut of current pizza (find from parent)
             // then claim back to user
-        }
-        else if (gameActive && cuts.Count != numCuts)
-        {
+        } else if (gameActive && cuts.Count != numCuts) {
             pie.angularVelocity = rotationSpeed;
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
+            if (Input.GetKeyDown(KeyCode.Space)) {
                 CutPie();
             }
         }
     }
 
     // compares cut angles to target cut lines and computes score based on cumulative difference/error
-    private int CalculateCutScore()
-    {
+    private int CalculateCutScore() {
         int quality = 0;
         var maxPerCut = 25;
         // 180 is basically 0 for our purposes... probably a better way to do this somewhere
         var targets = new List<float> { 0, 45, 90, 135, 180 };
-        cuts.ForEach((cut) =>
-        {
+        cuts.ForEach((cut) => {
             var rot = cut.transform.localEulerAngles.z;
             if (rot < 0) { rot += 360f; }
             var comp = (rot + 180) % 360; // check wrap around
@@ -91,24 +88,23 @@ public class CutGameManager : MonoBehaviour
 
             var bestDiff = 360f;
             var bestTarget = 0f;
-            targets.ForEach((target) =>
-            {
+            targets.ForEach((target) => {
                 var diff = Mathf.Abs(Mathf.DeltaAngle(target, rot));
-                if (diff < bestDiff)
-                {
+                if (diff < bestDiff) {
                     bestDiff = diff;
                     bestTarget = target;
                 }
             });
-            Debug.Log("Rot: " + rot + ", Closest to: " + bestTarget + ", Diff: " + bestDiff);
+            Debug.Log("Rotation: " + rot + ", Closest to: " + bestTarget + ", Diff: " + bestDiff);
             targets.Remove(bestTarget);
-            if (bestTarget == 0)
-            {
+            if (bestTarget == 0) {
                 targets.Remove(180);
-            }
-            else if (bestTarget == 180)
-            {
+            } else if (bestTarget == 180) {
                 targets.Remove(0);
+            }
+            
+            if (bestDiff < closeEnoughDegrees) {
+                bestDiff = 0;  
             }
             quality += (int)Mathf.Max(maxPerCut - (bestDiff / qualityLenience), 0);
         });
@@ -117,16 +113,15 @@ public class CutGameManager : MonoBehaviour
 
 
     // Main game managers
-    public void BeginCutGame()
-    {
+    public void BeginCutGame() {
         // TODO: replace this with final script
         GameObject.FindWithTag("Player").GetComponent<TempPlayerMove>().ToggleMovement();
         ResetCutGame();
-        countdown.gameObject.SetActive(true);
-        StartCoroutine(DoCountdown());
+        
+        actualGame.SetActive(true);
+        StartCoroutine(BeginSpinning(0.3f));
     }
-    public void ResetCutGame()
-    {
+    public void ResetCutGame() {
         cuts.ForEach((obj) => Destroy(obj));
         cuts.Clear();
         cutIndicator.SetActive(true);
@@ -135,8 +130,7 @@ public class CutGameManager : MonoBehaviour
         gameActive = false;
         actualGame.SetActive(false);
     }
-    private void EndCutGame()
-    {
+    private void EndCutGame() {
         cutIndicator.SetActive(false);
         gameActive = false;
         pie.angularVelocity = 0;
@@ -150,22 +144,8 @@ public class CutGameManager : MonoBehaviour
     }
 
 
-    // async manager functions
-    private IEnumerator DoCountdown()
-    {
-        var count = 3;
-        while (count > 0)
-        {
-            countdown.text = "" + count;
-            yield return new WaitForSeconds(1);
-            count--;
-        }
-        countdown.gameObject.SetActive(false);
-        actualGame.SetActive(true);
-        yield return BeginSpinning(0.3f);
-    }
-    private IEnumerator BeginSpinning(float delay)
-    {
+    // allow for delay to give time to react
+    private IEnumerator BeginSpinning(float delay) {
         yield return new WaitForSeconds(delay); // small delay to allow for some reaction time
         rotationSpeed = baseRotationSpeed;
         gameActive = true;
@@ -174,8 +154,7 @@ public class CutGameManager : MonoBehaviour
 
     // actual game interaction
     // single cut
-    public void CutPie()
-    {
+    public void CutPie() {
         gameActive = false;
         pie.angularVelocity = 0; // stop movement temporarily to do cut
 
@@ -186,12 +165,9 @@ public class CutGameManager : MonoBehaviour
         cuts.Add(newCut);
 
         progressTxt.text = cuts.Count + " / " + numCuts;
-        if (cuts.Count == numCuts)
-        {
+        if (cuts.Count == numCuts) {
             EndCutGame();
-        }
-        else
-        {
+        } else {
             gameActive = true;
             rotationSpeed += rotationSpeedIncrease;
         }

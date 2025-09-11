@@ -10,8 +10,7 @@ using UnityEngine;
 
 // TODO: if a pizza is linked to an order, this should consider that in the randomizations (maybe)
 
-public enum Topping
-{
+public enum Topping {
     RedSauce, OliveOil, // bases
     Cheese, // secondary bases
     Sausage, Pepperoni, Bacon, // meats
@@ -19,10 +18,12 @@ public enum Topping
     BlackOlives, BananaPeppers, RedOnions
 }
 
-public class TopGameManager : MonoBehaviour
-{
-    private const float baseTopTime = 3.5f; // how long the topping screen will stay the same
-    private const float timeChangePerTopping = 0.4f; // how  much to decrement time per topping
+public class TopGameManager : MonoBehaviour {
+    // THESE VARS AFFECT GAMEPLAY
+    private const float baseTopTime = 3f; // how long the topping screen will stay the same for a pie with no toppings
+    private const float timeChangePerTopping = 0.2f; // how  much to decrement time per topping
+
+
 
     [Header("Game")]
     public ToppingSlot[] toppingSlots = new ToppingSlot[9];
@@ -37,7 +38,8 @@ public class TopGameManager : MonoBehaviour
     private float topChangeTime = 0f;
     private float timer = 0f;
 
-    public bool IsGameActive() { return gameActive;  }
+
+    public bool IsGameActive() { return gameActive; }
 
     void Update() {
         if (Input.GetKeyDown(KeyCode.E)) {

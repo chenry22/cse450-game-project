@@ -24,11 +24,13 @@ public class ToppingSlot : MonoBehaviour {
     }
 
     public void SetText(string s) {
-        slotTxt.text = s;
+        if(slotTxt != null) {
+            slotTxt.text = s;
+        }
     }
     public void SetCurrentTopping(Topping t) {
         currTopping = t;
-        slotTxt.text = t.ToString();
+        SetText(t.ToString());
     }
 
     public void OnMouseEnter() {

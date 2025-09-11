@@ -17,6 +17,12 @@ public class TempPlayerMove : MonoBehaviour {
             float v = speed * Input.GetAxis("Vertical");
             rb.velocity = new Vector2(h, v);
         }
+        
+        // special command to see pizza state
+        if (Input.GetKeyDown(KeyCode.P)){
+            var playerPie = this.GetComponentInChildren<PizzaObject>();
+            if(playerPie != null) { Debug.Log(playerPie.ToString()); }
+        }
     }
 
     public void ToggleMovement() {

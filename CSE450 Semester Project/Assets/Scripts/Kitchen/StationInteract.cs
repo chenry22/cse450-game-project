@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-// This should be attached to some trigger collider
-// for this to work, currently the GameObject that triggers the collider has to have the tag "Player"
+// This script handles mini-game activation and general station interfacing through a Collider2D
+    // For this to function probably the Collider2D of the object this is attached to must be marked
+    // as a trigger, and only GameObject with the "Player" tag will trigger collisions
 
 public enum Station {
     Toss, Top, Ovens, Cut, Table
@@ -26,7 +27,7 @@ public class StationInteract : MonoBehaviour {
 
     void Start() {
         sr = this.GetComponent<SpriteRenderer>();
-        stationGame.SetActive(false);
+        stationGame.SetActive(station == Station.Ovens); // ovens should be running in background always
         helpText.gameObject.SetActive(false);
         SetHelpText();
     }
@@ -52,10 +53,15 @@ public class StationInteract : MonoBehaviour {
                     }
                     break;
                 case Station.Ovens:
-                    if (Input.GetKeyDown(KeyCode.E)) {
-                        helpText.gameObject.SetActive(false);
-                        Debug.Log("[E] Oven trigger!");
-                        interactable = false;
+                    if (Input.GetKeyDown(KeyCode.E) && stationGame != null) {
+                        // first child is the actual game UI
+                        if (stationGame.transform.GetChild(0).gameObject.activeSelf) {
+                            helpText.gameObject.SetActive(true);
+                            stationGame.GetComponent<OvenGameManager>().CloseOvenUI();
+                        } else {
+                            helpText.gameObject.SetActive(false);
+                            stationGame.GetComponent<OvenGameManager>().ShowOvenUI();
+                        }
                     }
                     break;
                 case Station.Cut:
@@ -103,8 +109,7 @@ public class StationInteract : MonoBehaviour {
                 break;
         }
     }
-    private void StartInteraction()
-    {
+    private void StartInteraction() {
         interactable = true;
         sr.color = triggeredColor;
     }
@@ -134,7 +139,7 @@ public class StationInteract : MonoBehaviour {
                 case Station.Ovens:
                     interacting = this.gameObject;
                     // this just opens the oven view, so it should always be allowed
-                    sr.color = triggeredColor;
+                    StartInteraction();
                     break;
                 case Station.Cut:
                     interacting = this.gameObject;
