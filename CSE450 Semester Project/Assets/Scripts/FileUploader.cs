@@ -47,6 +47,7 @@ public class FileUploader : MonoBehaviour
         {
             { ".html", path => HTMLAnalyzer.Analyze(path) },
             { ".json", path => JSONAnalyzer.Analyze(path) },
+            { ".txt", path => TXTAnalyzer.Analyze(path) },
             // TODO: Add all the file analyzers here
             // { ".extension", path => [EXTENSION]Analyzer.Analyze(path) },
         };
