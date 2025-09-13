@@ -28,6 +28,8 @@ public sealed class SaveData
     }
 
     // TODO: implement save and necessary serializatio surrogates after creature and kitchen/station classes are complete.
-    public GameObject creature;
-    public GameObject station;
+    /*
+        e.g. 
+        public List<CreatureStats> creatures; 
+    */
 }

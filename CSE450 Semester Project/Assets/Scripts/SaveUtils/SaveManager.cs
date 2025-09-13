@@ -2,35 +2,34 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
-using System.Runtime.Serialization.Formatters.Binary;
 using System;
 using Unity.VisualScripting;
 
 public class SaveManager : MonoBehaviour
 {
-    private static string _saveFileName = "/gamesave.bin";
+    private static string _saveFileName = "/gamesave.json";
     private static string _saveGamePath = Path.Combine(Application.persistentDataPath, _saveFileName);
 
-    public static void SaveGameState(object save)
+    public static void SaveGameState(SaveData save)
     {
-        BinaryFormatter binFormatter = new BinaryFormatter();
-        FileStream fs = new FileStream(_saveGamePath, FileMode.Create, FileAccess.Write);
-
-        if (fs == null)
+        try
         {
-            Debug.LogError("[!] Failed to open savefile!");
-            goto _CloseFs;
+            using (FileStream fs = new FileStream(_saveGamePath, FileMode.Create, FileAccess.Write))
+            {
+                using (StreamWriter sw = new StreamWriter(fs))
+                {
+                    string jsonData = JsonUtility.ToJson(save, true);
+                    sw.Write(jsonData);
+                }
+            }
         }
-
-        binFormatter.Serialize(fs, save);
-
-    _CloseFs:
-        fs.Close();
-
-        return;
+        catch (Exception e)
+        {
+            Debug.LogError($"[!] Failed to save game state:\n{e.Message}");
+        }
     }
 
-    public static object LoadGameState()
+    public static SaveData LoadGameState()
     {
         if (!File.Exists(_saveGamePath))
         {
@@ -40,11 +39,23 @@ public class SaveManager : MonoBehaviour
 
         try
         {
-            BinaryFormatter binFormatter = new BinaryFormatter();
-            FileStream fs = new FileStream(_saveGamePath, FileMode.Open, FileAccess.Read);
-            object saveData = binFormatter.Deserialize(fs);
-            fs.Close();
-            return saveData;
+            string saveData = "";
+            using (FileStream fs = new FileStream(_saveGamePath, FileMode.Open, FileAccess.Read))
+            {
+                using (StreamReader sr = new StreamReader(fs))
+                {
+                    saveData = sr.ReadToEnd();
+                }
+            }
+
+            if (saveData == "")
+            {
+                Debug.LogError("[!] Loaded empty save file!");
+                return null;
+            }
+
+            SaveData objSaveData = JsonUtility.FromJson<SaveData>(saveData);
+            return objSaveData;
         }
         catch(Exception e)
         {
