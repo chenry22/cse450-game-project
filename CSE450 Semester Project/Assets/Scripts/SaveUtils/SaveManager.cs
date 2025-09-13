@@ -7,11 +7,37 @@ using Unity.VisualScripting;
 
 public class SaveManager : MonoBehaviour
 {
-    private static string _saveFileName = "/gamesave.json";
-    private static string _saveGamePath = Path.Combine(Application.persistentDataPath, _saveFileName);
+    private static string _saveFileName = "gamesave.json";
+    private static string _saveGamePath;
 
-    public static void SaveGameState(SaveData save)
+    private void Awake()
     {
+        _saveGamePath = Path.Combine(Application.persistentDataPath, _saveFileName);
+    }
+
+    public void SaveGameStateButton()
+    {
+        SaveData save = new SaveData();
+        SaveGameState(save);
+        Debug.Log("[+] Game state saved.");
+        return;
+    }
+
+    public void LoadGameStateButton()
+    {
+        SaveData loadedData = LoadGameState();
+        Debug.Log("Loaded game state");
+        return;
+    }
+
+    public void SaveGameState(SaveData save)
+    {
+        if (String.IsNullOrEmpty(_saveGamePath))
+        {
+            Debug.Log("[-] Save path not yet initialized");
+            return;
+        }
+
         try
         {
             using (FileStream fs = new FileStream(_saveGamePath, FileMode.Create, FileAccess.Write))
@@ -27,9 +53,11 @@ public class SaveManager : MonoBehaviour
         {
             Debug.LogError($"[!] Failed to save game state:\n{e.Message}");
         }
+
+        return;
     }
 
-    public static SaveData LoadGameState()
+    public SaveData LoadGameState()
     {
         if (!File.Exists(_saveGamePath))
         {
