@@ -3,9 +3,18 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
 
+/*
+HTML Statistics:
+- Dough Handling    = weighted sum of structural tags (div, section, form, etc.)
+- Toppings          = weighted sum of content tags (ul, li, img, button, etc.)
+- Cooking           = weighted sum of interactive tags (progress, script, canvas, style, headings, etc.)
+- Cutting           = weighted sum of separator/table/navigation tags (br, hr, nav, table, tr, td, dl, etc.)
+- Speed             = weighted sum of tags related to media content (marquee, range, video, audio, script, link, iframe, headings, etc.)
+- Stamina           = weighted sum of layout and page-level tags (body, main, html, footer, header)
+*/
+
 namespace FileAnalysis
 {
-
     public static class HTMLAnalyzer
     {
         public static Stats Analyze(string filePath)
@@ -16,6 +25,7 @@ namespace FileAnalysis
 
         private static Stats AnalyzeContent(string content)
         {
+            // tag weights for each stat
             var doughHandling_weights = new Dictionary<string, int>()
             {
                 { "div", 3 },

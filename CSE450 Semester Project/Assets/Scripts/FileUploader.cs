@@ -45,7 +45,8 @@ public class FileUploader : MonoBehaviour
 
         fileAnalyzerMap = new Dictionary<string, Func<string, object>>(StringComparer.OrdinalIgnoreCase)
         {
-            { ".html", path => HTMLAnalyzer.Analyze(path) }
+            { ".html", path => HTMLAnalyzer.Analyze(path) },
+            { ".json", path => JSONAnalyzer.Analyze(path) },
             // TODO: Add all the file analyzers here
             // { ".extension", path => [EXTENSION]Analyzer.Analyze(path) },
         };
