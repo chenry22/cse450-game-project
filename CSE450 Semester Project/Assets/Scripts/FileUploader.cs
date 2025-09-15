@@ -1,7 +1,7 @@
-using System.Collections;
+using System;
+using FileAnalysis;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
@@ -24,12 +24,33 @@ public class FileUploader : MonoBehaviour
     [Header("Code Creature")]
     public GameObject codeCreaturePrefab;
 
-    private string[] imageFiles = { ".png", ".jpg", ".jpeg", ".gif", ".webp" };
-    private string[] audioFiles = { ".wav", ".mp3" };
-    private string[] videoFiles = { ".mp4", ".mov" };
-    private string[] documentFiles = { ".pdf", ".doc", ".docx", ".xls", ".xlsx", ".ppt", ".pptx", ".txt" };
-    private string[] archiveFiles = { ".zip", ".rar", ".tar", ".gz" };
-    private string[] codeFiles = { ".cs", ".js", ".jsx", ".ts", ".tsx", ".html", ".css", ".json", ".xml", ".yml", ".yaml", ".cpp", ".h", ".java", ".py", ".rb", ".php" };
+    private Dictionary<string, GameObject> prefabMap;
+    private Dictionary<string, Func<string, object>> fileAnalyzerMap;
+
+    private void Awake()
+    {
+    prefabMap = new Dictionary<string, GameObject>(StringComparer.OrdinalIgnoreCase)
+        {
+            { ".png", imageCreaturePrefab }, { ".jpg", imageCreaturePrefab }, { ".jpeg", imageCreaturePrefab }, { ".gif", imageCreaturePrefab }, { ".webp", imageCreaturePrefab },
+            { ".wav", audioCreaturePrefab }, { ".mp3", audioCreaturePrefab },
+            { ".mp4", videoCreaturePrefab }, { ".mov", videoCreaturePrefab },
+            { ".pdf", documentCreaturePrefab }, { ".doc", documentCreaturePrefab }, { ".docx", documentCreaturePrefab }, { ".xls", documentCreaturePrefab }, { ".xlsx", documentCreaturePrefab },
+            { ".ppt", documentCreaturePrefab }, { ".pptx", documentCreaturePrefab }, { ".txt", documentCreaturePrefab },
+            { ".zip", archiveCreaturePrefab }, { ".rar", archiveCreaturePrefab }, { ".tar", archiveCreaturePrefab }, { ".gz", archiveCreaturePrefab },
+            { ".cs", codeCreaturePrefab }, { ".js", codeCreaturePrefab }, { ".jsx", codeCreaturePrefab }, { ".ts", codeCreaturePrefab }, { ".tsx", codeCreaturePrefab },
+            { ".html", codeCreaturePrefab }, { ".css", codeCreaturePrefab }, { ".json", codeCreaturePrefab }, { ".xml", codeCreaturePrefab }, { ".yml", codeCreaturePrefab },
+            { ".yaml", codeCreaturePrefab }, { ".cpp", codeCreaturePrefab }, { ".h", codeCreaturePrefab }, { ".java", codeCreaturePrefab }, { ".py", codeCreaturePrefab },
+            { ".rb", codeCreaturePrefab }, { ".php", codeCreaturePrefab }
+        };
+
+        fileAnalyzerMap = new Dictionary<string, Func<string, object>>(StringComparer.OrdinalIgnoreCase)
+        {
+            { ".html", path => HTMLAnalyzer.Analyze(path) }
+            // TODO: Add all the file analyzers here
+            // { ".extension", path => [EXTENSION]Analyzer.Analyze(path) },
+        };
+    }
+    
 
     public void UploadNewFile()
     {
@@ -37,30 +58,47 @@ public class FileUploader : MonoBehaviour
         if (path.Length != 0)
         {
             var name = Path.GetFileName(path);
-            GameObject.Find("SelectedFile").GetComponent<Text>().text = name;
+            var selectedFileObj = GameObject.Find("SelectedFile");
+            if (selectedFileObj != null)
+            {
+                var textComp = selectedFileObj.GetComponent<Text>();
+                if (textComp != null)
+                    textComp.text = name;
+            }
             FileInfo fi = new FileInfo(path);
             var extension = fi.Extension.ToLowerInvariant();
             long size = fi.Length;
             Debug.Log(extension + ", " + size);
             Debug.Log(fi.ToString());
 
-            GameObject prefabToUse = defaultCreaturePrefab;
-
-            if (imageFiles.Contains(extension))
-                prefabToUse = imageCreaturePrefab;
-            else if (audioFiles.Contains(extension))
-                prefabToUse = audioCreaturePrefab;
-            else if (videoFiles.Contains(extension))
-                prefabToUse = videoCreaturePrefab;
-            else if (documentFiles.Contains(extension))
-                prefabToUse = documentCreaturePrefab;
-            else if (archiveFiles.Contains(extension))
-                prefabToUse = archiveCreaturePrefab;
-            else if (codeFiles.Contains(extension))
-                prefabToUse = codeCreaturePrefab;
-
+            bool isSupported = prefabMap.ContainsKey(extension);
+            GameObject prefabToUse = isSupported ? prefabMap[extension] : defaultCreaturePrefab;
             var mon = Instantiate(prefabToUse);
-            mon.GetComponent<CreatureSelect>().InitCreature(name, size);
+
+            Stats stats = null;
+            if (isSupported && fileAnalyzerMap.ContainsKey(extension))
+            {
+                var result = fileAnalyzerMap[extension](path);
+                if (result is Stats s) { stats = s; }
+            }
+            else
+            {
+                stats = new Stats(); // default stats (50 for everything)
+            }
+
+            if (stats != null)
+            {
+                Debug.Log(
+                    $"Stats:\n" +
+                    $"Dough Handling: {stats.DoughHandling}\n" +
+                    $"Toppings: {stats.Toppings}\n" +
+                    $"Cooking: {stats.Cooking}\n" +
+                    $"Cutting: {stats.Cutting}\n" +
+                    $"Speed: {stats.Speed}\n" +
+                    $"Stamina: {stats.Stamina}"
+                );
+            }
+            mon.GetComponent<CreatureSelect>().InitCreature(name, size, stats);
         }
     }
 }

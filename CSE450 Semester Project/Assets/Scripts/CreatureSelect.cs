@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using FileAnalysis;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,7 +12,7 @@ public class CreatureSelect : MonoBehaviour
     private CreatureMove creatureMover;
     private Color selectedColor = new Color(0, 11, 8);
 
-    public void InitCreature(string name, long size)
+    public void InitCreature(string name, long size, Stats stats)
     {
         nameLabel = transform.GetChild(0).GetComponent<TextMesh>();
         sizeLabel = transform.GetChild(1).GetComponent<TextMesh>();
