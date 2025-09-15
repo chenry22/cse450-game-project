@@ -6,9 +6,10 @@ using UnityEngine;
 public class CreatureMove : MonoBehaviour
 {
     public GameObject selectedCreature = null;
-    public float speed = 3f;
+    public float speed = 3f; // default speed
 
-    public bool updateSelectedCreature(GameObject selected) {
+    public bool updateSelectedCreature(GameObject selected)
+    {
         if (selectedCreature == null)
         {
             selectedCreature = selected;
@@ -32,9 +33,9 @@ public class CreatureMove : MonoBehaviour
     {
         if (selectedCreature != null)
         {
-            float h = speed * Input.GetAxis("Horizontal");
-            float v = speed * Input.GetAxis("Vertical");
-            var newPos = new Vector2(transform.position.x + h, transform.position.y + v);
+            float creatureSpeed = selectedCreature.GetComponent<CreatureStats>().speed;
+            float h = creatureSpeed * Input.GetAxis("Horizontal");
+            float v = creatureSpeed * Input.GetAxis("Vertical");
             selectedCreature.GetComponent<Rigidbody2D>().velocity = new Vector2(h, v);
             // selectedCreature.GetComponent<Rigidbody2D>().MovePosition(newPos);
         }
