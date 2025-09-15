@@ -27,6 +27,11 @@ public class CreatureSelect : MonoBehaviour
             sizeLabel.text = (Mathf.Round(size / (1024 * 100)) / 10f) + "mb";
         }
         creatureMover.updateSelectedCreature(this.gameObject);
+
+        var creatureStats = GetComponent<CreatureStats>();
+        creatureStats.speed = Mathf.Lerp(2f, 10f, stats.Speed / 100f); // maps 0-100 speed stat to 2-10 speed
+        creatureStats.maxStamina = Mathf.Lerp(50f, 100f, stats.Stamina / 100f); // maps 0-100 stat to 50-100 stamina
+        creatureStats.stamina = creatureStats.maxStamina; // start at full stamina
     }
 
     void OnMouseDown()
