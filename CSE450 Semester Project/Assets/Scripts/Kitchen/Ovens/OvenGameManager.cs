@@ -6,7 +6,6 @@ using TMPro;
 using UnityEngine;
 
 // This script manages the oven minigame
-// TODO: player movement pause needs to be updated here as well
 
 public class OvenGameManager : MonoBehaviour {
     private float tickRate = 2.5f; // number of seconds between each cook update
@@ -100,8 +99,7 @@ public class OvenGameManager : MonoBehaviour {
 
     // basically toggles UI
     public void ShowOvenUI() {
-        // TODO: replace with final movement script
-        GameObject.FindWithTag("Player").GetComponent<TempPlayerMove>().ToggleMovement();
+        GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().ToggleMovement();
         if (currentPie == null) {
             emptyTxt.gameObject.SetActive(true);
             pieIndicator.SetActive(false);
@@ -112,8 +110,7 @@ public class OvenGameManager : MonoBehaviour {
         gameUI.SetActive(true);
     }
     public void CloseOvenUI() {
-        // TODO: replace with final movement script
-        GameObject.FindWithTag("Player").GetComponent<TempPlayerMove>().ToggleMovement();
+        GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().ToggleMovement();
         gameUI.SetActive(false);
     }
 }

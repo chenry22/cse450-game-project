@@ -47,11 +47,10 @@ public class TossGameManager : MonoBehaviour {
             this.gameObject.SetActive(false);
             ResetTossGame();
             // and enable user movement again
-            // TODO: This is currently interfacing with the placeholder movement script (should be changed)
-            GameObject.FindWithTag("Player").GetComponent<TempPlayerMove>().ToggleMovement();
+            GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().ToggleMovement();
         } else if (!gameActive && progress >= 1f && Input.GetKeyDown(KeyCode.E)) {
             gameObject.SetActive(false); // basically just kill UI
-            GameObject.FindWithTag("Player").GetComponent<TempPlayerMove>().ToggleMovement();
+            GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().ToggleMovement();
             var newPie = Instantiate(pizza);
             newPie.GetComponent<PizzaObject>().InitializePizza(quality);
             newPie.transform.parent = GameObject.FindWithTag("Player").transform;
@@ -62,8 +61,7 @@ public class TossGameManager : MonoBehaviour {
 
     // Main game managers
     public void BeginTossGame() {
-        // TODO: replace this with final script
-        GameObject.FindWithTag("Player").GetComponent<TempPlayerMove>().ToggleMovement();
+        GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().ToggleMovement();
         ResetTossGame();
         
         actualGame.SetActive(true);

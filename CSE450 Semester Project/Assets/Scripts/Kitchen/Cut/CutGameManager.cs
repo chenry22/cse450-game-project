@@ -6,7 +6,6 @@ using TMPro;
 using UnityEngine;
 
 // this class manages the UI overlay and the actual game mechanics of the cut minigame
-// TODO: currently it uses a temp player movement script, to be replaced with a final implementation
 
 // TODO: maybe add functionality for different number of cuts...
 // this would mean adding the guide markers programmatically
@@ -56,12 +55,11 @@ public class CutGameManager : MonoBehaviour {
             this.gameObject.SetActive(false);
             ResetCutGame();
             // and enable user movement again
-            // TODO: This is currently interfacing with the placeholder movement script (should be changed)
-            GameObject.FindWithTag("Player").GetComponent<TempPlayerMove>().ToggleMovement();
+            GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().ToggleMovement();
         }
         else if (!gameActive && cuts.Count == numCuts && Input.GetKeyDown(KeyCode.E)) {
             gameObject.SetActive(false); // basically just kill UI
-            GameObject.FindWithTag("Player").GetComponent<TempPlayerMove>().ToggleMovement();
+            GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().ToggleMovement();
             Debug.Log("GAME END TRIGGERED");
 
             // set cut of current pizza (find from parent)
@@ -114,8 +112,7 @@ public class CutGameManager : MonoBehaviour {
 
     // Main game managers
     public void BeginCutGame() {
-        // TODO: replace this with final script
-        GameObject.FindWithTag("Player").GetComponent<TempPlayerMove>().ToggleMovement();
+        GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().ToggleMovement();
         ResetCutGame();
         
         actualGame.SetActive(true);

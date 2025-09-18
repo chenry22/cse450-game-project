@@ -1,3 +1,8 @@
+using System;
+using System.IO;
+using System.Security.Cryptography;
+using UnityEngine;
+
 namespace FileAnalysis
 {
     /*
@@ -19,5 +24,31 @@ namespace FileAnalysis
         // Character Skills
         public int Speed = 50;
         public int Stamina = 50;
+
+        public Stats() {} // default constructor leaves default
+
+        // a bit more interesting constructor using the file hash to compute stats
+        // still deterministic like we want, but makes files we haven't explicitly created algorithms for a bit more variable
+        public Stats(string fileName) {
+            byte[] hash = GetMD5HashFromFile(fileName);
+            if (BitConverter.IsLittleEndian){
+                Array.Reverse(hash);
+            }
+            int val = Mathf.Abs(BitConverter.ToInt32(hash, 0));
+            DoughHandling = val % 100;
+            Toppings = val / 100 % 100;
+            Cooking = val / 10000 % 100;
+            Cutting = val / 1000000 % 100;
+        }
+        
+        // taken basically straight from
+        // https://stackoverflow.com/questions/16318087/calculate-the-hash-of-the-contents-of-a-file-in-c
+        protected byte[] GetMD5HashFromFile(string fileName) {
+            FileStream file = new FileStream(fileName, FileMode.Open);
+            MD5 md5 = new MD5CryptoServiceProvider();
+            byte[] hash = md5.ComputeHash(file);
+            file.Close();
+            return hash;
+        }
     }
 }
