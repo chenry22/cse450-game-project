@@ -44,6 +44,7 @@ public class CreatureMove : MonoBehaviour
             selectedCreature = selected;
             selected.gameObject.tag = playerTag;
             mainCam.transform.parent = selected.transform;
+            GameObject.Find("CreatureHandler").GetComponent<CreatureAssign>().UnassignCreature(selected.GetComponent<CreatureSelect>());
             return true;
         } else {
             // SWAP CREATURE SELECTION
@@ -53,6 +54,7 @@ public class CreatureMove : MonoBehaviour
             selectedCreature = selected;
             selected.gameObject.tag = playerTag;
             mainCam.transform.parent = selected.transform;
+            GameObject.Find("CreatureHandler").GetComponent<CreatureAssign>().UnassignCreature(selected.GetComponent<CreatureSelect>());
 
             // Reset multiple interaction blocker 
             // (any active interactions should be ended since we are taking control of a new creature)

@@ -46,8 +46,11 @@ public class TossGameManager : MonoBehaviour {
             gameActive = false;
             this.gameObject.SetActive(false);
             ResetTossGame();
+
             // and enable user movement again
             GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().ToggleMovement();
+            // allow re-interaction right after
+            transform.parent.GetComponentInChildren<StationInteract>().StartInteraction();
         } else if (!gameActive && progress >= 1f && Input.GetKeyDown(KeyCode.E)) {
             gameObject.SetActive(false); // basically just kill UI
             GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().ToggleMovement();
@@ -73,7 +76,10 @@ public class TossGameManager : MonoBehaviour {
         actualGame.SetActive(false);
         progress = 0;
         quality = 100;
+        qualityTxt.text = "<b>Quality:</b> " + quality + " / 100";
+
         dough.gameObject.transform.GetChild(0).transform.localScale = Vector2.one;
+        dough.gameObject.transform.localPosition = Vector2.zero;
         progressFill.transform.localPosition = new Vector3(-0.5f, 0);
         progressFill.transform.localScale = new Vector3(0, 0);
     }

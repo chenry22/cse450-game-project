@@ -17,7 +17,7 @@ public class CreatureSelect : MonoBehaviour {
     private CreatureAssign creatureAssign;
 
     // label colors for different states
-    private Color normalColor = Color.white;
+    private Color normalColor = Color.black;
     private Color selectedColor = new Color(0, 49/255f, 118/255f);
     private Color highlightedColor = new Color(230/255f, 32/255f, 65/255f);
 

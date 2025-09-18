@@ -122,7 +122,7 @@ public class StationInteract : MonoBehaviour {
                 break;
         }
     }
-    private void StartInteraction() {
+    public void StartInteraction() {
         interactable = true;
         sr.color = triggeredColor;
     }
