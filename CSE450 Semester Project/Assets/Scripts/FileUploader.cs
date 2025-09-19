@@ -75,7 +75,8 @@ public class FileUploader : MonoBehaviour
 
             bool isSupported = prefabMap.ContainsKey(extension);
             GameObject prefabToUse = isSupported ? prefabMap[extension] : defaultCreaturePrefab;
-            var mon = Instantiate(prefabToUse);
+            var mon = Instantiate(prefabToUse, prefabToUse.transform.position, 
+                prefabToUse.transform.rotation, GameObject.Find("Spawner").transform);
 
             Stats stats = null;
             if (isSupported && fileAnalyzerMap.ContainsKey(extension))
@@ -103,7 +104,8 @@ public class FileUploader : MonoBehaviour
             mon.GetComponent<CreatureSelect>().InitCreature(name, size, stats);
 
             // Put each new creature into save state buffer.
-            SaveData.Instance.creatures.Add(new SavedCreature(name, size, stats, extension));
+            SaveData.Instance.creatures.Add(new SavedCreature(name, size, stats, 
+                extension, mon.transform.position));
         }
     }
 
