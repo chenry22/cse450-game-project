@@ -56,8 +56,8 @@ public class CutGameManager : MonoBehaviour {
             ResetCutGame();
             // and enable user movement again
             GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().ToggleMovement();
-        }
-        else if (!gameActive && cuts.Count == numCuts && Input.GetKeyDown(KeyCode.E)) {
+            transform.parent.GetComponentInChildren<StationInteract>().StartInteraction();
+        } else if (!gameActive && cuts.Count == numCuts && Input.GetKeyDown(KeyCode.E)) {
             gameObject.SetActive(false); // basically just kill UI
             GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().ToggleMovement();
             Debug.Log("GAME END TRIGGERED");

@@ -18,7 +18,8 @@ public class StationAssignmentController : MonoBehaviour
         si = GetComponentInChildren<StationInteract>();
         spr = GetComponent<SpriteRenderer>();
         baseColor = spr.color;
-        highlightedColor = spr.color.WithAlpha(0.8f);
+        highlightedColor = spr.color;
+        highlightedColor.a = 0.8f;
     }
 
     // when our mouse hovers over a station WHILE BEING DRAGGED (aka mouse down)

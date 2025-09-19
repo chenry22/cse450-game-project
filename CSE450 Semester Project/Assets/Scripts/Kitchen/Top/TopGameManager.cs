@@ -45,6 +45,7 @@ public class TopGameManager : MonoBehaviour {
             gameActive = false;
             this.gameObject.SetActive(false);
             GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().ToggleMovement();
+            transform.parent.GetComponentInChildren<StationInteract>().StartInteraction(); // allow re-interact
         }
         if (gameActive && timer > topChangeTime) {
             timer = 0f;

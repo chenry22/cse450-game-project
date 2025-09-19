@@ -68,6 +68,7 @@ public class CreatureMove : MonoBehaviour
     }
 
     public void ToggleMovement() {
+        selectedCreature.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
         movementEnabled = !movementEnabled;
     }
 }

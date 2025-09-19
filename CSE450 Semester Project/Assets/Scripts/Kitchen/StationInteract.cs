@@ -125,14 +125,25 @@ public class StationInteract : MonoBehaviour {
     public void StartInteraction() {
         interactable = true;
         sr.color = triggeredColor;
+        helpText.gameObject.SetActive(true);
+    }
+    public void StopInteraction(){
+        sr.color = defaultColor;
+        helpText.gameObject.SetActive(false);
+        interactable = false;
+        SetHelpText();
     }
 
     void OnTriggerEnter2D(Collider2D c) {
-        if (c.gameObject.tag == "Player" && interacting == null) {
+        if (c.gameObject.tag == "Player") {
+            if(interacting != null) {
+                interacting.GetComponent<StationInteract>().StopInteraction();
+            }
+            interacting = this.gameObject;
+
             var currPie = c.gameObject.GetComponentInChildren<PizzaObject>();
             switch (station) {
                 case Station.Toss:
-                    interacting = this.gameObject;
                     // player cannot already have a pizza object
                     if (currPie != null) {
                         helpText.text = "You can't do this while holding something";
@@ -141,7 +152,6 @@ public class StationInteract : MonoBehaviour {
                     }
                     break;
                 case Station.Top:
-                    interacting = this.gameObject;
                     // player must be holding a pizza object
                     if (currPie == null) {
                         helpText.text = "You must be holding a pizza to do this";
@@ -150,12 +160,10 @@ public class StationInteract : MonoBehaviour {
                     }
                     break;
                 case Station.Ovens:
-                    interacting = this.gameObject;
                     // this just opens the oven view, so it should always be allowed
                     StartInteraction();
                     break;
                 case Station.Cut:
-                    interacting = this.gameObject;
                     if (currPie == null) {
                         helpText.text = "You must be holding a pizza to do this";
                     } else if (currPie.IsCut()) {
@@ -165,7 +173,6 @@ public class StationInteract : MonoBehaviour {
                     }
                     break;
                 case Station.Table:
-                    interacting = this.gameObject;
                     // if there is not already a pizza here
                     var tablePie = this.transform.parent.GetComponentInChildren<PizzaObject>();
                     if (currPie == null && tablePie == null) {
@@ -184,11 +191,7 @@ public class StationInteract : MonoBehaviour {
 
     void OnTriggerExit2D(Collider2D c) {
         if (c.gameObject.tag == "Player") {
-            sr.color = defaultColor;
-            helpText.gameObject.SetActive(false);
-            interactable = false;
-            SetHelpText();
-
+            StopInteraction();
             if (interacting == this.gameObject) {
                 interacting = null;
             }

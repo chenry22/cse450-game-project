@@ -28,9 +28,12 @@ public class FileUploader : MonoBehaviour
     private Dictionary<string, GameObject> prefabMap;
     private Dictionary<string, Func<string, object>> fileAnalyzerMap;
 
+    public WebGLUpload webUploader;
+
     private void Awake()
     {
-    prefabMap = new Dictionary<string, GameObject>(StringComparer.OrdinalIgnoreCase)
+        webUploader = GetComponent<WebGLUpload>();
+        prefabMap = new Dictionary<string, GameObject>(StringComparer.OrdinalIgnoreCase)
         {
             { ".png", imageCreaturePrefab }, { ".jpg", imageCreaturePrefab }, { ".jpeg", imageCreaturePrefab }, { ".gif", imageCreaturePrefab }, { ".webp", imageCreaturePrefab },
             { ".wav", audioCreaturePrefab }, { ".mp3", audioCreaturePrefab },
@@ -55,7 +58,19 @@ public class FileUploader : MonoBehaviour
     
 
     public void UploadNewFile() {
+#if UNITY_EDITOR
         string path = EditorUtility.OpenFilePanel("Upload a file", "", "*");
+        HandleFileUpload(path);
+#elif UNITY_WEBGL
+        webUploader.UploadFile();
+#else
+        // TODO: there is probably some way to do this
+        Debug.Log("not yet implemented...");
+#endif
+    }
+
+    // because WebGL upload will not wait, needs to be a separate call
+    public void HandleFileUpload(string path) {
         if (path.Length != 0) {
             // want to avoid super long names as to not clutter UI
             var name = Path.GetFileName(path).Split(".")[0];
@@ -70,7 +85,7 @@ public class FileUploader : MonoBehaviour
 
             bool isSupported = prefabMap.ContainsKey(extension);
             GameObject prefabToUse = isSupported ? prefabMap[extension] : defaultCreaturePrefab;
-            var mon = Instantiate(prefabToUse, prefabToUse.transform.position, 
+            var mon = Instantiate(prefabToUse, prefabToUse.transform.position,
                 prefabToUse.transform.rotation, GameObject.Find("Spawner").transform);
 
             Stats stats = null;
@@ -97,7 +112,7 @@ public class FileUploader : MonoBehaviour
             GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().DeactivateFileUpload();
 
             // Put each new creature into save state buffer.
-            SaveData.Instance.creatures.Add(new SavedCreature(name, size, stats, 
+            SaveData.Instance.creatures.Add(new SavedCreature(name, size, stats,
                 extension, mon.transform.position));
         }
     }
