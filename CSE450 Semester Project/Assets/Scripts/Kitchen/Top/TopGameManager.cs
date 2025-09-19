@@ -6,7 +6,6 @@ using TMPro;
 using UnityEngine;
 
 // this class manages the UI overlay and the actual game mechanics of the top minigame
-// TODO: currently it uses a temp player movement script, to be replaced with a final implementation
 
 // TODO: if a pizza is linked to an order, this should consider that in the randomizations (maybe)
 
@@ -45,7 +44,7 @@ public class TopGameManager : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.E)) {
             gameActive = false;
             this.gameObject.SetActive(false);
-            GameObject.FindWithTag("Player").GetComponent<TempPlayerMove>().ToggleMovement();
+            GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().ToggleMovement();
         }
         if (gameActive && timer > topChangeTime) {
             timer = 0f;
@@ -58,8 +57,7 @@ public class TopGameManager : MonoBehaviour {
 
     // Main game managers
     public void BeginTopGame() {
-        // TODO: replace this with final script
-        GameObject.FindWithTag("Player").GetComponent<TempPlayerMove>().ToggleMovement();
+        GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().ToggleMovement();
 
         // TODO: for now we are assuming player has pie, implementation may change
         pizza = GameObject.FindWithTag("Player").GetComponentInChildren<PizzaObject>();

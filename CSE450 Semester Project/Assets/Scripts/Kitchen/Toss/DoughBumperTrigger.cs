@@ -32,7 +32,6 @@ public class DoughBumperTrigger : MonoBehaviour {
     }
     void OnTriggerExit2D(Collider2D collision) {
         if (manager.IsGameActive() && canBeTossed && collision.tag == "Dough") {
-            Debug.Log("Exit collision (fail)");
             canBeTossed = false;
             spr.color = normalColor;
             manager.DropDough();

@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 8323683543058208167}
   m_Layer: 0
   m_Name: AudioCreature
-  m_TagString: Untagged
+  m_TagString: Creature
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -163,7 +163,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!114 &8323683543058208167
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -177,6 +177,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 3
+  stamina: 100
+  maxStamina: 100
 --- !u!1 &4428301016715979884
 GameObject:
   m_ObjectHideFlags: 0

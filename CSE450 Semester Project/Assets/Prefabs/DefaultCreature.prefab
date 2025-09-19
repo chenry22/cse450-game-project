@@ -210,7 +210,7 @@ GameObject:
   - component: {fileID: -8790213570478998881}
   m_Layer: 0
   m_Name: DefaultCreature
-  m_TagString: Untagged
+  m_TagString: Creature
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -370,7 +370,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!114 &-8790213570478998881
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -384,3 +384,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 3
+  stamina: 100
+  maxStamina: 100

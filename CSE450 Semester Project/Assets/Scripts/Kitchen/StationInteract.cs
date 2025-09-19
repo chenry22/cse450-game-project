@@ -19,15 +19,19 @@ public class StationInteract : MonoBehaviour {
     public Station station = Station.Table; // default to table
     public GameObject stationGame;
     public TMP_Text helpText;
-    public Color defaultColor = new Color(255, 255, 255, 0.1f);
-    public Color triggeredColor = new Color(255, 0, 0, 0.2f);
+    public Color defaultColor = new Color(1f, 1f, 1f, 0.1f);
+    public Color triggeredColor = new Color(1f, 0, 0, 0.2f);
 
     private SpriteRenderer sr; // for changing color to show interaction
     private bool interactable = false;
 
     void Start() {
         sr = this.GetComponent<SpriteRenderer>();
-        stationGame.SetActive(station == Station.Ovens); // ovens should be running in background always
+        sr.color = defaultColor;
+        
+        if (station != Station.Table) {
+            stationGame.SetActive(station == Station.Ovens); // ovens should be running in background always
+        }
         helpText.gameObject.SetActive(false);
         SetHelpText();
     }
@@ -88,6 +92,15 @@ public class StationInteract : MonoBehaviour {
                     break;
             }
         }
+
+        // should trigger if creature selection is swapped during an interaction
+        // cancels previous interaction to reset station for player
+        if (interacting == null && helpText.gameObject.activeSelf) {
+            sr.color = defaultColor;
+            helpText.gameObject.SetActive(false);
+            interactable = false;
+            SetHelpText();
+        }
     }
 
     private void SetHelpText() {
@@ -109,7 +122,7 @@ public class StationInteract : MonoBehaviour {
                 break;
         }
     }
-    private void StartInteraction() {
+    public void StartInteraction() {
         interactable = true;
         sr.color = triggeredColor;
     }

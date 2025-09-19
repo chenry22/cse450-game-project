@@ -46,12 +46,14 @@ public class TossGameManager : MonoBehaviour {
             gameActive = false;
             this.gameObject.SetActive(false);
             ResetTossGame();
+
             // and enable user movement again
-            // TODO: This is currently interfacing with the placeholder movement script (should be changed)
-            GameObject.FindWithTag("Player").GetComponent<TempPlayerMove>().ToggleMovement();
+            GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().ToggleMovement();
+            // allow re-interaction right after
+            transform.parent.GetComponentInChildren<StationInteract>().StartInteraction();
         } else if (!gameActive && progress >= 1f && Input.GetKeyDown(KeyCode.E)) {
             gameObject.SetActive(false); // basically just kill UI
-            GameObject.FindWithTag("Player").GetComponent<TempPlayerMove>().ToggleMovement();
+            GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().ToggleMovement();
             var newPie = Instantiate(pizza);
             newPie.GetComponent<PizzaObject>().InitializePizza(quality);
             newPie.transform.parent = GameObject.FindWithTag("Player").transform;
@@ -62,8 +64,7 @@ public class TossGameManager : MonoBehaviour {
 
     // Main game managers
     public void BeginTossGame() {
-        // TODO: replace this with final script
-        GameObject.FindWithTag("Player").GetComponent<TempPlayerMove>().ToggleMovement();
+        GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().ToggleMovement();
         ResetTossGame();
         
         actualGame.SetActive(true);
@@ -75,7 +76,10 @@ public class TossGameManager : MonoBehaviour {
         actualGame.SetActive(false);
         progress = 0;
         quality = 100;
+        qualityTxt.text = "<b>Quality:</b> " + quality + " / 100";
+
         dough.gameObject.transform.GetChild(0).transform.localScale = Vector2.one;
+        dough.gameObject.transform.localPosition = Vector2.zero;
         progressFill.transform.localPosition = new Vector3(-0.5f, 0);
         progressFill.transform.localScale = new Vector3(0, 0);
     }

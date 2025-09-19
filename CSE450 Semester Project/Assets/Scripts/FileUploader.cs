@@ -8,6 +8,7 @@ using UnityEngine.UI;
 
 public class FileUploader : MonoBehaviour
 {
+    private const int maxFileNameLength = 10;
 
     [Header("Default Creature")]
     public GameObject defaultCreaturePrefab;
@@ -43,8 +44,7 @@ public class FileUploader : MonoBehaviour
             { ".rb", codeCreaturePrefab }, { ".php", codeCreaturePrefab }
         };
 
-        fileAnalyzerMap = new Dictionary<string, Func<string, object>>(StringComparer.OrdinalIgnoreCase)
-        {
+        fileAnalyzerMap = new Dictionary<string, Func<string, object>>(StringComparer.OrdinalIgnoreCase) {
             { ".html", path => HTMLAnalyzer.Analyze(path) },
             { ".json", path => JSONAnalyzer.Analyze(path) },
             { ".txt", path => TXTAnalyzer.Analyze(path) },
@@ -54,21 +54,16 @@ public class FileUploader : MonoBehaviour
     }
     
 
-    public void UploadNewFile()
-    {
+    public void UploadNewFile() {
         string path = EditorUtility.OpenFilePanel("Upload a file", "", "*");
-        if (path.Length != 0)
-        {
-            var name = Path.GetFileName(path);
-            var selectedFileObj = GameObject.Find("SelectedFile");
-            if (selectedFileObj != null)
-            {
-                var textComp = selectedFileObj.GetComponent<Text>();
-                if (textComp != null)
-                    textComp.text = name;
-            }
+        if (path.Length != 0) {
+            // want to avoid super long names as to not clutter UI
+            var name = Path.GetFileName(path).Split(".")[0];
+            name = name[..Mathf.Min(maxFileNameLength, name.Length)];
+
             FileInfo fi = new FileInfo(path);
             var extension = fi.Extension.ToLowerInvariant();
+            name += extension;
             long size = fi.Length;
             Debug.Log(extension + ", " + size);
             Debug.Log(fi.ToString());
@@ -79,18 +74,15 @@ public class FileUploader : MonoBehaviour
                 prefabToUse.transform.rotation, GameObject.Find("Spawner").transform);
 
             Stats stats = null;
-            if (isSupported && fileAnalyzerMap.ContainsKey(extension))
-            {
+            if (isSupported && fileAnalyzerMap.ContainsKey(extension)) {
                 var result = fileAnalyzerMap[extension](path);
                 if (result is Stats s) { stats = s; }
-            }
-            else
-            {
-                stats = new Stats(); // default stats (50 for everything)
+            } else {
+                // stats = new Stats(); // default stats (50 for everything)
+                stats = new Stats(path); // make things a little interesting by using more variable constructor
             }
 
-            if (stats != null)
-            {
+            if (stats != null) {
                 Debug.Log(
                     $"Stats:\n" +
                     $"Dough Handling: {stats.DoughHandling}\n" +
@@ -102,6 +94,7 @@ public class FileUploader : MonoBehaviour
                 );
             }
             mon.GetComponent<CreatureSelect>().InitCreature(name, size, stats);
+            GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().DeactivateFileUpload();
 
             // Put each new creature into save state buffer.
             SaveData.Instance.creatures.Add(new SavedCreature(name, size, stats, 
