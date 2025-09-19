@@ -13,6 +13,7 @@ namespace FileAnalysis
         Speed:          Integer | 0-100 | Speed in performing tasks
         Stamina:        Integer | 0-100 | Stamina
     */
+    [System.Serializable]
     public class Stats
     {
         // Kitchen Skills
