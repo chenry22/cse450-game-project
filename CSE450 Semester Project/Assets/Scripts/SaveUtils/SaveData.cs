@@ -1,3 +1,4 @@
+using FileAnalysis;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -27,9 +28,15 @@ public sealed class SaveData
         }
     }
 
+    private SaveData()
+    {
+        creatures = new List<SavedCreature>();
+    }
+
     // TODO: implement save and necessary serializatio surrogates after creature and kitchen/station classes are complete.
     /*
         e.g. 
         public List<CreatureStats> creatures; 
     */
+    public List<SavedCreature> creatures;
 }

@@ -101,6 +101,23 @@ public class FileUploader : MonoBehaviour
                 );
             }
             mon.GetComponent<CreatureSelect>().InitCreature(name, size, stats);
+
+            // Put each new creature into save state buffer.
+            SaveData.Instance.creatures.Add(new SavedCreature(name, size, stats, extension));
         }
+    }
+
+
+    /* Retrieve Prefab from extension
+     * Used for saving game data.
+    */
+    public GameObject Ext2Prefab(string extension)
+    {
+        if (prefabMap.ContainsKey(extension))
+        {
+            return prefabMap[extension];
+        }
+
+        return defaultCreaturePrefab;
     }
 }
