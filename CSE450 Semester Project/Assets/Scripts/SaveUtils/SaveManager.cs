@@ -16,11 +16,43 @@ public class SaveManager : MonoBehaviour
     public void SaveGameStateButton()
     {
         GameObject spawner = GameObject.Find("Spawner");
-        
-        for (int i = 0; i < SaveData.Instance.creatures.Count; ++i)
+        Debug.Log(spawner.transform.childCount);
+
+        if (SaveData.Instance.creatures == null)
         {
+            Debug.LogError("[!] NULL creatures list!");
+            SaveData.Instance.creatures = new List<SavedCreature>();
+        }
+        else
+        {
+            SaveData.Instance.creatures.Clear();
+        }
+
+        for (int i = 0; i < spawner.transform.childCount; ++i)
+        {
+            Debug.Log($"Saving creature {i}");
             Vector2 v = spawner.transform.GetChild(i).position;
-            SaveData.Instance.creatures[i].position = new Vector2Serial(v);
+            CreatureDataHolder currentCreature = spawner.transform.GetChild(i).GetComponent<CreatureDataHolder>();
+
+            if (currentCreature == null)
+            {
+                Debug.LogWarning($"Creature {i} has no CreatureDataHolder component. Skipping.");
+                continue;
+            }
+
+            if (currentCreature.savedCreature == null)
+            {
+                Debug.LogWarning($"Creature {i} has no savedCreature data. Skipping.");
+                continue;
+            }
+            //SaveData.Instance.creatures[i].position = new Vector2Serial(v);
+            SaveData.Instance.creatures.Add(new SavedCreature(
+                currentCreature.savedCreature.name,
+                currentCreature.savedCreature.size,
+                currentCreature.savedCreature.stats,
+                currentCreature.savedCreature.extension,
+                v
+            ));
         }
 
         SaveGameState(SaveData.Instance);
@@ -32,21 +64,30 @@ public class SaveManager : MonoBehaviour
     {
         // delete spawned objects before loading in saved objects
         GameObject devilSpawn = GameObject.Find("Spawner");
-        foreach(Transform s in devilSpawn.transform)
+        Debug.Log($"Camera parent before destroy: {Camera.main?.transform.parent?.name}");
+        Camera.main.transform.SetParent(null);
+
+        foreach (Transform s in devilSpawn.transform)
         {
             Destroy(s.gameObject);
+            Debug.Log($"Destroyed {s.gameObject.name}");
         }
 
         SaveData loadedData = LoadGameState();
         FileUploader fileUpload = FindObjectOfType<FileUploader>();
 
-        foreach(var c in loadedData.creatures)
+        if (Camera.main == null) Debug.LogError("[!] Camera destroyed");
+
+        foreach (var c in loadedData.creatures)
         {
             GameObject prefab = fileUpload.Ext2Prefab(c.extension);
             GameObject creature = Instantiate(prefab, c.position.SerialToVector2(), 
                 prefab.transform.rotation, GameObject.Find("Spawner").transform);
             var creatureStats = creature.GetComponent<CreatureSelect>();
             creatureStats.InitCreature(c.name, c.size, c.stats);
+            var dataHolder = creature.AddComponent<CreatureDataHolder>();
+            dataHolder.savedCreature = c;
+            Debug.Log($"Loaded object {c.name}");
         }
         Debug.Log("Loaded game state");
         return;
