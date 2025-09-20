@@ -12,7 +12,6 @@ public class WebGLUpload : MonoBehaviour
     private static extern void OpenFileUploadWeb(string gameObjectName, string methodName);
 
     public void UploadFile() {
-        Debug.Log("UPLOAD FILE");
         OpenFileUploadWeb(gameObject.name, "OnFileSelected");
     }
 

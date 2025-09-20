@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using FileAnalysis;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,8 +12,8 @@ using UnityEngine.UI;
 public class CreatureSelect : MonoBehaviour {
     private Sprite spr;
     private Color spriteColor;
-    private TextMesh nameLabel;
-    private TextMesh sizeLabel;
+    private TMP_Text nameLabel;
+    private TMP_Text sizeLabel;
     private CreatureMove creatureMover;
     private CreatureAssign creatureAssign;
 
@@ -25,23 +26,21 @@ public class CreatureSelect : MonoBehaviour {
     public Sprite GetSprite() { return spr; }
     public Color GetSpriteColor() { return spriteColor;  }
 
-    public void InitCreature(string name, long size, Stats stats)
-    {
+    public void InitCreature(string name, long size, Stats stats) {
         spr = GetComponent<SpriteRenderer>().sprite;
         spriteColor = GetComponent<SpriteRenderer>().color;
-        nameLabel = transform.GetChild(0).GetComponent<TextMesh>();
-        sizeLabel = transform.GetChild(1).GetComponent<TextMesh>();
+        nameLabel = transform.GetChild(0).GetComponent<TMP_Text>();
+        sizeLabel = transform.GetChild(1).GetComponent<TMP_Text>();
         creatureMover = GameObject.Find("CreatureHandler").GetComponent<CreatureMove>();
         creatureAssign = GameObject.Find("CreatureHandler").GetComponent<CreatureAssign>();
+
         nameLabel.text = name;
-        if (size < (1024 * 100))
-        {
+        if (size < (1024 * 100)) {
             sizeLabel.text = (size / 1024) + "kb";
-        }
-        else
-        {
+        } else {
             sizeLabel.text = (Mathf.Round(size / (1024 * 100)) / 10f) + "mb";
         }
+        SetTextSelected();
         creatureMover.UpdateSelectedCreature(this.gameObject); // new creatures are automatically taken control of by the user
         GetComponent<CreatureStats>().SetStats(stats); // moved setup to stats script
     }
@@ -74,15 +73,15 @@ public class CreatureSelect : MonoBehaviour {
 
     public void SetTextSelected() {
         nameLabel.color = selectedColor;
-        nameLabel.fontStyle = FontStyle.Bold;
+        nameLabel.fontStyle = FontStyles.Bold;
     }
     public void SetTextHighlighted() {
         nameLabel.color = highlightedColor;
-        nameLabel.fontStyle = FontStyle.Italic;
+        nameLabel.fontStyle = FontStyles.Italic;
     }
     public void SetTextNormal() {
         nameLabel.color = normalColor;
-        nameLabel.fontStyle = FontStyle.Normal;
+        nameLabel.fontStyle = FontStyles.Normal;
     }
     public void DeselectCreature() {
         // i know this is silly rn, but we may want to add other functionality later
