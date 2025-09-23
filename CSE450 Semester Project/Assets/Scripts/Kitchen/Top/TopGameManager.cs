@@ -58,6 +58,15 @@ public class TopGameManager : MonoBehaviour {
 
     // Main game managers
     public void BeginTopGame() {
+        var playerCreature = GameObject.FindWithTag("Player");
+        var stats = playerCreature.GetComponent<CreatureStats>();
+        if (stats.stamina < 10f) {
+            return;
+        }
+
+        // use 10 stamina
+        stats.TryPerformTask(10f);
+
         GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().ToggleMovement();
 
         // TODO: for now we are assuming player has pie, implementation may change

@@ -64,6 +64,12 @@ public class TossGameManager : MonoBehaviour {
 
     // Main game managers
     public void BeginTossGame() {
+        var playerCreature = GameObject.FindWithTag("Player");
+        var stats = playerCreature.GetComponent<CreatureStats>();
+        if (stats.stamina < 10f) {
+            return;
+        }
+
         GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().ToggleMovement();
         ResetTossGame();
         
@@ -83,11 +89,17 @@ public class TossGameManager : MonoBehaviour {
         progressFill.transform.localPosition = new Vector3(-0.5f, 0);
         progressFill.transform.localScale = new Vector3(0, 0);
     }
-    private void EndTossGame() {
+    private void EndTossGame()
+    {
         gameActive = false;
         dough.velocity = Vector2.zero;
         dough.transform.localPosition = Vector3.zero;
         helpTxt.text = completionHelpTxt;
+        
+        // use 10 stamina
+        var playerCreature = GameObject.FindWithTag("Player");
+        var stats = playerCreature.GetComponent<CreatureStats>();
+        stats.TryPerformTask(10f);
     }
 
 

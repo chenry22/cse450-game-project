@@ -24,16 +24,27 @@ public class OvenGameManager : MonoBehaviour {
     void Start() { gameUI.SetActive(false); }
 
     void Update() {
+        if (gameUI.activeSelf)
+        {
+            if (Input.GetKeyDown(KeyCode.Q)) {
+                CloseOvenUI();
+                return;
+            }
+        }
         // need to update even in the background
-        if (currentPie != null) {
+        if (currentPie != null)
+        {
             timer += Time.deltaTime;
-            if (timer >= tickRate) {
-                for (int i = 0; i < ovenSlices.Length; i++) {
+            if (timer >= tickRate)
+            {
+                for (int i = 0; i < ovenSlices.Length; i++)
+                {
                     ovenSlices[i].CookSlice();
                 }
                 timer = 0f;
 
-                if (!gameUI.activeSelf) {
+                if (!gameUI.activeSelf)
+                {
                     // TODO: something here that shows progress when main UI is hidden
                 }
             }
@@ -99,6 +110,16 @@ public class OvenGameManager : MonoBehaviour {
 
     // basically toggles UI
     public void ShowOvenUI() {
+        var playerCreature = GameObject.FindWithTag("Player");
+        var stats = playerCreature.GetComponent<CreatureStats>();
+        if (stats.stamina < 10f) {
+            gameUI.SetActive(false);
+            GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().ToggleMovement();
+            return;
+        }
+        // use 10 stamina
+        stats.TryPerformTask(10f);
+
         GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().ToggleMovement();
         if (currentPie == null) {
             emptyTxt.gameObject.SetActive(true);
