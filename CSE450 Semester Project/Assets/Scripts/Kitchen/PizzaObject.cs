@@ -39,38 +39,39 @@ public class PizzaObject : MonoBehaviour {
 
 
     // functions to view current state
+    public int GetTossQuality() { return tossQuality; }
     public bool IsCut() {
         return cutQuality >= 0;
     }
     public int GetToppingCount() {
         return toppings.Count;
     }
-    public List<Topping> GetToppings() {
-        return toppings;
-    }
-    public int[] GetCookLevels() {
-        return cookAmount;
-    }
+    public List<Topping> GetToppings() { return toppings; }
+    public int[] GetCookLevels() { return cookAmount; }
     public double GetAverageCookLevel() {
         return cookAmount.ToArray().Average();
     }
-    public float GetCookScore() {
-        // TODO: should penalize for undercook and overcook
-        // probably quadratic (e.g. if you're 20 off it should be more than twice as bad as )
+    /// <summary>
+    /// Computes a score for the pizza's cook level based on some expected amount
+    /// </summary>
+    /// <param name="targetCookAmount">The target cook amount from 80-120, where 100 is a normal cook amount</param>
+    /// <returns>The cook score out of 100</returns>
+    public float GetCookScore(float targetCookAmount = 100f) {
+        targetCookAmount = Math.Min(Math.Max(80f, targetCookAmount), 120f); // must be within 80-120
         float score = 0;
         var weight = 100f / cookAmount.Length;
         foreach (int cookLvl in cookAmount) {
-            // expected is 100, 
-            score += Mathf.Max(100 -
+            score += Mathf.Max(targetCookAmount -
                 Mathf.FloorToInt(
                     Mathf.Pow(
-                        Mathf.Abs(cookLvl - 100f)
+                        Mathf.Abs(cookLvl - targetCookAmount)
                     , 2)
                  / 10f)
             , 0) * weight;
         }
         return score / 100f;
     }
+    public float GetCutQuality() { return cutQuality; }
     
     override public string ToString() {
         var pieStr = "Pizza Object\nToss Quality: " + tossQuality + "\nToppings: ";

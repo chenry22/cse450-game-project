@@ -1,0 +1,104 @@
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+
+public class DayManager : MonoBehaviour {
+    // some consts defining gameplay
+    private const int baseNumOrders = 5;
+    private const float extraOrdersPerDay = 1 / 3; // will take FLOOR of computed val
+    // e.g. if 1/3, extra order required every 3 days
+    private const float baseOrderInterval = 20f; // in seconds
+    private const float orderIntervalDecreasePerDay = 0.95f; // multiplified to default
+                                                             // e.g. if 0.9f, day 2 will have interval of (defaultOrderInterval * 0.9f * 0.9f)
+    private const float baseOrderTimeAllowed = 30f; // in seconds
+    private const float orderTimeAllowedDecreasePerDay = 0.5f; // in seconds
+
+     
+    // order generation vars
+    private const int minTossQuality = 82;
+    private const int maxTossQuality = 100;
+    private const int maxNumToppings = 3;
+    private int[] cookLevels = new int[] { 90, 95, 100, 105, 110 };
+    private const int minCutQuality = 82;
+    private const int maxCutQuality = 100;
+
+
+    private int numOrders = 0;
+    private float profit = 0;
+
+    private List<Order> activeOrders = new List<Order>();
+    private List<Order> completedOrders = new List<Order>();
+    private float orderTimer = 0;
+    private float orderInterval = baseOrderInterval;
+    private float orderTimeAllowed = baseOrderTimeAllowed;
+
+    public void StartDay(int day) {
+        Debug.Log("Starting day " + day);
+        this.numOrders = baseNumOrders + (int)(day * extraOrdersPerDay);
+        this.orderInterval = (float)(baseOrderInterval * Mathf.Pow(orderIntervalDecreasePerDay, day));
+        this.orderTimeAllowed = baseOrderTimeAllowed - (day * orderTimeAllowedDecreasePerDay);
+
+        activeOrders = new List<Order>();
+        completedOrders = new List<Order>();
+        profit = 0;
+        GenerateRandomOrder();
+    }
+    public void EndDay() {
+        GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().EndDay(profit);
+    }
+
+    private void GenerateRandomOrder() {
+        int targetTossQuality = RandomBellCurve(minTossQuality, maxTossQuality);
+        List<Topping> targetToppings = new List<Topping> {
+            ToppingMethods.GetRandomBase(),
+            ToppingMethods.GetRandomSecondaryBase()
+        };
+        
+        for (int i = 0; i < Random.Range(0, maxNumToppings + 1); i++) {
+            targetToppings.Add(ToppingMethods.GetRandomNonbaseTopping());
+        }
+
+        int targetCookAmount = cookLevels[RandomBellCurve(0, cookLevels.Length)];
+        int targetCutQuality = RandomBellCurve(minCutQuality, maxCutQuality);
+        activeOrders.Add(new Order(
+            targetTossQuality, targetToppings,
+            targetCookAmount, targetCutQuality,
+            orderTimeAllowed
+        ));
+        Debug.Log("New random order generated: \nToss: " + targetTossQuality
+            + "\nTop: " + targetToppings + "\nCook Lvl: " + targetCookAmount
+            + "\nCut: " + targetCutQuality + "\nTime: " + orderTimeAllowed);
+    }
+    
+    public void SubmitPizzaToOrder(PizzaObject p, Order o) {
+        OrderResult or = o.SubmitOrder(p);
+        // TODO: player should see this result somewhere?
+        Debug.Log("Pizza: $" + or.GetPizzaCost() + "\nTip: $" + or.GetTip() + "\nTotal: $" + or.GetProfit());
+        completedOrders.Add(o);
+        activeOrders.Remove(o);
+
+        if (activeOrders.Count == 0 && completedOrders.Count >= numOrders) {
+            EndDay();
+        }
+    }
+
+    // we want generated numbers to tend away from extremes
+    public int RandomBellCurve(int min, int max) {
+        return Mathf.RoundToInt((Random.Range(min, max) + Random.Range(min, max)) / 2f);
+    }
+
+    void Update() {
+        if (completedOrders.Count < numOrders) {
+            foreach(Order o in activeOrders) {
+                o.IncreaseTime(Time.deltaTime); // keep track of time while game is active
+            }
+
+            orderTimer += Time.deltaTime;
+            if(orderTimer >= orderInterval) {
+                GenerateRandomOrder();
+                orderTimer = 0f;
+            }
+        }
+    }
+}

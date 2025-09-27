@@ -109,7 +109,7 @@ public class FileUploader : MonoBehaviour
                 );
             }
             mon.GetComponent<CreatureSelect>().InitCreature(name, size, stats);
-            GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().DeactivateFileUpload();
+            GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().RegisterCreature(mon);
 
             // Put each new creature into save state buffer.
             SaveData.Instance.creatures.Add(new SavedCreature(name, size, stats,

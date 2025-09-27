@@ -16,6 +16,23 @@ public enum Topping {
     Mushrooms, GreenPeppers, WhiteOnions, // veggies
     BlackOlives, BananaPeppers, RedOnions
 }
+static class ToppingMethods {
+    private static Topping[] bases = new Topping[] { Topping.RedSauce, Topping.OliveOil };
+    private static Topping[] secondaryBases = new Topping[] { Topping.Cheese };
+    
+    public static Topping GetRandomBase() {
+        return bases[Random.Range(0, bases.Length)];
+    }
+    public static Topping GetRandomSecondaryBase() {
+        return secondaryBases[Random.Range(0, secondaryBases.Length)];
+    }
+    public static Topping GetRandomNonbaseTopping() {
+        var ts = System.Enum.GetValues(typeof(Topping)).Cast<Topping>().ToList();
+        foreach(Topping b in bases) { ts.Remove(b); }
+        foreach(Topping b in secondaryBases) { ts.Remove(b);  }
+        return ts[Random.Range(0, ts.Count)];
+    }
+}
 
 public class TopGameManager : MonoBehaviour {
     // THESE VARS AFFECT GAMEPLAY
