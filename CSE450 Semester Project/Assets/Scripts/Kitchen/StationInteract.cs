@@ -8,12 +8,13 @@ using UnityEngine;
     // as a trigger, and only GameObject with the "Player" tag will trigger collisions
 
 public enum Station {
-    Toss, Top, Ovens, Cut, Table
+    Toss, Top, Ovens, Cut, Table,
+    Orders, Submit
 }
 
 
 public class StationInteract : MonoBehaviour {
-    // janky solution, basically prevents multiple simultaneous interactions
+    // kind of janky solution, basically prevents multiple simultaneous interactions
     public static GameObject interacting = null;
 
     public Station station = Station.Table; // default to table
@@ -90,6 +91,17 @@ public class StationInteract : MonoBehaviour {
                         }
                     }
                     break;
+                case Station.Orders:
+                    if (Input.GetKeyDown(KeyCode.E) && stationGame != null) {
+                        if (!stationGame.gameObject.activeSelf) {
+                            helpText.gameObject.SetActive(false);
+                            stationGame.GetComponent<OrderStationManager>().ShowOrderUI();
+                        } else {
+                            helpText.gameObject.SetActive(true);
+                            stationGame.GetComponent<OrderStationManager>().CloseOrderUI();
+                        }
+                    }
+                    break;
             }
         }
 
@@ -106,19 +118,22 @@ public class StationInteract : MonoBehaviour {
     private void SetHelpText() {
         switch (station) {
             case Station.Toss:
-                helpText.text = "Press [E] to begin tossing";
+                helpText.text = "[E] to begin tossing";
                 break;
             case Station.Top:
-                helpText.text = "Press [E] to begin topping";
+                helpText.text = "[E] to begin topping";
                 break;
             case Station.Ovens:
-                helpText.text = "Press [E] to view oven";
+                helpText.text = "[E] to view oven";
                 break;
             case Station.Cut:
-                helpText.text = "Press [E] to begin cutting";
+                helpText.text = "[E] to begin cutting";
                 break;
             case Station.Table:
-                helpText.text = "Press [Q] to place/pickup pie";
+                helpText.text = "[Q] to place/pickup pie";
+                break;
+            case Station.Orders:
+                helpText.text = "[E] to view active orders";
                 break;
         }
     }
@@ -173,7 +188,7 @@ public class StationInteract : MonoBehaviour {
                     }
                     break;
                 case Station.Table:
-                    // if there is not already a pizza here
+                    // either the slot must be empty OR player must not have an active pizza
                     var tablePie = this.transform.parent.GetComponentInChildren<PizzaObject>();
                     if (currPie == null && tablePie == null) {
                         helpText.text = "You don't have a pizza to place";
@@ -183,6 +198,10 @@ public class StationInteract : MonoBehaviour {
                         // can pick up or set down
                         StartInteraction();
                     }
+                    break;
+                case Station.Orders:
+                    // this is a view you should always be allowed to access
+                    StartInteraction();
                     break;
             }
             helpText.gameObject.SetActive(true);

@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour
     public Button dayBeginButton;
 
     void Start() {
-        dayManager = GameObject.Find("DayManager").GetComponent<DayManager>();
+        dayManager = GameObject.Find(DayManager.dayManagerObjName).GetComponent<DayManager>();
         dayBeginButton.transform.GetChild(0).GetComponent<TMP_Text>().text = "Begin Day " + day;
         dayBeginButton.gameObject.SetActive(false);
     }

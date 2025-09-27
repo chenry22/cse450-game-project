@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 
 public class DayManager : MonoBehaviour {
+     public static string dayManagerObjName = "DayManager"; // name for other scripts to reference
     // some consts defining gameplay
     private const int baseNumOrders = 5;
     private const float extraOrdersPerDay = 1 / 3; // will take FLOOR of computed val
@@ -11,7 +12,7 @@ public class DayManager : MonoBehaviour {
     private const float baseOrderInterval = 20f; // in seconds
     private const float orderIntervalDecreasePerDay = 0.95f; // multiplified to default
                                                              // e.g. if 0.9f, day 2 will have interval of (defaultOrderInterval * 0.9f * 0.9f)
-    private const float baseOrderTimeAllowed = 30f; // in seconds
+    private const float baseOrderTimeAllowed = 60f; // in seconds
     private const float orderTimeAllowedDecreasePerDay = 0.5f; // in seconds
 
      
@@ -29,9 +30,12 @@ public class DayManager : MonoBehaviour {
 
     private List<Order> activeOrders = new List<Order>();
     private List<Order> completedOrders = new List<Order>();
+    private float orderGenerationTimer = 0f;
     private float orderTimer = 0;
     private float orderInterval = baseOrderInterval;
     private float orderTimeAllowed = baseOrderTimeAllowed;
+    
+    public List<Order> GetActiveOrders() { return activeOrders; }
 
     public void StartDay(int day) {
         Debug.Log("Starting day " + day);
@@ -43,6 +47,9 @@ public class DayManager : MonoBehaviour {
         completedOrders = new List<Order>();
         profit = 0;
         GenerateRandomOrder();
+        
+        // TODO: THIS IS JUST FOR TESTING ORDER UI
+        GenerateRandomOrder();GenerateRandomOrder();GenerateRandomOrder();
     }
     public void EndDay() {
         GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().EndDay(profit);
@@ -61,7 +68,10 @@ public class DayManager : MonoBehaviour {
 
         int targetCookAmount = cookLevels[RandomBellCurve(0, cookLevels.Length)];
         int targetCutQuality = RandomBellCurve(minCutQuality, maxCutQuality);
+        
+        // TODO: maybe we want to add a cool random order label here, or maybe not
         activeOrders.Add(new Order(
+            "Order " + (activeOrders.Count + completedOrders.Count + 1),
             targetTossQuality, targetToppings,
             targetCookAmount, targetCutQuality,
             orderTimeAllowed

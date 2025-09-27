@@ -21,6 +21,7 @@ public class Order
     private const float baseProfit = 15f;
     private const float baseTip = 5f;
 
+    private string orderLabel = "Order"; // TODO: idk could be a generated person name or just increment?
     private int targetTossQuality;
     private List<Topping> targetToppings;
     private int targetCookAmount;
@@ -29,8 +30,8 @@ public class Order
     private float timeAllowed;
     private float timeActive;
 
-    public Order(int toss, List<Topping> toppings, int cook, int cut, float time)
-    {
+    public Order(string label, int toss, List<Topping> toppings, int cook, int cut, float time) {
+        this.orderLabel = label;
         this.targetTossQuality = toss;
         this.targetToppings = toppings;
         this.targetCookAmount = cook;
@@ -40,9 +41,8 @@ public class Order
         timeActive = 0f;
     }
 
-    // basically just a way for 
-    public void IncreaseTime(float t)
-    {
+    // basically just a way for a manager script to tell order timer to tick
+    public void IncreaseTime(float t) {
         timeActive += t;
     }
 
@@ -50,8 +50,7 @@ public class Order
     /// Takes in an active PizzaObject and returns the profit 
     /// </summary>
     /// <returns>profit as a float</returns>
-    public OrderResult SubmitOrder(PizzaObject p)
-    {
+    public OrderResult SubmitOrder(PizzaObject p) {
         float profit = baseProfit;
         profit += targetToppings.Count; // more toppings means more spensive
 
@@ -60,10 +59,8 @@ public class Order
 
         List<Topping> toppingsCopy = p.GetToppings();
         float rateChange = 1f / toppingsCopy.Count;
-        foreach (Topping t in targetToppings)
-        {
-            if (toppingsCopy.Remove(t))
-            {
+        foreach (Topping t in targetToppings) {
+            if (toppingsCopy.Remove(t)) {
                 topTipRate += rateChange;
             }
         }
@@ -84,5 +81,13 @@ public class Order
         float tip = baseTip * tossTipRate * topTipRate * cookTipRate * cutTipRate * timeTipRate;
         tip = (float)Math.Round(tip, 2);
         return new OrderResult(tip, profit);
+    }
+
+    override public string ToString() {
+        return "<b>" + orderLabel + "</b>"
+            + "\nToss: " + targetTossQuality
+            + "\nTop: " + string.Join(", ", targetToppings.ToArray())
+            + "\nCook: " + targetCookAmount + " | Cut: " + targetCutQuality
+            + "\nTime Due: " + ((int)(timeAllowed - timeActive));
     }
 }
