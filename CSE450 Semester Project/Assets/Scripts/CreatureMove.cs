@@ -24,11 +24,20 @@ public class CreatureMove : MonoBehaviour
 
     // Update is called once per frame
     void Update() {
-        if (selectedCreature != null && movementEnabled) {
+        if (selectedCreature != null && movementEnabled)
+        {
             float creatureSpeed = selectedCreature.GetComponent<CreatureStats>().speed;
             float h = creatureSpeed * Input.GetAxis("Horizontal");
             float v = creatureSpeed * Input.GetAxis("Vertical");
             selectedCreature.GetComponent<Rigidbody2D>().velocity = new Vector2(h, v);
+
+            // stamina recovery when creature is idle
+            var creatureSelect = selectedCreature.GetComponent<CreatureSelect>();
+            var creatureAssign = GameObject.Find("CreatureHandler").GetComponent<CreatureAssign>();
+            if (creatureAssign.IsCreatureIdle(creatureSelect))
+            {
+                selectedCreature.GetComponent<CreatureStats>().RecoverStamina(Time.deltaTime * 0.5f);
+            }
         }
 
         if (mainCam.transform.localPosition != baseCamPosition) {

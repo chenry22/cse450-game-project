@@ -87,4 +87,9 @@ public class CreatureAssign : MonoBehaviour
     {
         currentStation = null;
     }
+
+    public bool IsCreatureIdle(CreatureSelect cs)
+{
+    return GetCreatureStation(cs) == Station.Table;
+}
 }

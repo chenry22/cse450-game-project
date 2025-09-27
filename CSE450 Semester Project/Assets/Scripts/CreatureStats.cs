@@ -11,7 +11,7 @@ public class CreatureStats : MonoBehaviour
     public float stamina = 100f;
     public float maxStamina = 100f;
 
-    public Stats GetStats() { return baseStats;  }
+    public Stats GetStats() { return baseStats; }
     public void SetStats(Stats s)
     {
         baseStats = s;
@@ -21,17 +21,22 @@ public class CreatureStats : MonoBehaviour
     }
 
     // call this when character performs a task
-    public bool TryPerformTask(float staminaCost) {
-        if (stamina >= staminaCost) {
+    public bool TryPerformTask(float staminaCost)
+    {
+        if (stamina >= staminaCost)
+        {
             stamina -= staminaCost;
             return true;
-        } else {
+        }
+        else
+        {
             return false;
         }
     }
 
     // call this to recover stamina when not completing tasks (idle)
-    public void RecoverStamina(float amount) {
+    public void RecoverStamina(float amount)
+    {
         stamina = Mathf.Min(stamina + amount, maxStamina);
     }
 
