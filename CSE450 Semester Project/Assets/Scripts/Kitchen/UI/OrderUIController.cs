@@ -61,7 +61,7 @@ public class OrderUIController : MonoBehaviour {
         currTicket = player?.GetComponentInChildren<OrderTicket>();
         Order currOrder = currPie?.GetLinkedOrder();
         if (currOrder != null) {
-            currOrderTxt.text = currOrder.ToString();
+            currOrderTxt.text = currOrder.ToStringFull();
             orderToPizzaLink.SetActive(true);
         } else if (currTicket?.GetOrder() != null) {
             currOrderTxt.text = currTicket.GetOrder().ToStringFull();

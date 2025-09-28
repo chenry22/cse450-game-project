@@ -52,18 +52,18 @@ public class PizzaObject : MonoBehaviour {
     }
     public List<Topping> GetToppings() { return toppings; }
     public int[] GetCookLevels() { return cookAmount; }
-    public double GetAverageCookLevel() {
-        return cookAmount.ToArray().Average();
+    public float GetAverageCookLevel() {
+        return (float)cookAmount.ToArray().Average();
     }
     /// <summary>
     /// Computes a score for the pizza's cook level based on some expected amount
     /// </summary>
     /// <param name="targetCookAmount">The target cook amount from 80-120, where 100 is a normal cook amount</param>
-    /// <returns>The cook score out of 100</returns>
+    /// <returns>The cook score as a decimal / 1.0f</returns>
     public float GetCookScore(float targetCookAmount = 100f) {
-        targetCookAmount = Math.Min(Math.Max(80f, targetCookAmount), 120f); // must be within 80-120
+        targetCookAmount = Mathf.Min(Mathf.Max(80f, targetCookAmount), 120f); // must be within 80-120
         float score = 0;
-        var weight = 100f / cookAmount.Length;
+        float weight = 100f / cookAmount.Length;
         foreach (int cookLvl in cookAmount) {
             score += Mathf.Max(targetCookAmount -
                 Mathf.FloorToInt(
@@ -76,6 +76,7 @@ public class PizzaObject : MonoBehaviour {
         return score / 100f;
     }
     public float GetCutQuality() { return cutQuality; }
+    
     
     override public string ToString() {
         var pieStr = "Pizza Object\nToss Quality: " + tossQuality + "\nToppings: ";
@@ -92,7 +93,7 @@ public class PizzaObject : MonoBehaviour {
         return pieStr;
     }
     public string ToStringWithLabel(string label) {
-        var pieStr = label + "\nToss: " + tossQuality + "\nToppings: ";
+        var pieStr = label + "\n<u>Toss</u>: " + tossQuality + "\n<u>Top</u>: ";
         if(toppings.Count == 0) {
             pieStr += "[ None ]";
         } else {
@@ -100,8 +101,8 @@ public class PizzaObject : MonoBehaviour {
                 pieStr += t.ToString() + ", ";
             }
         }
-        pieStr += "\nCook: " + GetAverageCookLevel()
-            + "\nCut: " + (IsCut() ? cutQuality : "[ Not cut ]");
+        pieStr += "\n<u>Cook</u>: " + GetAverageCookLevel()
+            + "\n<u>Cut</u>: " + (IsCut() ? cutQuality : "[ Not cut ]");
         return pieStr;
     }
 }

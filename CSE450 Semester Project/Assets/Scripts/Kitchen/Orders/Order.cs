@@ -14,12 +14,21 @@ public class OrderResult {
     public float GetTip() { return tip; }
     public float GetPizzaCost() { return pizzaCost; }
     public float GetProfit() { return GetPizzaCost() + GetTip(); }
+
+    public override string ToString() {
+        return "Pizza: $" + Math.Round(GetPizzaCost(), 2)
+            + " | Tip: $" + Math.Round(GetTip(), 2)
+            + "\nTotal: $" + Math.Round(GetProfit(), 2);
+    }
 }
 
-public class Order
-{
+public class Order {
     private const float baseProfit = 15f;
     private const float baseTip = 5f;
+
+    private const float notCutPenalty = 5f;
+    private const float maxNotCookedPenalty = 10f;
+    private const float cookedBaseline = 40f; // how much the pizza has to be cooked to be consider "acceptable" (no penalty)
 
     private string orderLabel = "Order"; // TODO: idk could be a generated person name or just increment?
     private int targetTossQuality;
@@ -30,6 +39,8 @@ public class Order
     private float timeAllowed;
     private float timeActive;
 
+    private bool completed;
+
     public Order(string label, int toss, List<Topping> toppings, int cook, int cut, float time) {
         this.orderLabel = label;
         this.targetTossQuality = toss;
@@ -39,10 +50,14 @@ public class Order
 
         this.timeAllowed = time;
         timeActive = 0f;
+        completed = false;
     }
+    
+    public bool IsCompleted() { return completed; }
 
     // basically just a way for a manager script to tell order timer to tick
     public void IncreaseTime(float t) {
+        if (completed) { return;  }
         timeActive += t;
     }
 
@@ -50,25 +65,44 @@ public class Order
     /// Takes in an active PizzaObject and returns the profit 
     /// </summary>
     /// <returns>profit as a float</returns>
-    public OrderResult SubmitOrder(PizzaObject p) {
+    public OrderResult SubmitPizza(PizzaObject p) {
+        this.completed = true;
         float profit = baseProfit;
-        profit += targetToppings.Count; // more toppings means more spensive
+        float tossTipRate = (100f - Mathf.Max(0, targetTossQuality - p.GetTossQuality())) / 100f;
 
-        float tossTipRate = (100f - Math.Max(0, targetTossQuality - p.GetTossQuality())) / 100f;
+        // toppings
         float topTipRate = 0f;
-
         List<Topping> toppingsCopy = p.GetToppings();
-        float rateChange = 1f / toppingsCopy.Count;
-        foreach (Topping t in targetToppings) {
-            if (toppingsCopy.Remove(t)) {
-                topTipRate += rateChange;
+        if (toppingsCopy.Count > 0) {
+            float rateChange = 1f / toppingsCopy.Count;
+            foreach (Topping t in targetToppings) {
+                if (toppingsCopy.Remove(t)) {
+                    profit++; // matched toppings means charge more
+                    topTipRate += rateChange;
+                }
             }
+            topTipRate -= rateChange * toppingsCopy.Count; // penalty for wrong extra stuff
+            topTipRate = Mathf.Max(0, topTipRate);
+        } else {
+            topTipRate = 1f;
         }
-        topTipRate -= rateChange * toppingsCopy.Count; // penalty for wrong extra stuff
-        topTipRate = Math.Max(0, topTipRate);
 
-        float cookTipRate = p.GetCookScore(targetCookAmount) / 100f;
-        float cutTipRate = (100f - Math.Max(0, targetTossQuality - p.GetTossQuality())) / 100f;
+        // cook level
+        float avgCookLevel = p.GetAverageCookLevel();
+        float cookTipRate = 0f;
+        if (avgCookLevel < cookedBaseline) {
+            profit -= maxNotCookedPenalty * (cookedBaseline - avgCookLevel) / cookedBaseline;
+        } else {
+            cookTipRate = p.GetCookScore(targetCookAmount) / 100f;
+        }
+
+        // cut
+        float cutTipRate = 0f;
+        if (!p.IsCut()) {
+            profit = Mathf.Max(0, profit - notCutPenalty);
+        } else {
+            cutTipRate = (100f - Math.Max(0, targetTossQuality - p.GetTossQuality())) / 100f;
+        }
 
         // for timing penalty/reward, my thought is if you're on time, that's a tip rate of 1.0
         // if you're early, the % you're early by is added
@@ -78,12 +112,14 @@ public class Order
         float timeDiff = (timeAllowed - timeActive) / timeAllowed;
         float timeTipRate = Math.Max(0f, 1f + timeDiff);
 
+        Debug.Log("base tip: " + baseTip + ", toss: " + tossTipRate + ", top: " + topTipRate
+            + ", cook: " + cookTipRate + ", cut: " + cutTipRate + ", time: " + timeTipRate);
         float tip = baseTip * tossTipRate * topTipRate * cookTipRate * cutTipRate * timeTipRate;
-        tip = (float)Math.Round(tip, 2);
         return new OrderResult(tip, profit);
     }
 
     override public string ToString() {
+        if (completed) { return "[ None ]"; }
         return "<b>" + orderLabel + "</b>"
             + "\nToss: " + targetTossQuality
             + "\nTop: " + string.Join(", ", targetToppings.ToArray())
@@ -91,6 +127,7 @@ public class Order
             + "\nTime Left: " + ((int)(timeAllowed - timeActive));
     }
     public string ToStringFull() {
+        if (completed) { return "[ None ]"; }
         return "<b>-" + orderLabel + "-</b>"
             + "\n<u>Toss</u>: " + targetTossQuality
             + "\n<u>Top</u>: " + string.Join(", ", targetToppings.ToArray())

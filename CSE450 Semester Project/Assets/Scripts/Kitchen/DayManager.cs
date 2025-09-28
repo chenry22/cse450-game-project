@@ -9,13 +9,13 @@ public class DayManager : MonoBehaviour {
 
 
     // consts defining gameplay
-    private const int baseNumOrders = 5;
+    private const int baseNumOrders = 4;
     private const float extraOrdersPerDay = 1 / 3; // will take FLOOR of computed val
     // e.g. if 1/3, extra order required every 3 days
-    private const float baseOrderInterval = 70f; // in seconds
+    private const float baseOrderInterval = 80f; // in seconds
     private const float orderIntervalDecreasePerDay = 0.95f; // multiplified to default
                                                              // e.g. if 0.9f, day 2 will have interval of (defaultOrderInterval * 0.9f * 0.9f)
-    private const float baseOrderTimeAllowed = 110f; // in seconds
+    private const float baseOrderTimeAllowed = 170f; // in seconds
     private const float orderTimeAllowedDecreasePerDay = 0.5f; // in seconds
 
      
@@ -28,35 +28,39 @@ public class DayManager : MonoBehaviour {
     private const int maxCutQuality = 100;
 
 
-    private int numOrders = 0;
-    private float profit = 0;
-    private float balance = 0;
+    private bool dayActive = false;
+    private int numOrders;
+    private float profit;
+    private float balance;
 
-    private List<Order> activeOrders = new List<Order>();
-    private List<Order> completedOrders = new List<Order>();
-    private float orderTimer = 0;
-    private float orderInterval = baseOrderInterval;
-    private float orderTimeAllowed = baseOrderTimeAllowed;
+    private List<Order> activeOrders;
+    private List<Order> completedOrders;
+    private float orderTimer;
+    private float orderInterval;
+    private float orderTimeAllowed;
 
     public TMP_Text moneyText;
+    public TMP_Text orderNotifyText;
     
 
     public List<Order> GetActiveOrders() { return activeOrders; }
-
+    public bool DayIsActive() { return dayActive; }
+    
     public void StartDay(int day, float balance) {
         Debug.Log("Starting day " + day);
         this.balance = balance;
         this.numOrders = baseNumOrders + (int)(day * extraOrdersPerDay);
-        this.orderInterval = (float)(baseOrderInterval * Mathf.Pow(orderIntervalDecreasePerDay, day));
+        this.orderInterval = baseOrderInterval * Mathf.Pow(orderIntervalDecreasePerDay, day);
         this.orderTimeAllowed = baseOrderTimeAllowed - (day * orderTimeAllowedDecreasePerDay);
 
         activeOrders = new List<Order>();
         completedOrders = new List<Order>();
         profit = 0;
-        GenerateRandomOrder();
-
+        orderTimer = orderInterval * 9f / 10f;
+        dayActive = true;
     }
     public void EndDay() {
+        dayActive = false;
         // basically just send signal back to GameManager
         GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().EndDay(profit);
     }
@@ -87,18 +91,22 @@ public class DayManager : MonoBehaviour {
             + "\nCut: " + targetCutQuality + "\nTime: " + orderTimeAllowed);
     }
     
-    public void SubmitOrderWithPizza(Order o, PizzaObject p) {
-        OrderResult or = o.SubmitOrder(p);
+    public OrderResult SubmitOrderWithPizza(Order o, PizzaObject p) {
+        OrderResult or = o.SubmitPizza(p);
+        Destroy(p.gameObject); // this pizza gets "used" if successfully submitted
+
         // TODO: player should see this result somewhere?
         Debug.Log("Pizza: $" + or.GetPizzaCost() + "\nTip: $" + or.GetTip() + "\nTotal: $" + or.GetProfit());
         completedOrders.Add(o);
         activeOrders.Remove(o);
+        profit += or.GetProfit();
         moneyText.text = "Daily Profit: $" + System.Math.Round(profit, 2)
                 + "\nBalance: $" + System.Math.Round(balance, 2);
 
         if (activeOrders.Count == 0 && completedOrders.Count >= numOrders) {
             EndDay();
         }
+        return or;
     }
 
     // we want generated numbers to tend away from extremes
@@ -107,15 +115,19 @@ public class DayManager : MonoBehaviour {
     }
 
     void Update() {
-        if (completedOrders.Count < numOrders) {
+        if (dayActive) {
             foreach(Order o in activeOrders) {
                 o.IncreaseTime(Time.deltaTime); // keep track of time while game is active
             }
 
-            orderTimer += Time.deltaTime;
-            if(orderTimer >= orderInterval) {
-                GenerateRandomOrder();
-                orderTimer = 0f;
+            if (completedOrders.Count + activeOrders.Count < numOrders) {
+                orderTimer += Time.deltaTime;
+                if(orderTimer >= orderInterval) {
+                    GenerateRandomOrder();
+                    orderNotifyText.text = "<b>[ NEW ORDER ]</b>";
+                    orderNotifyText.gameObject.SetActive(true);
+                    orderTimer = 0f;
+                }
             }
         }
     }

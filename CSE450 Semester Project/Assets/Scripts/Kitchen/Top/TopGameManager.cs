@@ -1,24 +1,30 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using TMPro;
 using UnityEngine;
 
-// this class manages the UI overlay and the actual game mechanics of the top minigame
+// manages the UI overlay and game mechanics of the top minigame
 
-// TODO: if a pizza is linked to an order, this should consider that in the randomizations (maybe)
+// TODO: if a pizza is linked to an order, this should maybe consider that in the randomizations
+// TODO: maybe we could implement as part of topping skill # of slots seen each shuffle?
+//   so like bad toppers may only see like 5 each shuffle, but really good toppers can see 9
 
 public enum Topping {
     RedSauce, OliveOil, // bases
-    Cheese, // secondary bases
+    Mozzarella, Fontina, Spinach, // secondary bases
+
     Sausage, Pepperoni, Bacon, // meats
-    Mushrooms, GreenPeppers, WhiteOnions, // veggies
-    BlackOlives, BananaPeppers, RedOnions
+    Mushroom, GreenPepper, WhiteOnion, // veggies
+    BlackOlive, BananaPepper, RedOnion,
+    Artichoke, Jalapeno, GreenOlive,
+    Gorgonzola, Feta, Parmesan // extra cheeses
 }
 static class ToppingMethods {
     private static Topping[] bases = new Topping[] { Topping.RedSauce, Topping.OliveOil };
-    private static Topping[] secondaryBases = new Topping[] { Topping.Cheese };
+    private static Topping[] secondaryBases = new Topping[] { Topping.Mozzarella, Topping.Fontina };
+    
+    public static Topping[] GetBases() { return bases; }
+    public static Topping[] GetSecondaryBases() { return secondaryBases; }
     
     public static Topping GetRandomBase() {
         return bases[Random.Range(0, bases.Length)];
@@ -34,6 +40,8 @@ static class ToppingMethods {
     }
 }
 
+
+
 public class TopGameManager : MonoBehaviour {
     // THESE VARS AFFECT GAMEPLAY
     private const float baseTopTime = 3f; // how long the topping screen will stay the same for a pie with no toppings
@@ -44,9 +52,6 @@ public class TopGameManager : MonoBehaviour {
     [Header("Game")]
     public ToppingSlot[] toppingSlots = new ToppingSlot[9];
     public GameObject actualGame;
-
-    [Header("UI")]
-    public TMP_Text toppingTxt;
 
     private bool gameActive = false;
     private PizzaObject pizza;
@@ -82,15 +87,11 @@ public class TopGameManager : MonoBehaviour {
         ResetTopGame();
 
         actualGame.SetActive(true);
-        pizza.GetToppings().ForEach((t) => {
-            toppingTxt.text += t.ToString() + ", ";
-        });
         topChangeTime = baseTopTime - (pizza.GetToppingCount() * timeChangePerTopping);
         StartCoroutine(SwapTopOptions());
     }
     public void ResetTopGame() {
         timer = 0f;
-        toppingTxt.text = "Current: ";
         gameActive = false;
         actualGame.SetActive(false);
     }
@@ -101,7 +102,6 @@ public class TopGameManager : MonoBehaviour {
         timer = 0;
         topChangeTime -= timeChangePerTopping;
 
-        toppingTxt.text += t.ToString() + ", ";
         pizza.AddTopping(t);
         StartCoroutine(SwapTopOptions());
     }
@@ -124,16 +124,18 @@ public class TopGameManager : MonoBehaviour {
         var options = new HashSet<Topping>();
         if (pizza.GetToppingCount() == 0) {
             // if no toppings, always show bases as options
-            options.Add(Topping.RedSauce);
-            options.Add(Topping.OliveOil);
+            foreach (Topping t in ToppingMethods.GetBases()) {
+                options.Add(t);
+            }
         } else if (pizza.GetToppingCount() == 1) {
             // if only base, always show secondary bases
-            options.Add(Topping.Cheese);
+            foreach (Topping t in ToppingMethods.GetSecondaryBases()) {
+                options.Add(t);
+            }
         }
-
-        var allOptions = System.Enum.GetValues(typeof(Topping)).Cast<Topping>().ToArray();
+        
         while (options.Count < toppingSlots.Length) {
-            options.Add(allOptions[Random.Range(0, allOptions.Length)]);
+            options.Add(ToppingMethods.GetRandomNonbaseTopping());
         }
         var optionsArr = options.ToArray();
         System.Random random = new System.Random();

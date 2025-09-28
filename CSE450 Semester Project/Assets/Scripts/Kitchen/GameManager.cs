@@ -107,16 +107,17 @@ public class GameManager : MonoBehaviour
 
     // called by DayManager
     public void EndDay(float profit) {
+        Debug.Log("Ended Day " + day + " with $" + profit + " profit");
         day++;
         totalProfit += profit;
         currentBalance += profit;
 
-        UpdateMoneyLabel();
-        dayBeginButton.GetComponent<TMP_Text>().text = "Begin Day " + day;
+        dayBeginButton.GetComponentInChildren<TMP_Text>().text = "Begin Day " + day;
         dayBeginButton.gameObject.SetActive(true);
         // don't allow new upload if can't afford
         fileUploadButton.interactable = GetCurrentUploadCost() <= currentBalance;
         ActivateFileUpload();
+        UpdateMoneyLabel();
     }
 
     public void ActivateFileUpload() {
