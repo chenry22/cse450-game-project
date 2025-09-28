@@ -12,6 +12,7 @@ public class PizzaObject : MonoBehaviour {
     public Color baseColor = new Color(237, 219, 152); // yellowish
     private SpriteRenderer spr;
 
+    private Order linkedOrder = null;
     private int tossQuality = -1;
     private List<Topping> toppings = new List<Topping>();
     private int[] cookAmount = new int[8]; // 8 slices... should directly reference some OvenGameManager var probably
@@ -22,6 +23,9 @@ public class PizzaObject : MonoBehaviour {
         spr = GetComponent<SpriteRenderer>();
         spr.color = baseColor;
     }
+    
+    public void LinkOrder(Order o) { linkedOrder = o; }
+    public Order GetLinkedOrder() { return linkedOrder; }
 
     // functions to update state
     public void InitializePizza(int tossQuality) {
@@ -85,6 +89,19 @@ public class PizzaObject : MonoBehaviour {
         pieStr += "\nAvg Cook Level: " + GetAverageCookLevel()
             + "\nCook Score: " + GetCookScore()
             + "\nCut Quality: " + cutQuality;
+        return pieStr;
+    }
+    public string ToStringWithLabel(string label) {
+        var pieStr = label + "\nToss: " + tossQuality + "\nToppings: ";
+        if(toppings.Count == 0) {
+            pieStr += "[ None ]";
+        } else {
+            foreach(var t in toppings) {
+                pieStr += t.ToString() + ", ";
+            }
+        }
+        pieStr += "\nCook: " + GetAverageCookLevel()
+            + "\nCut: " + (IsCut() ? cutQuality : "[ Not cut ]");
         return pieStr;
     }
 }

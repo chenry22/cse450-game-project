@@ -88,6 +88,14 @@ public class Order
             + "\nToss: " + targetTossQuality
             + "\nTop: " + string.Join(", ", targetToppings.ToArray())
             + "\nCook: " + targetCookAmount + " | Cut: " + targetCutQuality
-            + "\nTime Due: " + ((int)(timeAllowed - timeActive));
+            + "\nTime Left: " + ((int)(timeAllowed - timeActive));
+    }
+    public string ToStringFull() {
+        return "<b>-" + orderLabel + "-</b>"
+            + "\n<u>Toss</u>: " + targetTossQuality
+            + "\n<u>Top</u>: " + string.Join(", ", targetToppings.ToArray())
+            + "\n<u>Cook</u>: " + targetCookAmount
+            + "\n<u>Cut</u>: " + targetCutQuality
+            + "\n<u>Time Left</u>: " + ((int)(timeAllowed - timeActive));
     }
 }

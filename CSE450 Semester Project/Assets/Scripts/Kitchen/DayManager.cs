@@ -1,18 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 
 public class DayManager : MonoBehaviour {
-     public static string dayManagerObjName = "DayManager"; // name for other scripts to reference
-    // some consts defining gameplay
+    public static string dayManagerObjName = "DayManager"; // name for other scripts to reference
+
+
+    // consts defining gameplay
     private const int baseNumOrders = 5;
     private const float extraOrdersPerDay = 1 / 3; // will take FLOOR of computed val
     // e.g. if 1/3, extra order required every 3 days
-    private const float baseOrderInterval = 20f; // in seconds
+    private const float baseOrderInterval = 70f; // in seconds
     private const float orderIntervalDecreasePerDay = 0.95f; // multiplified to default
                                                              // e.g. if 0.9f, day 2 will have interval of (defaultOrderInterval * 0.9f * 0.9f)
-    private const float baseOrderTimeAllowed = 60f; // in seconds
+    private const float baseOrderTimeAllowed = 110f; // in seconds
     private const float orderTimeAllowedDecreasePerDay = 0.5f; // in seconds
 
      
@@ -27,18 +30,22 @@ public class DayManager : MonoBehaviour {
 
     private int numOrders = 0;
     private float profit = 0;
+    private float balance = 0;
 
     private List<Order> activeOrders = new List<Order>();
     private List<Order> completedOrders = new List<Order>();
-    private float orderGenerationTimer = 0f;
     private float orderTimer = 0;
     private float orderInterval = baseOrderInterval;
     private float orderTimeAllowed = baseOrderTimeAllowed;
+
+    public TMP_Text moneyText;
     
+
     public List<Order> GetActiveOrders() { return activeOrders; }
 
-    public void StartDay(int day) {
+    public void StartDay(int day, float balance) {
         Debug.Log("Starting day " + day);
+        this.balance = balance;
         this.numOrders = baseNumOrders + (int)(day * extraOrdersPerDay);
         this.orderInterval = (float)(baseOrderInterval * Mathf.Pow(orderIntervalDecreasePerDay, day));
         this.orderTimeAllowed = baseOrderTimeAllowed - (day * orderTimeAllowedDecreasePerDay);
@@ -47,11 +54,10 @@ public class DayManager : MonoBehaviour {
         completedOrders = new List<Order>();
         profit = 0;
         GenerateRandomOrder();
-        
-        // TODO: THIS IS JUST FOR TESTING ORDER UI
-        GenerateRandomOrder();GenerateRandomOrder();GenerateRandomOrder();
+
     }
     public void EndDay() {
+        // basically just send signal back to GameManager
         GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().EndDay(profit);
     }
 
@@ -81,12 +87,14 @@ public class DayManager : MonoBehaviour {
             + "\nCut: " + targetCutQuality + "\nTime: " + orderTimeAllowed);
     }
     
-    public void SubmitPizzaToOrder(PizzaObject p, Order o) {
+    public void SubmitOrderWithPizza(Order o, PizzaObject p) {
         OrderResult or = o.SubmitOrder(p);
         // TODO: player should see this result somewhere?
         Debug.Log("Pizza: $" + or.GetPizzaCost() + "\nTip: $" + or.GetTip() + "\nTotal: $" + or.GetProfit());
         completedOrders.Add(o);
         activeOrders.Remove(o);
+        moneyText.text = "Daily Profit: $" + System.Math.Round(profit, 2)
+                + "\nBalance: $" + System.Math.Round(balance, 2);
 
         if (activeOrders.Count == 0 && completedOrders.Count >= numOrders) {
             EndDay();

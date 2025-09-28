@@ -6,9 +6,8 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class FileUploader : MonoBehaviour
-{
-    private const int maxFileNameLength = 10;
+public class FileUploader : MonoBehaviour {
+    private const int maxFileNameLength = 12;
 
     [Header("Default Creature")]
     public GameObject defaultCreaturePrefab;
