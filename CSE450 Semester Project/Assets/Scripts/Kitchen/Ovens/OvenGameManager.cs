@@ -8,7 +8,7 @@ using UnityEngine;
 // This script manages the oven minigame
 
 public class OvenGameManager : MonoBehaviour {
-    private float tickRate = 2.5f; // number of seconds between each cook update
+    private float tickRate = 1.6f; // number of seconds between each cook update
 
 
     [Header("Game")]
