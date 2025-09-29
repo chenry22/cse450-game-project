@@ -1,33 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
 using FileAnalysis;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-// simple script that toggles station assignment UI while a key is held down
-
+// toggles station assignment UI, loads active creatures
 public class CreatureInfoUIController : MonoBehaviour {
-    private const KeyCode keyTrigger = KeyCode.Tab;
     public GameObject creatureUI;
     public GameObject[] creatureSlots = new GameObject[6];
     public CreatureAssign creatureAssigner;
 
     void Start() {
         creatureAssigner = GameObject.Find("CreatureHandler").GetComponent<CreatureAssign>();
-
-        // default hidden
-        creatureUI.SetActive(false);
         ClearUISlots();
-    }
-
-    void Update() {
-        if (Input.GetKeyDown(keyTrigger)) {
-            ShowCreatureInfo();
-        }
-        if (Input.GetKeyUp(keyTrigger)) {
-            creatureUI.SetActive(false);
-        }
     }
 
     public void ShowCreatureInfo() {
@@ -55,6 +39,10 @@ public class CreatureInfoUIController : MonoBehaviour {
         }
 
         creatureUI.SetActive(true);
+    }
+
+    public void HideCreatureInfo() {
+        creatureUI.SetActive(false);
     }
 
     // children ALWAYS ordered sprite, name, role, stats

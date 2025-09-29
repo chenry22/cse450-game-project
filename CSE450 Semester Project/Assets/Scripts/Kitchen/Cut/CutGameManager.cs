@@ -16,10 +16,10 @@ using UnityEngine;
 public class CutGameManager : MonoBehaviour {
     // VARS AFFECTING GAMEPLAY
     private const int numCuts = 4;
-    private const int baseRotationSpeed = 110; // in degrees per second
-    private const int rotationSpeedIncrease = 32; // how much to speed up after each cut
-    private const int closeEnoughDegrees = 3; // if a cut is within this many degrees, it is considered perfect (no penalty)
-    private const float qualityLenience = 2f;
+    private const int baseRotationSpeed = 100; // in degrees per second
+    private const int rotationSpeedIncrease = 30; // how much to speed up after each cut
+    private const int closeEnoughDegrees = 4; // if a cut is within this many degrees, it is considered perfect (no penalty)
+    private const float qualityLenience = 2.5f;
     // used to calculate penalty for cut error
     // formula is [ maxQuality - (degreesOff / qualityLenience) ]
     // basically # of degrees a cut has to be off to subtract 1 point from quality score

@@ -5,14 +5,15 @@ using TMPro;
 using UnityEngine;
 
 // this class manages the UI overlay and the actual game mechanics of the toss minigame
-// TODO: currently it uses a temp player movement script, to be replaced with a final implementation
-
 public class TossGameManager : MonoBehaviour {
+    // Gameplay vars
     private const float progressPerToss = 0.06f; // out of 1.0f
     private const int qualityLossPerMistake = 5; // out of 100
     private const float baseDoughSpeed = 5f;
     private const float doughSpeedIncrease = 1f;
     private const float maxDoughSpeed = 15f; // max speed of back and forth movement
+
+    // Game UI vars
     private const int rotationVelocityScale = 80; // basically a slider for how extreme the spin will be on each toss
     private const float tossSquareMinScale = 0.7f; // scale at which pie is totally circular, probably shouldn't change
     private const string mainHelpText = "[<] [>] or [A] [D] to toss\n[Q] to cancel";
