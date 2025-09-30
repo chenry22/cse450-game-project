@@ -80,6 +80,12 @@ public class TopGameManager : MonoBehaviour {
 
     // Main game managers
     public void BeginTopGame() {
+        var playerCreature = GameObject.FindWithTag("Player");
+        var stats = playerCreature.GetComponent<CreatureStats>();
+        if (stats.stamina < 10f) {
+            return;
+        }
+
         GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().ToggleMovement();
 
         // TODO: for now we are assuming player has pie, implementation may change
@@ -98,6 +104,17 @@ public class TopGameManager : MonoBehaviour {
 
 
     public void SelectTopping(Topping t) {
+        var playerCreature = GameObject.FindWithTag("Player");
+        var stats = playerCreature.GetComponent<CreatureStats>();
+        if (stats.stamina < 10f) {
+            gameActive = false;
+            this.gameObject.SetActive(false);
+            GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().ToggleMovement();
+            transform.parent.GetComponentInChildren<StationInteract>().StartInteraction();
+            return;
+        }
+        stats.TryPerformTask(10f);
+
         gameActive = false;
         timer = 0;
         topChangeTime -= timeChangePerTopping;

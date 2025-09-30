@@ -83,6 +83,16 @@ public class OvenGameManager : MonoBehaviour {
     }
 
     private void SwapOvenSlots(bool left) {
+        var playerCreature = GameObject.FindWithTag("Player");
+        var stats = playerCreature.GetComponent<CreatureStats>();
+        if (stats.stamina < 2f) {
+            gameUI.SetActive(false);
+            GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().ToggleMovement();
+            transform.parent.GetComponentInChildren<StationInteract>().StartInteraction();
+            return;
+        }
+        stats.TryPerformTask(2f);
+
         var currCookLevels = ovenSlices.Select(slice => slice.GetCookLevel()).ToArray();
         for (int i = 0; i < ovenSlices.Length; i++) {
             if (left) {

@@ -112,6 +112,12 @@ public class CutGameManager : MonoBehaviour {
 
     // Main game managers
     public void BeginCutGame() {
+        var playerCreature = GameObject.FindWithTag("Player");
+        var stats = playerCreature.GetComponent<CreatureStats>();
+        if (stats.stamina < 10f) {
+            return;
+        }
+
         GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().ToggleMovement();
         ResetCutGame();
         
@@ -127,7 +133,8 @@ public class CutGameManager : MonoBehaviour {
         gameActive = false;
         actualGame.SetActive(false);
     }
-    private void EndCutGame() {
+    private void EndCutGame()
+    {
         cutIndicator.SetActive(false);
         gameActive = false;
         pie.angularVelocity = 0;
@@ -138,6 +145,11 @@ public class CutGameManager : MonoBehaviour {
         //   or just update the player pizza
         GameObject.FindWithTag("Player").GetComponentInChildren<PizzaObject>().CutPizza(quality);
         progressTxt.text = "Quality: " + quality + " / 100";
+        
+        // use 10 stamina
+        var playerCreature = GameObject.FindWithTag("Player");
+        var stats = playerCreature.GetComponent<CreatureStats>();
+        stats.TryPerformTask(10f);
     }
 
 

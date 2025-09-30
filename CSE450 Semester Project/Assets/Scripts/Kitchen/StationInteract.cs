@@ -46,6 +46,15 @@ public class StationInteract : MonoBehaviour {
             switch (station) {
                 case Station.Toss:
                     if (Input.GetKeyDown(KeyCode.E) && stationGame != null) {
+                        var playerCreature = GameObject.FindWithTag("Player");
+                        var stats = playerCreature.GetComponent<CreatureStats>();
+                        if (stats.stamina < 10f)
+                        {
+                            helpText.text = "Too tired! Rest to regain stamina.";
+                            helpText.gameObject.SetActive(true);
+                            return;
+                        }
+
                         helpText.gameObject.SetActive(false);
                         stationGame.SetActive(true);
                         stationGame.GetComponent<TossGameManager>().BeginTossGame();
@@ -54,6 +63,15 @@ public class StationInteract : MonoBehaviour {
                     break;
                 case Station.Top:
                     if (Input.GetKeyDown(KeyCode.E) && stationGame != null) {
+                        var playerCreature = GameObject.FindWithTag("Player");
+                        var stats = playerCreature.GetComponent<CreatureStats>();
+                        if (stats.stamina < 10f)
+                        {
+                            helpText.text = "Too tired! Rest to regain stamina.";
+                            helpText.gameObject.SetActive(true);
+                            return;
+                        }
+
                         helpText.gameObject.SetActive(false);
                         stationGame.SetActive(true);
                         stationGame.GetComponent<TopGameManager>().BeginTopGame();
@@ -62,11 +80,23 @@ public class StationInteract : MonoBehaviour {
                     break;
                 case Station.Ovens:
                     if (Input.GetKeyDown(KeyCode.E) && stationGame != null) {
+                        var playerCreature = GameObject.FindWithTag("Player");
+                        var stats = playerCreature.GetComponent<CreatureStats>();
+                        if (stats.stamina < 10f)
+                        {
+                            helpText.text = "Too tired! Rest to regain stamina.";
+                            helpText.gameObject.SetActive(true);
+                            return;
+                        }
+                        
                         // first child is the actual game UI
-                        if (stationGame.transform.GetChild(0).gameObject.activeSelf) {
+                        if (stationGame.transform.GetChild(0).gameObject.activeSelf)
+                        {
                             helpText.gameObject.SetActive(true);
                             stationGame.GetComponent<OvenGameManager>().CloseOvenUI();
-                        } else {
+                        }
+                        else
+                        {
                             helpText.gameObject.SetActive(false);
                             stationGame.GetComponent<OvenGameManager>().ShowOvenUI();
                         }
@@ -74,6 +104,15 @@ public class StationInteract : MonoBehaviour {
                     break;
                 case Station.Cut:
                     if (Input.GetKeyDown(KeyCode.E) && stationGame != null) {
+                        var playerCreature = GameObject.FindWithTag("Player");
+                        var stats = playerCreature.GetComponent<CreatureStats>();
+                        if (stats.stamina < 10f)
+                        {
+                            helpText.text = "Too tired! Rest to regain stamina.";
+                            helpText.gameObject.SetActive(true);
+                            return;
+                        }
+                        
                         helpText.gameObject.SetActive(false);
                         stationGame.SetActive(true);
                         stationGame.GetComponent<CutGameManager>().BeginCutGame();
