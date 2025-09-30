@@ -24,6 +24,11 @@ public class CutGameManager : MonoBehaviour {
     // formula is [ maxQuality - (degreesOff / qualityLenience) ]
     // basically # of degrees a cut has to be off to subtract 1 point from quality score
 
+    // player cutting stats scaling
+    private int statBaseRotationSpeed = baseRotationSpeed;  // Cutting stat: 0 = 160 deg/sec rotation, 100 = 40 deg/sec rotation
+    private int statRotationSpeedIncrease = rotationSpeedIncrease;  // Cutting stat: 0 = 60 deg/sec increase, 100 = 10 deg/sec increase
+
+
 
     // Text to show
     private const string mainHelpText = "[Space] to cut\n[Q] to cancel";
@@ -118,6 +123,9 @@ public class CutGameManager : MonoBehaviour {
             return;
         }
 
+        statBaseRotationSpeed = Mathf.RoundToInt(Mathf.Lerp(160, 40, stats.GetStats().Cutting / 100f));
+        statRotationSpeedIncrease = Mathf.RoundToInt(Mathf.Lerp(60, 10, stats.GetStats().Cutting / 100f));
+
         GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().ToggleMovement();
         ResetCutGame();
         
@@ -178,7 +186,7 @@ public class CutGameManager : MonoBehaviour {
             EndCutGame();
         } else {
             gameActive = true;
-            rotationSpeed += rotationSpeedIncrease;
+            rotationSpeed += statRotationSpeedIncrease;
         }
     }
 }

@@ -47,6 +47,9 @@ public class TopGameManager : MonoBehaviour {
     private const float baseTopTime = 3f; // how long the topping screen will stay the same for a pie with no toppings
     private const float timeChangePerTopping = 0.2f; // how  much to decrement time per topping
 
+    // player toppings stat scaling
+    private float statBaseTopTime = baseTopTime; // 0 topping stat = 1s, 100 topping stat = 5s
+
 
 
     [Header("Game")]
@@ -92,8 +95,10 @@ public class TopGameManager : MonoBehaviour {
         pizza = GameObject.FindWithTag("Player").GetComponentInChildren<PizzaObject>();
         ResetTopGame();
 
+        statBaseTopTime = Mathf.Lerp(1f, 5f, stats.GetStats().Toppings / 100f);
+        topChangeTime = statBaseTopTime - (pizza.GetToppingCount() * timeChangePerTopping);
+
         actualGame.SetActive(true);
-        topChangeTime = baseTopTime - (pizza.GetToppingCount() * timeChangePerTopping);
         StartCoroutine(SwapTopOptions());
     }
     public void ResetTopGame() {
