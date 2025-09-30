@@ -10,6 +10,9 @@ using UnityEngine;
 public class OvenGameManager : MonoBehaviour {
     private float tickRate = 1.6f; // number of seconds between each cook update
 
+    // player cooking stat scaling
+    private float statTickRate = 1.6f; // 0 cooking stat = 3s, 100 stat = 1.6s between ticks
+
 
     [Header("Game")]
     public OvenSliceController[] ovenSlices = new OvenSliceController[8]; // always 8 for our purposes...
@@ -109,6 +112,11 @@ public class OvenGameManager : MonoBehaviour {
 
     // basically toggles UI
     public void ShowOvenUI() {
+        var playerCreature = GameObject.FindWithTag("Player");
+        var stats = playerCreature.GetComponent<CreatureStats>();
+        statTickRate = Mathf.Lerp(3.0f, 1.6f, stats.GetStats().Cooking / 100f);
+        tickRate = statTickRate;
+
         GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().ToggleMovement();
         if (currentPie == null) {
             emptyTxt.gameObject.SetActive(true);
