@@ -16,6 +16,11 @@ public class TossGameManager : MonoBehaviour {
     // Game UI vars
     private const int rotationVelocityScale = 80; // basically a slider for how extreme the spin will be on each toss
     private const float tossSquareMinScale = 0.7f; // scale at which pie is totally circular, probably shouldn't change
+
+    // player toss stat scaling
+    private float statBaseDoughSpeed = baseDoughSpeed;
+    private int statQualityLossPerMistake = qualityLossPerMistake;
+
     private const string mainHelpText = "[<] [>] or [A] [D] to toss\n[Q] to cancel";
     private const string completionHelpTxt = "[E] to continue";
 
@@ -71,6 +76,9 @@ public class TossGameManager : MonoBehaviour {
             return;
         }
 
+        statBaseDoughSpeed = Mathf.Lerp(8f, 3f, stats.GetStats().DoughHandling / 100f);
+        statQualityLossPerMistake = Mathf.RoundToInt(Mathf.Lerp(10, 2, stats.GetStats().DoughHandling / 100f));
+
         GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().ToggleMovement();
         ResetTossGame();
         
@@ -108,7 +116,7 @@ public class TossGameManager : MonoBehaviour {
     private IEnumerator ActivateDough(float delay) {
         yield return new WaitForSeconds(delay); // small delay to allow for some reaction time
         gameActive = true;
-        doughSpeed = baseDoughSpeed;
+        doughSpeed = statBaseDoughSpeed;
         var dir = Random.Range(0, 1f) > 0.5f ? -1 : 1;
         doughSpeed *= dir;
         dough.velocity = new Vector2(doughSpeed, 0);
@@ -146,7 +154,7 @@ public class TossGameManager : MonoBehaviour {
     }
     public void DropDough() {
         gameActive = false;
-        quality -= qualityLossPerMistake;
+        quality -= statQualityLossPerMistake;
         qualityTxt.text = "<b>Quality:</b> " + quality + " / 100";
         dough.velocity = Vector2.zero;
         dough.transform.localPosition = Vector2.zero;
