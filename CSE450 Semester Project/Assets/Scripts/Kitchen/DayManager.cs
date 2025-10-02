@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class DayManager : MonoBehaviour {
     public static string dayManagerObjName = "DayManager"; // name for other scripts to reference
+    public const float profitThreshold = 20f;   // minimum profit required to continue the game
 
 
     // consts defining gameplay
@@ -61,8 +62,19 @@ public class DayManager : MonoBehaviour {
     }
     public void EndDay() {
         dayActive = false;
-        // basically just send signal back to GameManager
-        GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().EndDay(profit);
+
+        // check if restaurant met the profit threshold ($50)
+        if (profit < profitThreshold) {
+            Debug.Log("GAME OVER: Your restaurant is not profitable. All employees have quit.");
+            moneyText.text = "Daily Profit: $0\nBalance: $0";
+            profit = 0;
+            balance = 0;
+
+            GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().GameOver();
+        } else {
+            // continue to next day
+            GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().EndDay(profit);
+        }
     }
 
     private void GenerateRandomOrder() {
