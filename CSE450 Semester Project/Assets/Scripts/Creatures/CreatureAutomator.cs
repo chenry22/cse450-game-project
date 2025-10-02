@@ -16,8 +16,11 @@ public enum AutomationPhase {
 // TODO: I think this should probably be updated to handle TriggerEnter and TriggerExit events instead of the current implementation
 // so like if you knock your guy out of doing their work, they have to reset and re-trigger to start over
 
+// TODO: INTEGRATE STAMINA SYSTEM INTO AUTOMATOR
+
 public class CreatureAutomator : MonoBehaviour {
     // some consts
+    private const float maxVelocityForStaminaRecovery = 0.01f; // what it sounds like...
     private const float basePhaseWait = 1.8f; // time it takes creature to start next phase
     private const float baseTransferWait = 0.7f;
     private const float maxStationWorkTime = 6f; // how long a creature with 0 skill takes to complete station work
@@ -43,6 +46,7 @@ public class CreatureAutomator : MonoBehaviour {
 
 
     private CreatureStats creature;
+    private Rigidbody2D rb;
     private StationInteract assignedStation;
     // private PizzaObject assignedPizza; // not yet implemented
 
@@ -57,6 +61,7 @@ public class CreatureAutomator : MonoBehaviour {
 
     void Start() {
         assigner = GameObject.Find("CreatureHandler").GetComponent<CreatureAssign>();
+        rb = this.gameObject.GetComponent<Rigidbody2D>();
         creature = this.gameObject.GetComponent<CreatureStats>();
 
         queuedTasks = new Queue<AutoTask>();
@@ -157,9 +162,9 @@ public class CreatureAutomator : MonoBehaviour {
                         while (task.pizza.GetAverageCookLevel() < target) {
                             // another special ability type thing, if INCREDIBLY SKILLED OVEN-er, go twice as fast
                             if (skill >= 0.95f) {
-                                yield return new WaitForSeconds(OvenGameManager.tickRate / 2f);
+                                yield return new WaitForSeconds(OvenGameManager.baseTickRate / 1.5f);
                             } else {
-                                yield return new WaitForSeconds(OvenGameManager.tickRate);
+                                yield return new WaitForSeconds(OvenGameManager.baseTickRate);
                             }
                 
                             var updated = task.pizza.GetCookLevels();
@@ -189,6 +194,28 @@ public class CreatureAutomator : MonoBehaviour {
                 break;
         }
         activeTask = null; // end of task
+    }
+
+
+
+    // basically just handles stamina recovery 
+    void Update() {
+        // don't do any computation if already at max...
+        if(creature.stamina < creature.maxStamina) {
+            if (assignedStation == null) {
+                // if no station, regain stamina when rigid body is not moving
+                if (rb.velocity.magnitude <= maxVelocityForStaminaRecovery) {
+                    creature.RecoverStamina(Time.deltaTime * 0.5f); // TODO: parameterize this...
+                    Debug.Log($"Creature stamina: {creature.stamina}/{creature.maxStamina}");
+                }
+            } else {
+                // if assigned, should be in "Idle" phase
+                if (phase == AutomationPhase.Idle) {
+                    creature.RecoverStamina(Time.deltaTime * 0.5f); // TODO: parameterize this...
+                    Debug.Log($"Creature stamina: {creature.stamina}/{creature.maxStamina}");
+                }
+            }
+        }
     }
 
 
@@ -248,9 +275,9 @@ public class CreatureAutomator : MonoBehaviour {
                     dir = targetPos - (Vector2)creature.transform.position;
                     if (dir.magnitude > closeEnoughDist) {
                         float speed = creature.speed * automationFactor;
-                        creature.GetComponent<Rigidbody2D>().velocity = dir.normalized * speed;
+                        rb.velocity = dir.normalized * speed;
                     } else {
-                        creature.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+                        rb.velocity = Vector2.zero;
                     }
                     break;
                 case AutomationPhase.TransferToCurrent:
@@ -266,9 +293,9 @@ public class CreatureAutomator : MonoBehaviour {
                     dir = targetPos - (Vector2)creature.transform.position;
                     if (dir.magnitude > closeEnoughDist) {
                         float speed = creature.speed * automationFactor;
-                        creature.GetComponent<Rigidbody2D>().velocity = dir.normalized * speed;
+                        rb.velocity = dir.normalized * speed;
                     } else {
-                        creature.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+                        rb.velocity = Vector2.zero;
                         if (assignedStation.station == Station.Toss) {
                             // since we already have the order reference in AutoTask
                             // we just need to pretend we're doing the ticket claim stuff
@@ -292,9 +319,9 @@ public class CreatureAutomator : MonoBehaviour {
                     dir = targetPos - (Vector2)creature.transform.position;
                     if (dir.magnitude > closeEnoughDist) {
                         float speed = creature.speed * automationFactor;
-                        creature.GetComponent<Rigidbody2D>().velocity = dir.normalized * speed;
+                        rb.velocity = dir.normalized * speed;
                     } else {
-                        creature.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+                        rb.velocity = Vector2.zero;
 
                         // once close enough, do work...
                         float time = maxStationWorkTime;
@@ -321,9 +348,9 @@ public class CreatureAutomator : MonoBehaviour {
                         dir = targetPos - (Vector2)creature.transform.position;
                         if (dir.magnitude > closeEnoughDist) {
                             float speed = creature.speed * automationFactor;
-                            creature.GetComponent<Rigidbody2D>().velocity = dir.normalized * speed;
+                            rb.velocity = dir.normalized * speed;
                         } else {
-                            creature.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+                            rb.velocity = Vector2.zero;
                             
                             // once close enough, do transfer...
                             if (!target.TryPlacePie(task.pizza)) {

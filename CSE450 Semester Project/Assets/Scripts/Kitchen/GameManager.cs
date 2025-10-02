@@ -9,12 +9,13 @@ public class GameManager : MonoBehaviour
     private const KeyCode creatureUIKey = KeyCode.Tab;
     private const KeyCode orderUIKey = KeyCode.RightShift;
 
+    private const int startingBalance = 50;
     private const float creatureCostIncreaseRate = 50f; // how much more expensive each consecutive upload is
 
     public static string kitchenGameManager = "GameManager"; // name for other scripts to reference
     private int day = 0; // basically keeping track of some progression
     private float totalProfit = 0;
-    private float currentBalance = 50;
+    private float currentBalance = startingBalance; // start with 50 so you can buy a guy on day 0 if you want :)
     private List<GameObject> registeredCreatures = new List<GameObject>();
 
     private DayManager dayManager;
@@ -31,8 +32,8 @@ public class GameManager : MonoBehaviour
         dayManager = GameObject.Find(DayManager.dayManagerObjName).GetComponent<DayManager>();
         creatureUI = this.GetComponent<CreatureInfoUIController>();
         orderUI = this.GetComponent<OrderUIController>();
-        dayBeginButton.transform.GetChild(0).GetComponent<TMP_Text>().text = "Begin Day " + day;
-        dayBeginButton.gameObject.SetActive(false);
+
+        ActivateBeginDayButton();
         UpdateFileUploadButton();
         UpdateMoneyLabel();
 
@@ -64,6 +65,10 @@ public class GameManager : MonoBehaviour
     public void UpdateMoneyLabel() {
         moneyTxt.text = "Balance: $" + System.Math.Round(currentBalance, 2)
             + "\nTotal Profit: $" + System.Math.Round(totalProfit, 2);
+    }
+    public void ActivateBeginDayButton() { 
+        dayBeginButton.GetComponentInChildren<TMP_Text>().text = "Begin Day " + (day + 1);
+        dayBeginButton.gameObject.SetActive(true);
     }
 
     public void RegisterCreature(GameObject creature) {
@@ -112,8 +117,7 @@ public class GameManager : MonoBehaviour
         totalProfit += profit;
         currentBalance += profit;
 
-        dayBeginButton.GetComponentInChildren<TMP_Text>().text = "Begin Day " + day;
-        dayBeginButton.gameObject.SetActive(true);
+        ActivateBeginDayButton();
         // don't allow new upload if can't afford
         fileUploadButton.interactable = GetCurrentUploadCost() <= currentBalance;
         ActivateFileUpload();
@@ -123,13 +127,18 @@ public class GameManager : MonoBehaviour
     public void GameOver() {
         // remove all creatures
         foreach (var creature in GameObject.FindGameObjectsWithTag("Creature")) {
+            registeredCreatures.Remove(creature);
             Destroy(creature);
         }
+
         // reset game day and balances
         day = 0;
-        currentBalance = 0;
+        currentBalance = startingBalance;
         totalProfit = 0;
-        BeginDay();
+
+        ActivateBeginDayButton();
+        UpdateFileUploadButton();
+        UpdateMoneyLabel();
     }
 
     public void ActivateFileUpload() {
@@ -137,7 +146,6 @@ public class GameManager : MonoBehaviour
     }
 
     public void DeactivateFileUpload() {
-        // TODO: un-comment this, just for the purposes of testing station assignment
         fileUploadButton.gameObject.SetActive(false);
     }
 

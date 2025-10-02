@@ -156,8 +156,8 @@ public class CreatureAssign : MonoBehaviour {
         currentStation = null;
     }
 
-    // TODO: i am considering making it so you can assign a creature a specific pizza, which would break this i think
-    public bool IsCreatureIdle(CreatureSelect cs) {
-        return GetCreatureStation(cs) == Station.Table;
-    }
+    // // TODO: i am considering making it so you can assign a creature a specific pizza, which would break this i think
+    // public bool IsCreatureIdle(CreatureSelect cs) {
+    //     return GetCreatureStation(cs) == Station.Table;
+    // }
 }

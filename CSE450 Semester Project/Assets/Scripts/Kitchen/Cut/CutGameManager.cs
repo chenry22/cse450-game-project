@@ -15,8 +15,6 @@ using UnityEngine;
 
 public class CutGameManager : MonoBehaviour {
     // VARS AFFECTING GAMEPLAY
-    private const int baseRotationSpeed = 110; // in degrees per second
-    private const int rotationSpeedIncrease = 32; // how much to speed up after each cut
     private const int closeEnoughDegrees = 3; // if a cut is within this many degrees, it is considered perfect (no penalty)
     private const float qualityLenience = 2f;
     // used to calculate penalty for cut error
@@ -26,8 +24,12 @@ public class CutGameManager : MonoBehaviour {
     private const int numCuts = 4; // don't change this unless you change the actual game too
 
     // player cutting stats scaling
-    private int statBaseRotationSpeed = baseRotationSpeed;  // Cutting stat: 0 = 160 deg/sec rotation, 100 = 40 deg/sec rotation
-    private int statRotationSpeedIncrease = rotationSpeedIncrease;  // Cutting stat: 0 = 60 deg/sec increase, 100 = 10 deg/sec increase
+    private const int minRotationSpeed = 60; // how fast pie spins (degrees/second) | for stat = 100
+    private const int maxRotationSpeed = 160; // for stat = 0
+    private const int minRotationSpeedIncrease = 10; // how much to speed up after each cut (in degrees) | for stat = 100
+    private const int maxRotationSpeedIncrease = 60; // for stat = 0
+    private int rotationSpeed = 0;
+    private int rotationSpeedIncrease = 0;
 
 
 
@@ -51,7 +53,6 @@ public class CutGameManager : MonoBehaviour {
     private List<GameObject> cuts = new List<GameObject>(); // keep track of rotation amount of cuts
                                                             // for a perfect cut, we sohuld have one at 0/180, 45/225, 90/270, 135/315
 
-    private int rotationSpeed = 0;
 
     void Update() {
         if (Input.GetKeyDown(KeyCode.Q)) {
@@ -124,8 +125,8 @@ public class CutGameManager : MonoBehaviour {
             return;
         }
 
-        statBaseRotationSpeed = Mathf.RoundToInt(Mathf.Lerp(160, 40, stats.GetStats().Cutting / 100f));
-        statRotationSpeedIncrease = Mathf.RoundToInt(Mathf.Lerp(60, 10, stats.GetStats().Cutting / 100f));
+        rotationSpeed = Mathf.RoundToInt(Mathf.Lerp(maxRotationSpeed, minRotationSpeed, stats.GetStats().Cutting / 100f));
+        rotationSpeedIncrease = Mathf.RoundToInt(Mathf.Lerp(maxRotationSpeedIncrease, minRotationSpeedIncrease, stats.GetStats().Cutting / 100f));
 
         GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().ToggleMovement();
         ResetCutGame();
@@ -165,7 +166,6 @@ public class CutGameManager : MonoBehaviour {
     // allow for delay to give time to react
     private IEnumerator BeginSpinning(float delay) {
         yield return new WaitForSeconds(delay); // small delay to allow for some reaction time
-        rotationSpeed = baseRotationSpeed;
         gameActive = true;
     }
 
@@ -187,7 +187,7 @@ public class CutGameManager : MonoBehaviour {
             EndCutGame();
         } else {
             gameActive = true;
-            rotationSpeed += statRotationSpeedIncrease;
+            rotationSpeed += rotationSpeedIncrease;
         }
     }
 }
