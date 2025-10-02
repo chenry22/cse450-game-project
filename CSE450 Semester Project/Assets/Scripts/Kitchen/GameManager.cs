@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
     public static string kitchenGameManager = "GameManager"; // name for other scripts to reference
     private int day = 0; // basically keeping track of some progression
     private float totalProfit = 0;
-    private float currentBalance = 1000;
+    private float currentBalance = 50;
     private List<GameObject> registeredCreatures = new List<GameObject>();
 
     private DayManager dayManager;

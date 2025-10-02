@@ -9,7 +9,7 @@ using UnityEngine;
 
 public enum Station {
     Toss, Top, Ovens, Cut, Table,
-    Orders, Submit
+    Orders, Submit, Trash
 }
 
 
@@ -37,8 +37,8 @@ public class StationInteract : MonoBehaviour {
         sr = this.gameObject.GetComponentInChildren<SpriteRenderer>();
         sr.color = defaultColor;
         
-        // table and submit don't have station games
-        if (station != Station.Table && station != Station.Submit) {
+        // table, submit, and trash don't have interactable stuff
+        if (station != Station.Table && station != Station.Submit && station != Station.Trash) {
             stationGame.SetActive(station == Station.Ovens); // ovens should be running in background always
         }
         helpText.gameObject.SetActive(false);
@@ -131,6 +131,16 @@ public class StationInteract : MonoBehaviour {
                         }
                     }
                     break;
+                case Station.Trash:
+                    if (Input.GetKeyDown(KeyCode.E)) {
+                        PizzaObject currPie = GameObject.FindWithTag("Player").GetComponentInChildren<PizzaObject>();
+                        if (currPie != null) {
+                            Debug.Log("Deleting pie");
+                            Destroy(currPie.gameObject);
+                            helpText.text = "Trashed.";
+                        }
+                    }
+                    break;
             }
         }
 
@@ -191,6 +201,9 @@ public class StationInteract : MonoBehaviour {
                 break;
             case Station.Submit:
                 helpText.text = "[E] to submit order";
+                break;
+            case Station.Trash:
+                helpText.text = "[E] to trash pie";
                 break;
         }
     }
@@ -282,6 +295,13 @@ public class StationInteract : MonoBehaviour {
                         } else {
                             StartInteraction();
                         }
+                    }
+                    break;
+                case Station.Trash:
+                    if (currPie == null) {
+                        helpText.text = "You must be holding a pizza to do this.";
+                    } else {
+                        StartInteraction();
                     }
                     break;
             }

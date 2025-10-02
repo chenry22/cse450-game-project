@@ -25,6 +25,9 @@ public class CreatureAssign : MonoBehaviour {
 
 
     public void UnassignCreature(CreatureSelect cs) {
+        // stop any automation work happening
+        cs.gameObject.GetComponent<CreatureAutomator>().UnassignCreature();
+
         cs.gameObject.GetComponent<CreatureAutomator>().StopStationAutomation();
         creatureToStation.Remove(cs);
     }

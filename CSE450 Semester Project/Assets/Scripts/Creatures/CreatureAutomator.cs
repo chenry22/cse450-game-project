@@ -27,7 +27,7 @@ public class CreatureAutomator : MonoBehaviour {
     
     // this is kind of subjective, but I feel like it should always be more effective to play the game yourself
     // e.g. this diminishes the speed of the auto-move compared to when the player controls the same creature
-    private const float automationFactor = 0.85f; // factor at which an automatic creature performs in terms of their actual skill levels
+    private const float automationFactor = 0.8f; // factor at which an automatic creature performs in terms of their actual skill levels
     
     
     private class AutoTask {
@@ -50,7 +50,8 @@ public class CreatureAutomator : MonoBehaviour {
     private AutoTask task;
     private AutomationPhase phase;
 
-    private CreatureAssign assigner;
+    private CreatureAssign assigner = null;
+    private Coroutine activeTask;
     public GameObject pizzaPrefab;
 
 
@@ -62,6 +63,17 @@ public class CreatureAutomator : MonoBehaviour {
         assignedStation = null;
         task = null;
         phase = AutomationPhase.Idle;
+    }
+    
+    public void UnassignCreature() {
+        Debug.Log("Clearing all tasks from automator");
+        // basically cancel all queued tasks
+        if (activeTask != null) {
+            StopCoroutine(activeTask);
+        }
+        queuedTasks?.Clear();
+        task = null;
+        assignedStation = null;
     }
     public void BeginStationAutomation(StationInteract s) {
         assignedStation = s;
@@ -127,8 +139,9 @@ public class CreatureAutomator : MonoBehaviour {
                         foreach (Topping t in toppings) {
                             yield return new WaitForSeconds(waitForNext / toppings.Count); // incrementally add with delay
                             if ((Random.Range(0f, 1f) < accuracy)
-                                || (creature.GetTopStat() >= 80 && Random.Range(0f, 1f) < accuracy)
-                                || (creature.GetTopStat() >= 90 && Random.Range(0f, 1f) < accuracy)
+                                || (creature.GetTopStat() >= 75 && Random.Range(0f, 1f) < accuracy)
+                                || (creature.GetTopStat() >= 85 && Random.Range(0f, 1f) < accuracy)
+                                || (creature.GetTopStat() >= 95 && Random.Range(0f, 1f) < accuracy)
                                 // special ability for skilled toppers, more chances to have
                                 // accurate placement if you hit above some thresholds
                             ) {
@@ -142,7 +155,13 @@ public class CreatureAutomator : MonoBehaviour {
                         float skill = Mathf.Max(0.01f, creature.GetOvensStat() / 100f); // cannot be 0 since we're dividing...
                         float target = task.pizza.GetLinkedOrder().GetTargetCookLevel();
                         while (task.pizza.GetAverageCookLevel() < target) {
-                            yield return new WaitForSeconds(OvenGameManager.tickRate);
+                            // another special ability type thing, if INCREDIBLY SKILLED OVEN-er, go twice as fast
+                            if (skill >= 0.95f) {
+                                yield return new WaitForSeconds(OvenGameManager.tickRate / 2f);
+                            } else {
+                                yield return new WaitForSeconds(OvenGameManager.tickRate);
+                            }
+                
                             var updated = task.pizza.GetCookLevels();
                             for (int i = 0; i < updated.Length; i++) {
                                 var cook = Mathf.Lerp(OvenSliceController.minCookRate, OvenSliceController.maxCookRate, skill);
@@ -169,6 +188,7 @@ public class CreatureAutomator : MonoBehaviour {
                 Debug.Log("Completed task, back to idle.");
                 break;
         }
+        activeTask = null; // end of task
     }
 
 
@@ -214,7 +234,7 @@ public class CreatureAutomator : MonoBehaviour {
                     task = null;
                     phase = AutomationPhase.Idle;
                 } else {
-                    StartCoroutine(FinishPhase(basePhaseWait, AutomationPhase.Idle));
+                    activeTask = StartCoroutine(FinishPhase(basePhaseWait, AutomationPhase.Idle));
                 }
             }
 
@@ -232,13 +252,6 @@ public class CreatureAutomator : MonoBehaviour {
                     } else {
                         creature.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
                     }
-                    
-                    // just make sure the creature is moved to its station
-                    // if (Vector2.Distance(creature.transform.position, assignedStation.transform.position) > closeEnoughDist) {
-                    //     float speed = creature.speed * automationFactor;
-                    //     offset = (assignedStation.transform.position - creature.transform.position).normalized * Time.fixedDeltaTime * speed;
-                    //     creature.gameObject.GetComponent<Rigidbody2D>().MovePosition(creature.transform.position + offset);
-                    // }
                     break;
                 case AutomationPhase.TransferToCurrent:
                     // if not toss station, it's possible pizza gets picked up while we're trying to claim it
@@ -259,11 +272,17 @@ public class CreatureAutomator : MonoBehaviour {
                         if (assignedStation.station == Station.Toss) {
                             // since we already have the order reference in AutoTask
                             // we just need to pretend we're doing the ticket claim stuff
-                            StartCoroutine(FinishPhase(basePhaseWait, AutomationPhase.TransferToCurrent));
+                            activeTask = StartCoroutine(FinishPhase(basePhaseWait, AutomationPhase.TransferToCurrent));
                         } else {
                             // otherwise actually claim the pizza
-                            task.prevStation.TryClaimPie(this.gameObject);
-                            StartCoroutine(FinishPhase(baseTransferWait, AutomationPhase.TransferToCurrent));
+                            if (task.prevStation.TryClaimPie(this.gameObject)) {
+                                activeTask = StartCoroutine(FinishPhase(baseTransferWait, AutomationPhase.TransferToCurrent));
+                            } else {
+                                Debug.LogWarning("Pie not claimed from task's previous section. Ending task.");
+                                task = null;
+                                phase = AutomationPhase.Idle;
+                                return;
+                            }
                         }
                     }
                     break;
@@ -275,26 +294,23 @@ public class CreatureAutomator : MonoBehaviour {
                         float speed = creature.speed * automationFactor;
                         creature.GetComponent<Rigidbody2D>().velocity = dir.normalized * speed;
                     } else {
+                        creature.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+
                         // once close enough, do work...
                         float time = maxStationWorkTime;
                         switch (assignedStation.station) {
+                            // ovens work will just ignore this since it actually does the cooking
                             case Station.Toss:
                                 time *= Mathf.Lerp(maxStationWorkReduce, 1f, 1f - creature.GetTossStat() / 100f);
-                                StartCoroutine(FinishPhase(time, AutomationPhase.StationWork));
                                 break;
                             case Station.Top:
-                                time *= Mathf.Lerp(maxStationWorkReduce, 1f, 1f - creature.GetTossStat() / 100f);
-                                StartCoroutine(FinishPhase(time, AutomationPhase.StationWork));
-                                break;
-                            case Station.Ovens:
-                                // time doesn't really matter, ignored in this case
-                                StartCoroutine(FinishPhase(time, AutomationPhase.StationWork));
+                                time *= Mathf.Lerp(maxStationWorkReduce, 1f, 1f - creature.GetTopStat() / 100f);
                                 break;
                             case Station.Cut:
                                 time *= Mathf.Lerp(maxStationWorkReduce, 1f, 1f - creature.GetCutStat() / 100f);
-                                StartCoroutine(FinishPhase(time, AutomationPhase.StationWork));
                                 break;
                         }
+                        activeTask = StartCoroutine(FinishPhase(time, AutomationPhase.StationWork));
                     }
                     break;
                 case AutomationPhase.TransferToNext:
@@ -307,6 +323,8 @@ public class CreatureAutomator : MonoBehaviour {
                             float speed = creature.speed * automationFactor;
                             creature.GetComponent<Rigidbody2D>().velocity = dir.normalized * speed;
                         } else {
+                            creature.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+                            
                             // once close enough, do transfer...
                             if (!target.TryPlacePie(task.pizza)) {
                                 Debug.LogError("FAILED TO PLACE PIE, AVAILABLE TABLE WAS WRONG");
@@ -314,7 +332,7 @@ public class CreatureAutomator : MonoBehaviour {
                                 // send ping to next station that this was placed...
                                 assigner.HandlePlacedPizza(task.pizza, target, assignedStation.station);
                             }
-                            StartCoroutine(FinishPhase(baseTransferWait, AutomationPhase.TransferToNext));
+                            activeTask = StartCoroutine(FinishPhase(baseTransferWait, AutomationPhase.TransferToNext));
                         }
                     }
                     break;

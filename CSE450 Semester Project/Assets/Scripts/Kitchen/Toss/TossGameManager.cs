@@ -57,10 +57,19 @@ public class TossGameManager : MonoBehaviour {
         } else if (!gameActive && progress >= 1f && Input.GetKeyDown(KeyCode.E)) {
             gameObject.SetActive(false); // basically just kill UI
             GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().ToggleMovement();
+
+            // create new pie
             var newPie = Instantiate(pizza);
             newPie.GetComponent<PizzaObject>().InitializePizza(quality);
             newPie.transform.parent = GameObject.FindWithTag("Player").transform;
             newPie.transform.localPosition = pizzaOffset;
+
+            // if player is holding ticket, automatically link order (for automation system)
+            var ticketOrder = GameObject.FindWithTag("Player").GetComponentInChildren<OrderTicket>()?.GetOrder();
+            if (ticketOrder != null) {
+                Debug.Log("Linked held ticket!");
+                newPie.GetComponent<PizzaObject>().LinkOrder(ticketOrder);
+            }
         }
     }
 

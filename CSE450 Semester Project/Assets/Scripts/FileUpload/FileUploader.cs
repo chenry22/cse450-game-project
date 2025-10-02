@@ -35,7 +35,7 @@ public class FileUploader : MonoBehaviour {
         prefabMap = new Dictionary<string, GameObject>(StringComparer.OrdinalIgnoreCase)
         {
             { ".png", imageCreaturePrefab }, { ".jpg", imageCreaturePrefab }, { ".jpeg", imageCreaturePrefab }, { ".gif", imageCreaturePrefab }, { ".webp", imageCreaturePrefab },
-            { ".wav", audioCreaturePrefab }, { ".mp3", audioCreaturePrefab },
+            { ".wav", audioCreaturePrefab }, { ".mp3", audioCreaturePrefab }, { ".m4a", audioCreaturePrefab },
             { ".mp4", videoCreaturePrefab }, { ".mov", videoCreaturePrefab },
             { ".pdf", documentCreaturePrefab }, { ".doc", documentCreaturePrefab }, { ".docx", documentCreaturePrefab }, { ".xls", documentCreaturePrefab }, { ".xlsx", documentCreaturePrefab },
             { ".ppt", documentCreaturePrefab }, { ".pptx", documentCreaturePrefab }, { ".txt", documentCreaturePrefab },
@@ -43,7 +43,7 @@ public class FileUploader : MonoBehaviour {
             { ".cs", codeCreaturePrefab }, { ".js", codeCreaturePrefab }, { ".jsx", codeCreaturePrefab }, { ".ts", codeCreaturePrefab }, { ".tsx", codeCreaturePrefab },
             { ".html", codeCreaturePrefab }, { ".css", codeCreaturePrefab }, { ".json", codeCreaturePrefab }, { ".xml", codeCreaturePrefab }, { ".yml", codeCreaturePrefab },
             { ".yaml", codeCreaturePrefab }, { ".cpp", codeCreaturePrefab }, { ".h", codeCreaturePrefab }, { ".java", codeCreaturePrefab }, { ".py", codeCreaturePrefab },
-            { ".rb", codeCreaturePrefab }, { ".php", codeCreaturePrefab }
+            { ".rb", codeCreaturePrefab }, { ".php", codeCreaturePrefab },  { ".md", codeCreaturePrefab },
         };
 
         fileAnalyzerMap = new Dictionary<string, Func<string, object>>(StringComparer.OrdinalIgnoreCase) {
