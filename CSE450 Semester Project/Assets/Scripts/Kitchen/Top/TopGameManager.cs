@@ -47,6 +47,9 @@ public class TopGameManager : MonoBehaviour {
     private const float baseTopTime = 3f; // how long the topping screen will stay the same for a pie with no toppings
     private const float timeChangePerTopping = 0.2f; // how  much to decrement time per topping
 
+    // player toppings stat scaling
+    private float statBaseTopTime = baseTopTime; // 0 topping stat = 1s, 100 topping stat = 5s
+
 
 
     [Header("Game")]
@@ -80,14 +83,22 @@ public class TopGameManager : MonoBehaviour {
 
     // Main game managers
     public void BeginTopGame() {
+        var playerCreature = GameObject.FindWithTag("Player");
+        var stats = playerCreature.GetComponent<CreatureStats>();
+        if (stats.stamina < 10f) {
+            return;
+        }
+
         GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().ToggleMovement();
 
         // TODO: for now we are assuming player has pie, implementation may change
         pizza = GameObject.FindWithTag("Player").GetComponentInChildren<PizzaObject>();
         ResetTopGame();
 
+        statBaseTopTime = Mathf.Lerp(1f, 5f, stats.GetStats().Toppings / 100f);
+        topChangeTime = statBaseTopTime - (pizza.GetToppingCount() * timeChangePerTopping);
+
         actualGame.SetActive(true);
-        topChangeTime = baseTopTime - (pizza.GetToppingCount() * timeChangePerTopping);
         StartCoroutine(SwapTopOptions());
     }
     public void ResetTopGame() {
@@ -98,6 +109,17 @@ public class TopGameManager : MonoBehaviour {
 
 
     public void SelectTopping(Topping t) {
+        var playerCreature = GameObject.FindWithTag("Player");
+        var stats = playerCreature.GetComponent<CreatureStats>();
+        if (stats.stamina < 10f) {
+            gameActive = false;
+            this.gameObject.SetActive(false);
+            GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().ToggleMovement();
+            transform.parent.GetComponentInChildren<StationInteract>().StartInteraction();
+            return;
+        }
+        stats.TryPerformTask(10f);
+
         gameActive = false;
         timer = 0;
         topChangeTime -= timeChangePerTopping;

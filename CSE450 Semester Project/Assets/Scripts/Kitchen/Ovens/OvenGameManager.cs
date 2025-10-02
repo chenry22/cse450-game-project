@@ -10,6 +10,8 @@ using UnityEngine;
 public class OvenGameManager : MonoBehaviour {
     public static float tickRate = 1.4f; // number of seconds between each cook update
 
+    // player cooking stat scaling
+    private float statTickRate = 1.6f; // 0 cooking stat = 3s, 100 stat = 1.6s between ticks
 
     [Header("Game")]
     public OvenSliceController[] ovenSlices = new OvenSliceController[8]; // always 8 for our purposes...
@@ -82,6 +84,16 @@ public class OvenGameManager : MonoBehaviour {
     }
 
     private void SwapOvenSlots(bool left) {
+        var playerCreature = GameObject.FindWithTag("Player");
+        var stats = playerCreature.GetComponent<CreatureStats>();
+        if (stats.stamina < 2f) {
+            gameUI.SetActive(false);
+            GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().ToggleMovement();
+            transform.parent.GetComponentInChildren<StationInteract>().StartInteraction();
+            return;
+        }
+        stats.TryPerformTask(2f);
+
         var currCookLevels = ovenSlices.Select(slice => slice.GetCookLevel()).ToArray();
         for (int i = 0; i < ovenSlices.Length; i++) {
             if (left) {
@@ -98,6 +110,11 @@ public class OvenGameManager : MonoBehaviour {
 
     // basically toggles UI
     public void ShowOvenUI() {
+        var playerCreature = GameObject.FindWithTag("Player");
+        var stats = playerCreature.GetComponent<CreatureStats>();
+        statTickRate = Mathf.Lerp(3.0f, 1.6f, stats.GetStats().Cooking / 100f);
+        tickRate = statTickRate;
+
         GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().DisableMovement();
         if (currentPie == null) {
             emptyTxt.gameObject.SetActive(true);

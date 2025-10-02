@@ -39,6 +39,10 @@ public class CreatureMove : MonoBehaviour {
             {
                 selectedCreature.GetComponent<CreatureStats>().RecoverStamina(Time.deltaTime * 0.5f);
             }
+
+            // debugging logs
+            var statsComp = selectedCreature.GetComponent<CreatureStats>();
+            Debug.Log($"Creature stamina: {statsComp.stamina}/{statsComp.maxStamina}");
         }
 
         if (mainCam.transform.localPosition != baseCamPosition) {

@@ -120,6 +120,18 @@ public class GameManager : MonoBehaviour
         UpdateMoneyLabel();
     }
 
+    public void GameOver() {
+        // remove all creatures
+        foreach (var creature in GameObject.FindGameObjectsWithTag("Creature")) {
+            Destroy(creature);
+        }
+        // reset game day and balances
+        day = 0;
+        currentBalance = 0;
+        totalProfit = 0;
+        BeginDay();
+    }
+
     public void ActivateFileUpload() {
         fileUploadButton.gameObject.SetActive(true);
     }

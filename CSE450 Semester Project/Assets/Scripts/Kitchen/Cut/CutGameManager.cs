@@ -25,6 +25,11 @@ public class CutGameManager : MonoBehaviour {
 
     private const int numCuts = 4; // don't change this unless you change the actual game too
 
+    // player cutting stats scaling
+    private int statBaseRotationSpeed = baseRotationSpeed;  // Cutting stat: 0 = 160 deg/sec rotation, 100 = 40 deg/sec rotation
+    private int statRotationSpeedIncrease = rotationSpeedIncrease;  // Cutting stat: 0 = 60 deg/sec increase, 100 = 10 deg/sec increase
+
+
 
     // Text to show
     private const string mainHelpText = "[Space] to cut\n[Q] to cancel";
@@ -113,6 +118,15 @@ public class CutGameManager : MonoBehaviour {
 
     // Main game managers
     public void BeginCutGame() {
+        var playerCreature = GameObject.FindWithTag("Player");
+        var stats = playerCreature.GetComponent<CreatureStats>();
+        if (stats.stamina < 10f) {
+            return;
+        }
+
+        statBaseRotationSpeed = Mathf.RoundToInt(Mathf.Lerp(160, 40, stats.GetStats().Cutting / 100f));
+        statRotationSpeedIncrease = Mathf.RoundToInt(Mathf.Lerp(60, 10, stats.GetStats().Cutting / 100f));
+
         GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().ToggleMovement();
         ResetCutGame();
         
@@ -128,7 +142,8 @@ public class CutGameManager : MonoBehaviour {
         gameActive = false;
         actualGame.SetActive(false);
     }
-    private void EndCutGame() {
+    private void EndCutGame()
+    {
         cutIndicator.SetActive(false);
         gameActive = false;
         pie.angularVelocity = 0;
@@ -139,6 +154,11 @@ public class CutGameManager : MonoBehaviour {
         //   or just update the player pizza
         GameObject.FindWithTag("Player").GetComponentInChildren<PizzaObject>().CutPizza(quality);
         progressTxt.text = "Quality: " + quality + " / 100";
+        
+        // use 10 stamina
+        var playerCreature = GameObject.FindWithTag("Player");
+        var stats = playerCreature.GetComponent<CreatureStats>();
+        stats.TryPerformTask(10f);
     }
 
 
@@ -167,7 +187,7 @@ public class CutGameManager : MonoBehaviour {
             EndCutGame();
         } else {
             gameActive = true;
-            rotationSpeed += rotationSpeedIncrease;
+            rotationSpeed += statRotationSpeedIncrease;
         }
     }
 }
