@@ -6,6 +6,8 @@ using UnityEngine;
 
 // this class manages the UI overlay and the actual game mechanics of the toss minigame
 public class TossGameManager : MonoBehaviour {
+    public static Vector2 pizzaOffset = new Vector2(0.6f, 0.1f); // when new pizza object, where to position
+
     // Gameplay vars
     private const float progressPerToss = 0.06f; // out of 1.0f
     private const int qualityLossPerMistake = 5; // out of 100
@@ -60,10 +62,19 @@ public class TossGameManager : MonoBehaviour {
         } else if (!gameActive && progress >= 1f && Input.GetKeyDown(KeyCode.E)) {
             gameObject.SetActive(false); // basically just kill UI
             GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().ToggleMovement();
+
+            // create new pie
             var newPie = Instantiate(pizza);
             newPie.GetComponent<PizzaObject>().InitializePizza(quality);
             newPie.transform.parent = GameObject.FindWithTag("Player").transform;
-            newPie.transform.localPosition = new Vector2(0.6f, 0.2f);
+            newPie.transform.localPosition = pizzaOffset;
+
+            // if player is holding ticket, automatically link order (for automation system)
+            var ticketOrder = GameObject.FindWithTag("Player").GetComponentInChildren<OrderTicket>()?.GetOrder();
+            if (ticketOrder != null) {
+                Debug.Log("Linked held ticket!");
+                newPie.GetComponent<PizzaObject>().LinkOrder(ticketOrder);
+            }
         }
     }
 

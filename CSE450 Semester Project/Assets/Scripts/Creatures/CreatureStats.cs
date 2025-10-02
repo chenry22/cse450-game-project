@@ -1,8 +1,7 @@
 using FileAnalysis;
 using UnityEngine;
 
-public class CreatureStats : MonoBehaviour
-{
+public class CreatureStats : MonoBehaviour {
 
     // save reference to base stats generated
     private Stats baseStats;
@@ -12,8 +11,12 @@ public class CreatureStats : MonoBehaviour
     public float maxStamina = 100f;
 
     public Stats GetStats() { return baseStats; }
-    public void SetStats(Stats s)
-    {
+    public int GetTossStat() { return baseStats.DoughHandling; }
+    public int GetTopStat() { return baseStats.Toppings; }
+    public int GetOvensStat() { return baseStats.Cooking; }
+    public int GetCutStat() { return baseStats.Cutting; }
+
+    public void SetStats(Stats s) {
         baseStats = s;
         speed = Mathf.Lerp(2f, 10f, s.Speed / 100f); // maps 0-100 speed stat to 2-10 speed
         maxStamina = Mathf.Lerp(50f, 100f, s.Stamina / 100f); // maps 0-100 stat to 50-100 stamina

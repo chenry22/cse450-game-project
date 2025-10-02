@@ -55,6 +55,13 @@ public class OrderStationManager : MonoBehaviour {
             orderTicket.transform.localPosition = Vector2.zero;
             orderTicket.GetComponent<OrderTicket>().SetOrder(order);
         }
+
+        // if holding a pie without a linked order, just automatically link
+        var playerPie = player.GetComponentInChildren<PizzaObject>();
+        if (playerPie != null && playerPie.GetLinkedOrder() == null) {
+            Debug.Log("Linked order to held pie!");
+            playerPie.LinkOrder(order);
+        }
         CloseOrderUI();
     }
 
