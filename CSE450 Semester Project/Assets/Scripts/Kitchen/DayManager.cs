@@ -65,7 +65,7 @@ public class DayManager : MonoBehaviour {
         GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().EndDay(profit);
     }
 
-    private void GenerateRandomOrder() {
+    private Order GenerateRandomOrder() {
         int targetTossQuality = RandomBellCurve(minTossQuality, maxTossQuality);
         List<Topping> targetToppings = new List<Topping> {
             ToppingMethods.GetRandomBase(),
@@ -78,17 +78,19 @@ public class DayManager : MonoBehaviour {
 
         int targetCookAmount = cookLevels[RandomBellCurve(0, cookLevels.Length)];
         int targetCutQuality = RandomBellCurve(minCutQuality, maxCutQuality);
-        
+
         // TODO: maybe we want to add a cool random order label here, or maybe not
-        activeOrders.Add(new Order(
+        Order newOrder = new Order(
             "Order " + (activeOrders.Count + completedOrders.Count + 1),
             targetTossQuality, targetToppings,
             targetCookAmount, targetCutQuality,
             orderTimeAllowed
-        ));
-        Debug.Log("New random order generated: \nToss: " + targetTossQuality
-            + "\nTop: " + targetToppings + "\nCook Lvl: " + targetCookAmount
-            + "\nCut: " + targetCutQuality + "\nTime: " + orderTimeAllowed);
+        );
+        activeOrders.Add(newOrder);
+        // Debug.Log("New random order generated: \nToss: " + targetTossQuality
+        //     + "\nTop: " + targetToppings + "\nCook Lvl: " + targetCookAmount
+        //     + "\nCut: " + targetCutQuality + "\nTime: " + orderTimeAllowed);
+        return newOrder;
     }
     
     public OrderResult SubmitOrderWithPizza(Order o, PizzaObject p) {
@@ -110,7 +112,7 @@ public class DayManager : MonoBehaviour {
     }
 
     // we want generated numbers to tend away from extremes
-    public int RandomBellCurve(int min, int max) {
+    private int RandomBellCurve(int min, int max) {
         return Mathf.RoundToInt((Random.Range(min, max) + Random.Range(min, max)) / 2f);
     }
 
@@ -123,7 +125,13 @@ public class DayManager : MonoBehaviour {
             if (completedOrders.Count + activeOrders.Count < numOrders) {
                 orderTimer += Time.deltaTime;
                 if(orderTimer >= orderInterval) {
-                    GenerateRandomOrder();
+                    Order newOrder = GenerateRandomOrder();
+                    var orderStation = orderNotifyText.transform.parent.GetComponentInChildren<StationInteract>();
+
+                    // notify creature handler
+                    GameObject.Find("CreatureHandler").GetComponent<CreatureAssign>().HandleNewOrder(newOrder, orderStation);
+
+                    // notify order station
                     orderNotifyText.text = "<b>[ NEW ORDER ]</b>";
                     orderNotifyText.gameObject.SetActive(true);
                     orderTimer = 0f;

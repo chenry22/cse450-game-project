@@ -17,6 +17,8 @@ public class StationInteract : MonoBehaviour {
     // kind of janky solution, basically prevents multiple simultaneous interactions
     public static GameObject interacting = null;
     private DayManager dayManager;
+    private CreatureAssign assigner;
+
 
     public Station station = Station.Table; // default to table
     public GameObject stationGame;
@@ -27,9 +29,12 @@ public class StationInteract : MonoBehaviour {
     private SpriteRenderer sr; // for changing color to show interaction
     private bool interactable = false;
 
+    
+
     void Start() {
         dayManager = GameObject.Find(DayManager.dayManagerObjName).GetComponent<DayManager>();
-        sr = this.GetComponent<SpriteRenderer>();
+        assigner = GameObject.Find("CreatureHandler").GetComponent<CreatureAssign>();
+        sr = this.gameObject.GetComponentInChildren<SpriteRenderer>();
         sr.color = defaultColor;
         
         // table and submit don't have station games
@@ -82,15 +87,15 @@ public class StationInteract : MonoBehaviour {
                     break;
                 case Station.Table:
                     if (Input.GetKeyDown(KeyCode.E)) {
-                        // pizza is sibling of this gameobject
-                        var tablePie = this.transform.parent.GetComponentInChildren<PizzaObject>();
-                        if (tablePie == null) {
-                            var playerPie = GameObject.FindWithTag("Player").GetComponentInChildren<PizzaObject>().transform;
-                            playerPie.parent = this.gameObject.transform.parent;
-                            playerPie.localPosition = Vector2.zero;
+                        PizzaObject pie = GameObject.FindWithTag("Player").GetComponentInChildren<PizzaObject>();
+                        if (!TryPlacePie(pie)) {
+                            if (!TryClaimPie(GameObject.FindWithTag("Player"))) {
+                                Debug.LogError("Could not place or claim pie from Station.Table interact");
+                            }
                         } else {
-                            tablePie.transform.parent = GameObject.FindWithTag("Player").transform;
-                            tablePie.transform.localPosition = new Vector2(0.6f, 0.2f);
+                            // send ping to creature assignment manager
+                            // it will ping any creature that should be watching this station for work
+                            assigner.HandlePlacedPizza(pie, this, Station.Table);
                         }
                     }
                     break;
@@ -139,6 +144,30 @@ public class StationInteract : MonoBehaviour {
             SetHelpText();
         }
     }
+    
+    public bool HasPie(PizzaObject pie) {
+        PizzaObject ownedPie = this.transform.parent.GetComponentInChildren<PizzaObject>();
+        return ownedPie.Equals(pie);
+    }
+    
+    public bool TryPlacePie(PizzaObject pie) {
+        var tablePie = this.transform.parent.GetComponentInChildren<PizzaObject>();
+        if (tablePie == null) {
+            pie.transform.parent = this.gameObject.transform.parent;
+            pie.transform.localPosition = Vector2.zero;
+            return true;
+        }
+        return false;
+    }
+    public bool TryClaimPie(GameObject creature) {
+        var tablePie = this.transform.parent.GetComponentInChildren<PizzaObject>();
+        if (tablePie != null) {
+            tablePie.transform.parent = creature.transform;
+            tablePie.transform.localPosition = TossGameManager.pizzaOffset;
+            return true;
+        }
+        return false;
+    }
 
     private void SetHelpText() {
         switch (station) {
@@ -173,6 +202,12 @@ public class StationInteract : MonoBehaviour {
     }
     public void StopInteraction(){
         sr.color = defaultColor;
+        
+        // idk why this is broken, this maybe fixes it?
+        if (station == Station.Ovens) {
+            stationGame.GetComponent<OvenGameManager>().CloseOvenUI();
+        }
+
         helpText.gameObject.SetActive(false);
         interactable = false;
         SetHelpText();

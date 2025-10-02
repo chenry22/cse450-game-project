@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
     public static string kitchenGameManager = "GameManager"; // name for other scripts to reference
     private int day = 0; // basically keeping track of some progression
     private float totalProfit = 0;
-    private float currentBalance = 0;
+    private float currentBalance = 1000;
     private List<GameObject> registeredCreatures = new List<GameObject>();
 
     private DayManager dayManager;
@@ -131,5 +131,11 @@ public class GameManager : MonoBehaviour
 
     public void ToggleMovement() {
         GameObject.Find("CreatureHandler").GetComponent<CreatureMove>().ToggleMovement();
+    }
+    public void EnableMovement() {
+        GameObject.Find("CreatureHandler").GetComponent<CreatureMove>().movementEnabled = true;
+    }
+    public void DisableMovement() {
+        GameObject.Find("CreatureHandler").GetComponent<CreatureMove>().movementEnabled = false;
     }
 }

@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 3594565250331887760}
   - component: {fileID: 3298603126677929022}
   - component: {fileID: 8323683543058208167}
+  - component: {fileID: 8775483671373959487}
   m_Layer: 0
   m_Name: AudioCreature
   m_TagString: Creature
@@ -179,6 +180,19 @@ MonoBehaviour:
   speed: 3
   stamina: 100
   maxStamina: 100
+--- !u!114 &8775483671373959487
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2116424259406268166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ef07842c854c4e3d91249b4173e2333, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pizzaPrefab: {fileID: 887026419624401250, guid: bc4e4f03e34e4476f87017cae7a3e82c, type: 3}
 --- !u!1 &4189851848478027271
 GameObject:
   m_ObjectHideFlags: 0

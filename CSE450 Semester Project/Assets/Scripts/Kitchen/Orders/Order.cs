@@ -53,6 +53,8 @@ public class Order {
         completed = false;
     }
     
+    public List<Topping> GetToppings() { return targetToppings; }
+    public int GetTargetCookLevel() { return targetCookAmount;  }
     public bool IsCompleted() { return completed; }
 
     // basically just a way for a manager script to tell order timer to tick

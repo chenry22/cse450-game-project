@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 2490085637152175325}
   - component: {fileID: 2344114776347832369}
   - component: {fileID: -8560524202494526410}
+  - component: {fileID: 3355666572885137506}
   m_Layer: 0
   m_Name: CodeCreature
   m_TagString: Creature
@@ -189,6 +190,19 @@ MonoBehaviour:
   speed: 3
   stamina: 100
   maxStamina: 100
+--- !u!114 &3355666572885137506
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1371606621957378201}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ef07842c854c4e3d91249b4173e2333, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pizzaPrefab: {fileID: 887026419624401250, guid: bc4e4f03e34e4476f87017cae7a3e82c, type: 3}
 --- !u!1 &2488406205222084764
 GameObject:
   m_ObjectHideFlags: 0

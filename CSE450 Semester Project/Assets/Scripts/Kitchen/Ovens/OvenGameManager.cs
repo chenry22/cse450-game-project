@@ -8,7 +8,7 @@ using UnityEngine;
 // This script manages the oven minigame
 
 public class OvenGameManager : MonoBehaviour {
-    private float tickRate = 1.6f; // number of seconds between each cook update
+    public static float tickRate = 1.4f; // number of seconds between each cook update
 
 
     [Header("Game")]
@@ -51,8 +51,7 @@ public class OvenGameManager : MonoBehaviour {
                         playerPie.transform.localPosition = Vector2.zero;
 
                         var cookLevels = playerPie.GetCookLevels();
-                        for (int i = 0; i < ovenSlices.Length; i++)
-                        {
+                        for (int i = 0; i < ovenSlices.Length; i++) {
                             ovenSlices[i].SetOvenSlice(cookLevels[i]);
                         }
                         emptyTxt.gameObject.SetActive(false);
@@ -67,7 +66,7 @@ public class OvenGameManager : MonoBehaviour {
 
                     // then remove from here and give to user
                     currentPie.transform.parent = GameObject.FindWithTag("Player").transform;
-                    currentPie.transform.localPosition = new Vector2(0.6f, 0.2f);
+                    currentPie.transform.localPosition = TossGameManager.pizzaOffset;
                     currentPie = null; // let go of reference
                 }
             } else if (currentPie != null) {
@@ -99,7 +98,7 @@ public class OvenGameManager : MonoBehaviour {
 
     // basically toggles UI
     public void ShowOvenUI() {
-        GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().ToggleMovement();
+        GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().DisableMovement();
         if (currentPie == null) {
             emptyTxt.gameObject.SetActive(true);
             pieIndicator.SetActive(false);
@@ -110,7 +109,7 @@ public class OvenGameManager : MonoBehaviour {
         gameUI.SetActive(true);
     }
     public void CloseOvenUI() {
-        GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().ToggleMovement();
+        GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().EnableMovement();
         gameUI.SetActive(false);
     }
 }
