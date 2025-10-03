@@ -9,42 +9,10 @@ using UnityEngine;
 // TODO: maybe we could implement as part of topping skill # of slots seen each shuffle?
 //   so like bad toppers may only see like 5 each shuffle, but really good toppers can see 9
 
-public enum Topping {
-    RedSauce, OliveOil, // bases
-    Mozzarella, Fontina, Spinach, // secondary bases
-
-    Sausage, Pepperoni, Bacon, // meats
-    Mushroom, GreenPepper, WhiteOnion, // veggies
-    BlackOlive, BananaPepper, RedOnion,
-    Artichoke, Jalapeno, GreenOlive,
-    Gorgonzola, Feta, Parmesan // extra cheeses
-}
-static class ToppingMethods {
-    private static Topping[] bases = new Topping[] { Topping.RedSauce, Topping.OliveOil };
-    private static Topping[] secondaryBases = new Topping[] { Topping.Mozzarella, Topping.Fontina };
-    
-    public static Topping[] GetBases() { return bases; }
-    public static Topping[] GetSecondaryBases() { return secondaryBases; }
-    
-    public static Topping GetRandomBase() {
-        return bases[Random.Range(0, bases.Length)];
-    }
-    public static Topping GetRandomSecondaryBase() {
-        return secondaryBases[Random.Range(0, secondaryBases.Length)];
-    }
-    public static Topping GetRandomNonbaseTopping() {
-        var ts = System.Enum.GetValues(typeof(Topping)).Cast<Topping>().ToList();
-        foreach(Topping b in bases) { ts.Remove(b); }
-        foreach(Topping b in secondaryBases) { ts.Remove(b);  }
-        return ts[Random.Range(0, ts.Count)];
-    }
-}
-
-
-
 public class TopGameManager : MonoBehaviour {
+    private const float staminaCost = 5f; // per topping
+    
     // THESE VARS AFFECT GAMEPLAY
-    private const float baseTopTime = 3f; // how long the topping screen will stay the same for a pie with no toppings
     private const float timeChangePerTopping = 0.08f; // % to decrement time per placed topping
 
     // player toppings stat scaling
@@ -84,16 +52,17 @@ public class TopGameManager : MonoBehaviour {
 
     // Main game managers
     public void BeginTopGame() {
-        var playerCreature = GameObject.FindWithTag("Player");
-        var stats = playerCreature.GetComponent<CreatureStats>();
-        if (stats.stamina < 10f) {
+        var player = GameObject.FindWithTag("Player");
+        var stats = player.GetComponent<CreatureStats>();
+        if (stats.stamina < staminaCost) {
+            transform.parent.GetComponentInChildren<StationInteract>().ShowStaminaMessage();
             return;
         }
 
         GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().ToggleMovement();
 
         // TODO: for now we are assuming player has pie, implementation may change
-        pizza = GameObject.FindWithTag("Player").GetComponentInChildren<PizzaObject>();
+        pizza = player.GetComponentInChildren<PizzaObject>();
         ResetTopGame();
 
         float baseTime = Mathf.Lerp(minTopTime, maxTopTime, stats.GetStats().Toppings / 100f);
@@ -112,14 +81,13 @@ public class TopGameManager : MonoBehaviour {
     public void SelectTopping(Topping t) {
         var playerCreature = GameObject.FindWithTag("Player");
         var stats = playerCreature.GetComponent<CreatureStats>();
-        if (stats.stamina < 10f) {
+        if (!stats.TryPerformTask(staminaCost)) { // if fail to top, send msg about stamina requirement
             gameActive = false;
             this.gameObject.SetActive(false);
             GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().ToggleMovement();
-            transform.parent.GetComponentInChildren<StationInteract>().StartInteraction();
+            transform.parent.GetComponentInChildren<StationInteract>().ShowStaminaMessage();
             return;
         }
-        stats.TryPerformTask(10f);
 
         gameActive = false;
         timer = 0;

@@ -8,6 +8,7 @@ using UnityEngine;
 // This script manages the oven minigame
 
 public class OvenGameManager : MonoBehaviour {
+    private const float rotationStaminaCost = 2f; // per oven rotation, should be pretty low
     public static float baseTickRate = 1.5f; // number of seconds between each cook update
 
     // player cooking stat scaling
@@ -39,7 +40,7 @@ public class OvenGameManager : MonoBehaviour {
                 timer = 0f;
 
                 if (!gameUI.activeSelf) {
-                    // TODO: something here that shows progress when main UI is hidden
+                    // TODO: something here that shows cook progress when main UI is hidden
                 }
             }
         }
@@ -89,13 +90,12 @@ public class OvenGameManager : MonoBehaviour {
     private void SwapOvenSlots(bool left) {
         var playerCreature = GameObject.FindWithTag("Player");
         var stats = playerCreature.GetComponent<CreatureStats>();
-        if (stats.stamina < 2f) {
+        if (!stats.TryPerformTask(rotationStaminaCost)) { // if fail to use stamina
             gameUI.SetActive(false);
             GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().ToggleMovement();
-            transform.parent.GetComponentInChildren<StationInteract>().StartInteraction();
+            transform.parent.GetComponentInChildren<StationInteract>().ShowStaminaMessage();
             return;
         }
-        stats.TryPerformTask(2f);
 
         var currCookLevels = ovenSlices.Select(slice => slice.GetCookLevel()).ToArray();
         for (int i = 0; i < ovenSlices.Length; i++) {
@@ -113,8 +113,7 @@ public class OvenGameManager : MonoBehaviour {
 
     // basically toggles UI
     public void ShowOvenUI() {
-        var playerCreature = GameObject.FindWithTag("Player");
-        var stats = playerCreature.GetComponent<CreatureStats>();
+        var stats = GameObject.FindWithTag("Player").GetComponent<CreatureStats>();
         tickRate = Mathf.Lerp(maxTickRate, minTickRate, stats.GetStats().Cooking / 100f);
 
         GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().DisableMovement();

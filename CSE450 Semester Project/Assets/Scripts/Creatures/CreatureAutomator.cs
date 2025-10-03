@@ -20,7 +20,9 @@ public enum AutomationPhase {
 
 public class CreatureAutomator : MonoBehaviour {
     // some consts
-    private const float maxVelocityForStaminaRecovery = 0.01f; // what it sounds like...
+    private const float maxVelocityForStaminaRecovery = 0.02f; // what it sounds like...
+    private const float staminaRecoveryRate = 0.5f;
+
     private const float basePhaseWait = 1.8f; // time it takes creature to start next phase
     private const float baseTransferWait = 0.7f;
     private const float maxStationWorkTime = 6f; // how long a creature with 0 skill takes to complete station work
@@ -205,13 +207,13 @@ public class CreatureAutomator : MonoBehaviour {
             if (assignedStation == null) {
                 // if no station, regain stamina when rigid body is not moving
                 if (rb.velocity.magnitude <= maxVelocityForStaminaRecovery) {
-                    creature.RecoverStamina(Time.deltaTime * 0.5f); // TODO: parameterize this...
+                    creature.RecoverStamina(Time.deltaTime * staminaRecoveryRate); // TODO: parameterize this...
                     Debug.Log($"Creature stamina: {creature.stamina}/{creature.maxStamina}");
                 }
             } else {
                 // if assigned, should be in "Idle" phase
                 if (phase == AutomationPhase.Idle) {
-                    creature.RecoverStamina(Time.deltaTime * 0.5f); // TODO: parameterize this...
+                    creature.RecoverStamina(Time.deltaTime * staminaRecoveryRate); // TODO: parameterize this...
                     Debug.Log($"Creature stamina: {creature.stamina}/{creature.maxStamina}");
                 }
             }

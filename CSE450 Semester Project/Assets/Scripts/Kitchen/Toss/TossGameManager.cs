@@ -6,6 +6,7 @@ using UnityEngine;
 
 // this class manages the UI overlay and the actual game mechanics of the toss minigame
 public class TossGameManager : MonoBehaviour {
+    public static float requiredStamina = 10f;
     public static Vector2 pizzaOffset = new Vector2(0.6f, 0.1f); // when new pizza object, where to position
 
     // Game UI vars (not gameplay)
@@ -14,8 +15,8 @@ public class TossGameManager : MonoBehaviour {
 
 
     // player toss stat scaling
-    private const float minDoughSpeedIncrease = 0.8f; // for stat 100
-    private const float maxDoughSpeedIncrease = 2.2f; // for stat 0
+    private const float minDoughSpeedIncrease = 0.7f; // for stat 100
+    private const float maxDoughSpeedIncrease = 2.1f; // for stat 0
     private float doughSpeedIncrease = 0f; // how much to speed up every toss
 
     private const float minProgressPerToss = 0.03f; // for stat 0
@@ -23,11 +24,11 @@ public class TossGameManager : MonoBehaviour {
     private float progressPerToss = 0f; // out of 1.0f
 
     private const float minBaseDoughSpeed = 4f; // for stat 100
-    private const float maxBaseDoughSpeed = 10f; // for stat 0
+    private const float maxBaseDoughSpeed = 8f; // for stat 0
     private float baseDoughSpeed = 0f; // speed at very start of each toss cycle (including after drops)
 
     private const float minDoughSpeedCap = 10f; // for stat 100
-    private const float maxDoughSpeedCap = 22f; // for stat 0
+    private const float maxDoughSpeedCap = 20f; // for stat 0
     private float doughSpeedCap = 0f; // when speed will stop increasing
 
     private const int minQualityLossPerMistake = 3; // for stat 100
@@ -131,10 +132,10 @@ public class TossGameManager : MonoBehaviour {
         dough.transform.localPosition = Vector3.zero;
         helpTxt.text = completionHelpTxt;
         
-        // use 10 stamina
+        // use stamina to act
         var playerCreature = GameObject.FindWithTag("Player");
         var stats = playerCreature.GetComponent<CreatureStats>();
-        stats.TryPerformTask(10f);
+        stats.TryPerformTask(requiredStamina);
     }
 
 

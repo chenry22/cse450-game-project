@@ -14,9 +14,12 @@ using UnityEngine;
 // and this wouldn't be too crazy since we're storing them as GameObjects already
 
 public class CutGameManager : MonoBehaviour {
+    public static float requiredStamina = 10f; // maybe should depend on skill also
+
+
     // VARS AFFECTING GAMEPLAY
     private const int closeEnoughDegrees = 3; // if a cut is within this many degrees, it is considered perfect (no penalty)
-    private const float qualityLenience = 2f;
+    private const float qualityLenience = 2.5f;
     // used to calculate penalty for cut error
     // formula is [ maxQuality - (degreesOff / qualityLenience) ]
     // basically # of degrees a cut has to be off to subtract 1 point from quality score
@@ -143,8 +146,7 @@ public class CutGameManager : MonoBehaviour {
         gameActive = false;
         actualGame.SetActive(false);
     }
-    private void EndCutGame()
-    {
+    private void EndCutGame() {
         cutIndicator.SetActive(false);
         gameActive = false;
         pie.angularVelocity = 0;
@@ -156,10 +158,10 @@ public class CutGameManager : MonoBehaviour {
         GameObject.FindWithTag("Player").GetComponentInChildren<PizzaObject>().CutPizza(quality);
         progressTxt.text = "Quality: " + quality + " / 100";
         
-        // use 10 stamina
+        // use stamina to do this.
         var playerCreature = GameObject.FindWithTag("Player");
         var stats = playerCreature.GetComponent<CreatureStats>();
-        stats.TryPerformTask(10f);
+        stats.TryPerformTask(requiredStamina);
     }
 
 
