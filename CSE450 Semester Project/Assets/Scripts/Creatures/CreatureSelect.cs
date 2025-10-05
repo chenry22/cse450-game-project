@@ -42,7 +42,7 @@ public class CreatureSelect : MonoBehaviour {
         }
         SetTextSelected();
         creatureMover.UpdateSelectedCreature(this.gameObject); // new creatures are automatically taken control of by the user
-        GetComponent<CreatureStats>().SetStats(stats); // moved setup to stats script
+        GetComponent<CreatureStats>().SetStats(stats, size); // moved setup to stats script
     }
 
     void OnMouseDown() {
