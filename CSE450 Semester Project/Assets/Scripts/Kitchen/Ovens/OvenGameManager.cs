@@ -8,8 +8,13 @@ using UnityEngine;
 // This script manages the oven minigame
 
 public class OvenGameManager : MonoBehaviour {
-    private float tickRate = 2.5f; // number of seconds between each cook update
+    private const float rotationStaminaCost = 2f; // per oven rotation, should be pretty low
+    public static float baseTickRate = 1.5f; // number of seconds between each cook update
 
+    // player cooking stat scaling
+
+    private float minTickRate = 1f; // for stat = 100
+    private float maxTickRate = 3f; // for stat = 0
 
     [Header("Game")]
     public OvenSliceController[] ovenSlices = new OvenSliceController[8]; // always 8 for our purposes...
@@ -19,6 +24,7 @@ public class OvenGameManager : MonoBehaviour {
 
     private PizzaObject currentPie = null;
     private float timer = 0f;
+    private float tickRate = baseTickRate;
 
 
     void Start() { gameUI.SetActive(false); }
@@ -34,7 +40,7 @@ public class OvenGameManager : MonoBehaviour {
                 timer = 0f;
 
                 if (!gameUI.activeSelf) {
-                    // TODO: something here that shows progress when main UI is hidden
+                    // TODO: something here that shows cook progress when main UI is hidden
                 }
             }
         }
@@ -51,8 +57,7 @@ public class OvenGameManager : MonoBehaviour {
                         playerPie.transform.localPosition = Vector2.zero;
 
                         var cookLevels = playerPie.GetCookLevels();
-                        for (int i = 0; i < ovenSlices.Length; i++)
-                        {
+                        for (int i = 0; i < ovenSlices.Length; i++) {
                             ovenSlices[i].SetOvenSlice(cookLevels[i]);
                         }
                         emptyTxt.gameObject.SetActive(false);
@@ -67,7 +72,7 @@ public class OvenGameManager : MonoBehaviour {
 
                     // then remove from here and give to user
                     currentPie.transform.parent = GameObject.FindWithTag("Player").transform;
-                    currentPie.transform.localPosition = new Vector2(0.6f, 0.2f);
+                    currentPie.transform.localPosition = TossGameManager.pizzaOffset;
                     currentPie = null; // let go of reference
                 }
             } else if (currentPie != null) {
@@ -83,6 +88,15 @@ public class OvenGameManager : MonoBehaviour {
     }
 
     private void SwapOvenSlots(bool left) {
+        var playerCreature = GameObject.FindWithTag("Player");
+        var stats = playerCreature.GetComponent<CreatureStats>();
+        if (!stats.TryPerformTask(rotationStaminaCost)) { // if fail to use stamina
+            gameUI.SetActive(false);
+            GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().ToggleMovement();
+            transform.parent.GetComponentInChildren<StationInteract>().ShowStaminaMessage();
+            return;
+        }
+
         var currCookLevels = ovenSlices.Select(slice => slice.GetCookLevel()).ToArray();
         for (int i = 0; i < ovenSlices.Length; i++) {
             if (left) {
@@ -99,7 +113,10 @@ public class OvenGameManager : MonoBehaviour {
 
     // basically toggles UI
     public void ShowOvenUI() {
-        GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().ToggleMovement();
+        var stats = GameObject.FindWithTag("Player").GetComponent<CreatureStats>();
+        tickRate = Mathf.Lerp(maxTickRate, minTickRate, stats.GetStats().Cooking / 100f);
+
+        GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().DisableMovement();
         if (currentPie == null) {
             emptyTxt.gameObject.SetActive(true);
             pieIndicator.SetActive(false);
@@ -110,7 +127,7 @@ public class OvenGameManager : MonoBehaviour {
         gameUI.SetActive(true);
     }
     public void CloseOvenUI() {
-        GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().ToggleMovement();
+        GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().EnableMovement();
         gameUI.SetActive(false);
     }
 }

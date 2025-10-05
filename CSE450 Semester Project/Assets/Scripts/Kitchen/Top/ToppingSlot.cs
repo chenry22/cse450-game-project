@@ -30,7 +30,7 @@ public class ToppingSlot : MonoBehaviour {
     }
     public void SetCurrentTopping(Topping t) {
         currTopping = t;
-        SetText(t.ToString());
+        SetText(ToppingMethods.ToString(t));
     }
 
     public void OnMouseEnter() {

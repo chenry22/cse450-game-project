@@ -6,9 +6,8 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class FileUploader : MonoBehaviour
-{
-    private const int maxFileNameLength = 10;
+public class FileUploader : MonoBehaviour {
+    private const int maxFileNameLength = 12;
 
     [Header("Default Creature")]
     public GameObject defaultCreaturePrefab;
@@ -36,7 +35,7 @@ public class FileUploader : MonoBehaviour
         prefabMap = new Dictionary<string, GameObject>(StringComparer.OrdinalIgnoreCase)
         {
             { ".png", imageCreaturePrefab }, { ".jpg", imageCreaturePrefab }, { ".jpeg", imageCreaturePrefab }, { ".gif", imageCreaturePrefab }, { ".webp", imageCreaturePrefab },
-            { ".wav", audioCreaturePrefab }, { ".mp3", audioCreaturePrefab },
+            { ".wav", audioCreaturePrefab }, { ".mp3", audioCreaturePrefab }, { ".m4a", audioCreaturePrefab },
             { ".mp4", videoCreaturePrefab }, { ".mov", videoCreaturePrefab },
             { ".pdf", documentCreaturePrefab }, { ".doc", documentCreaturePrefab }, { ".docx", documentCreaturePrefab }, { ".xls", documentCreaturePrefab }, { ".xlsx", documentCreaturePrefab },
             { ".ppt", documentCreaturePrefab }, { ".pptx", documentCreaturePrefab }, { ".txt", documentCreaturePrefab },
@@ -44,7 +43,7 @@ public class FileUploader : MonoBehaviour
             { ".cs", codeCreaturePrefab }, { ".js", codeCreaturePrefab }, { ".jsx", codeCreaturePrefab }, { ".ts", codeCreaturePrefab }, { ".tsx", codeCreaturePrefab },
             { ".html", codeCreaturePrefab }, { ".css", codeCreaturePrefab }, { ".json", codeCreaturePrefab }, { ".xml", codeCreaturePrefab }, { ".yml", codeCreaturePrefab },
             { ".yaml", codeCreaturePrefab }, { ".cpp", codeCreaturePrefab }, { ".h", codeCreaturePrefab }, { ".java", codeCreaturePrefab }, { ".py", codeCreaturePrefab },
-            { ".rb", codeCreaturePrefab }, { ".php", codeCreaturePrefab }
+            { ".rb", codeCreaturePrefab }, { ".php", codeCreaturePrefab },  { ".md", codeCreaturePrefab },
         };
 
         fileAnalyzerMap = new Dictionary<string, Func<string, object>>(StringComparer.OrdinalIgnoreCase) {
@@ -87,6 +86,7 @@ public class FileUploader : MonoBehaviour
             GameObject prefabToUse = isSupported ? prefabMap[extension] : defaultCreaturePrefab;
             var mon = Instantiate(prefabToUse, prefabToUse.transform.position,
                 prefabToUse.transform.rotation, GameObject.Find("Spawner").transform);
+            var dataHolder = mon.AddComponent<CreatureDataHolder>();
 
             Stats stats = null;
             if (isSupported && fileAnalyzerMap.ContainsKey(extension)) {
@@ -109,11 +109,12 @@ public class FileUploader : MonoBehaviour
                 );
             }
             mon.GetComponent<CreatureSelect>().InitCreature(name, size, stats);
-            GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().DeactivateFileUpload();
+            GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().RegisterCreature(mon);
 
             // Put each new creature into save state buffer.
-            SaveData.Instance.creatures.Add(new SavedCreature(name, size, stats,
-                extension, mon.transform.position));
+            dataHolder.savedCreature = new SavedCreature(name, size, stats,
+                extension, mon.transform.position);
+            SaveData.Instance.creatures.Add(dataHolder.savedCreature);
         }
     }
 

@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 3594565250331887760}
   - component: {fileID: 3298603126677929022}
   - component: {fileID: 8323683543058208167}
+  - component: {fileID: 8775483671373959487}
   m_Layer: 0
   m_Name: AudioCreature
   m_TagString: Creature
@@ -79,12 +80,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: ebe73ca9363db456bacf42c025bb4847, type: 3}
-  m_Color: {r: 0, g: 0.044940356, b: 0.34117648, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 2a9b9c6fede904ec5a0ea9bbaf3081af, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1.2307693, y: 1.2307693}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -134,9 +135,9 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: 0.005980611}
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.47999996
 --- !u!50 &3298603126677929022
 Rigidbody2D:
   serializedVersion: 4
@@ -179,6 +180,19 @@ MonoBehaviour:
   speed: 3
   stamina: 100
   maxStamina: 100
+--- !u!114 &8775483671373959487
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2116424259406268166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ef07842c854c4e3d91249b4173e2333, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pizzaPrefab: {fileID: 887026419624401250, guid: bc4e4f03e34e4476f87017cae7a3e82c, type: 3}
 --- !u!1 &4189851848478027271
 GameObject:
   m_ObjectHideFlags: 0
@@ -384,7 +398,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -0.3}
   m_SizeDelta: {x: 2, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &6685783084125181898

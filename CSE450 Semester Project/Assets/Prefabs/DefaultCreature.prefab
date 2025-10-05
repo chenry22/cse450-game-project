@@ -99,7 +99,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '[ img file ]'
+  m_text: '[ file ]'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -185,6 +185,7 @@ GameObject:
   - component: {fileID: 6751819464641652788}
   - component: {fileID: 4520517017326850446}
   - component: {fileID: -8790213570478998881}
+  - component: {fileID: 8622235206698973461}
   m_Layer: 0
   m_Name: DefaultCreature
   m_TagString: Creature
@@ -250,8 +251,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 75f5f34dc1b5347e0b8351032682f224, type: 3}
-  m_Color: {r: 0.5660378, g: 0.1082727, b: 0.013349946, a: 1}
+  m_Sprite: {fileID: 21300000, guid: f8529b2d3e1124581a72bbf9968ecb0c, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -308,8 +309,8 @@ PolygonCollider2D:
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.28866667}
-    oldSize: {x: 1, y: 1}
+    pivot: {x: 0.5173365, y: 0.4070133}
+    oldSize: {x: 1.2307693, y: 1.2307693}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -317,9 +318,32 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 0, y: 0.5773587}
-      - {x: -0.5, y: -0.28866667}
-      - {x: 0.5, y: -0.28866667}
+    - - {x: 0.36409187, y: -0.20372091}
+      - {x: 0.4631976, y: -0.066233315}
+      - {x: 0.29398492, y: 0.11552979}
+      - {x: 0.3406464, y: 0.16771628}
+      - {x: 0.36711866, y: 0.24729663}
+      - {x: 0.36319986, y: 0.36500114}
+      - {x: 0.29998595, y: 0.4829077}
+      - {x: 0.22586757, y: 0.5376068}
+      - {x: -0.16194077, y: 0.5356769}
+      - {x: -0.3138376, y: 0.48613256}
+      - {x: -0.3852536, y: 0.40893784}
+      - {x: -0.40666935, y: 0.34714493}
+      - {x: -0.4095589, y: 0.236205}
+      - {x: -0.36969197, y: 0.15269728}
+      - {x: -0.29864976, y: 0.084271446}
+      - {x: -0.48925158, y: -0.19821168}
+      - {x: -0.3783837, y: -0.28257033}
+      - {x: -0.40469414, y: -0.41329738}
+      - {x: -0.24761, y: -0.48842978}
+      - {x: -0.20552091, y: -0.48602638}
+      - {x: -0.16973208, y: -0.34832427}
+      - {x: -0.0062860698, y: -0.36645716}
+      - {x: 0.16645353, y: -0.3305781}
+      - {x: 0.23693286, y: -0.47997162}
+      - {x: 0.34309876, y: -0.4177715}
+      - {x: 0.40286136, y: -0.3583132}
   m_UseDelaunayMesh: 0
 --- !u!50 &4520517017326850446
 Rigidbody2D:
@@ -363,6 +387,19 @@ MonoBehaviour:
   speed: 3
   stamina: 100
   maxStamina: 100
+--- !u!114 &8622235206698973461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7391808108981735557}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ef07842c854c4e3d91249b4173e2333, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pizzaPrefab: {fileID: 887026419624401250, guid: bc4e4f03e34e4476f87017cae7a3e82c, type: 3}
 --- !u!1 &7603902487565773443
 GameObject:
   m_ObjectHideFlags: 0
@@ -397,7 +434,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -0.15}
   m_SizeDelta: {x: 2, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &2887566601163952181

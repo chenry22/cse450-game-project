@@ -5,16 +5,36 @@ using TMPro;
 using UnityEngine;
 
 // this class manages the UI overlay and the actual game mechanics of the toss minigame
-// TODO: currently it uses a temp player movement script, to be replaced with a final implementation
-
 public class TossGameManager : MonoBehaviour {
-    private const float progressPerToss = 0.06f; // out of 1.0f
-    private const int qualityLossPerMistake = 5; // out of 100
-    private const float baseDoughSpeed = 5f;
-    private const float doughSpeedIncrease = 1f;
-    private const float maxDoughSpeed = 15f; // max speed of back and forth movement
+    public static float requiredStamina = 10f;
+    public static Vector2 pizzaOffset = new Vector2(0.6f, 0.1f); // when new pizza object, where to position
+
+    // Game UI vars (not gameplay)
     private const int rotationVelocityScale = 80; // basically a slider for how extreme the spin will be on each toss
-    private const float tossSquareMinScale = 0.7f; // scale at which pie is totally circular, probably shouldn't change
+    private const float tossSquareMinScale = 0.7f; // scale at which pie is totally circular
+
+
+    // player toss stat scaling
+    private const float minDoughSpeedIncrease = 0.7f; // for stat 100
+    private const float maxDoughSpeedIncrease = 2.1f; // for stat 0
+    private float doughSpeedIncrease = 0f; // how much to speed up every toss
+
+    private const float minProgressPerToss = 0.03f; // for stat 0
+    private const float maxProgressPerToss = 0.12f; // for stat 100
+    private float progressPerToss = 0f; // out of 1.0f
+
+    private const float minBaseDoughSpeed = 4f; // for stat 100
+    private const float maxBaseDoughSpeed = 8f; // for stat 0
+    private float baseDoughSpeed = 0f; // speed at very start of each toss cycle (including after drops)
+
+    private const float minDoughSpeedCap = 10f; // for stat 100
+    private const float maxDoughSpeedCap = 20f; // for stat 0
+    private float doughSpeedCap = 0f; // when speed will stop increasing
+
+    private const int minQualityLossPerMistake = 3; // for stat 100
+    private const int maxQualityLossPerMistake = 15; // for stat 0
+    private int qualityLossPerMistake = 0; // out of 100
+
     private const string mainHelpText = "[<] [>] or [A] [D] to toss\n[Q] to cancel";
     private const string completionHelpTxt = "[E] to continue";
 
@@ -54,16 +74,38 @@ public class TossGameManager : MonoBehaviour {
         } else if (!gameActive && progress >= 1f && Input.GetKeyDown(KeyCode.E)) {
             gameObject.SetActive(false); // basically just kill UI
             GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().ToggleMovement();
+
+            // create new pie
             var newPie = Instantiate(pizza);
             newPie.GetComponent<PizzaObject>().InitializePizza(quality);
             newPie.transform.parent = GameObject.FindWithTag("Player").transform;
-            newPie.transform.localPosition = new Vector2(0.6f, 0.2f);
+            newPie.transform.localPosition = pizzaOffset;
+
+            // if player is holding ticket, automatically link order (for automation system)
+            var ticketOrder = GameObject.FindWithTag("Player").GetComponentInChildren<OrderTicket>()?.GetOrder();
+            if (ticketOrder != null) {
+                Debug.Log("Linked held ticket!");
+                newPie.GetComponent<PizzaObject>().LinkOrder(ticketOrder);
+            }
         }
     }
 
 
     // Main game managers
     public void BeginTossGame() {
+        var playerCreature = GameObject.FindWithTag("Player");
+        var stats = playerCreature.GetComponent<CreatureStats>();
+        if (stats.stamina < 10f) {
+            return;
+        }
+
+        var tossSkill = stats.GetStats().DoughHandling / 100f;
+        baseDoughSpeed = Mathf.Lerp(maxBaseDoughSpeed, minBaseDoughSpeed, tossSkill);
+        doughSpeedCap = Mathf.Lerp(maxDoughSpeedCap, minDoughSpeedCap, tossSkill);
+        doughSpeedIncrease = Mathf.Lerp(maxDoughSpeedIncrease, minDoughSpeedIncrease, tossSkill);
+        progressPerToss = Mathf.Lerp(minProgressPerToss, maxProgressPerToss, tossSkill);
+        qualityLossPerMistake = Mathf.RoundToInt(Mathf.Lerp(maxQualityLossPerMistake, minQualityLossPerMistake, tossSkill));
+
         GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().ToggleMovement();
         ResetTossGame();
         
@@ -83,11 +125,17 @@ public class TossGameManager : MonoBehaviour {
         progressFill.transform.localPosition = new Vector3(-0.5f, 0);
         progressFill.transform.localScale = new Vector3(0, 0);
     }
-    private void EndTossGame() {
+    private void EndTossGame()
+    {
         gameActive = false;
         dough.velocity = Vector2.zero;
         dough.transform.localPosition = Vector3.zero;
         helpTxt.text = completionHelpTxt;
+        
+        // use stamina to act
+        var playerCreature = GameObject.FindWithTag("Player");
+        var stats = playerCreature.GetComponent<CreatureStats>();
+        stats.TryPerformTask(requiredStamina);
     }
 
 
@@ -120,8 +168,8 @@ public class TossGameManager : MonoBehaviour {
 
             // basically just flip/bump to other side
             doughSpeed += doughSpeed < 0 ? -doughSpeedIncrease : doughSpeedIncrease;
-            if (Mathf.Abs(doughSpeed) > maxDoughSpeed) {
-                doughSpeed = doughSpeed < 0 ? -maxDoughSpeed : maxDoughSpeed;
+            if (Mathf.Abs(doughSpeed) > doughSpeedCap) {
+                doughSpeed = doughSpeed < 0 ? -doughSpeedCap : doughSpeedCap;
             }
             doughSpeed *= -1f;
             dough.velocity = new Vector2(doughSpeed, 0);

@@ -1,35 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using TMPro;
 using UnityEngine;
 
-// this class manages the UI overlay and the actual game mechanics of the top minigame
+// manages the UI overlay and game mechanics of the top minigame
 
-// TODO: if a pizza is linked to an order, this should consider that in the randomizations (maybe)
-
-public enum Topping {
-    RedSauce, OliveOil, // bases
-    Cheese, // secondary bases
-    Sausage, Pepperoni, Bacon, // meats
-    Mushrooms, GreenPeppers, WhiteOnions, // veggies
-    BlackOlives, BananaPeppers, RedOnions
-}
+// TODO: if a pizza is linked to an order, this should maybe consider that in the randomizations
+// TODO: maybe we could implement as part of topping skill # of slots seen each shuffle?
+//   so like bad toppers may only see like 5 each shuffle, but really good toppers can see 9
 
 public class TopGameManager : MonoBehaviour {
+    private const float staminaCost = 5f; // per topping
+    
     // THESE VARS AFFECT GAMEPLAY
-    private const float baseTopTime = 3f; // how long the topping screen will stay the same for a pie with no toppings
-    private const float timeChangePerTopping = 0.2f; // how  much to decrement time per topping
+    private const float timeChangePerTopping = 0.08f; // % to decrement time per placed topping
+
+    // player toppings stat scaling
+    private float minTopTime = 1f; // for 0 topping stat
+    private float maxTopTime = 3f; // for 100 topping stat
 
 
 
     [Header("Game")]
     public ToppingSlot[] toppingSlots = new ToppingSlot[9];
     public GameObject actualGame;
-
-    [Header("UI")]
-    public TMP_Text toppingTxt;
 
     private bool gameActive = false;
     private PizzaObject pizza;
@@ -58,33 +52,47 @@ public class TopGameManager : MonoBehaviour {
 
     // Main game managers
     public void BeginTopGame() {
+        var player = GameObject.FindWithTag("Player");
+        var stats = player.GetComponent<CreatureStats>();
+        if (stats.stamina < staminaCost) {
+            transform.parent.GetComponentInChildren<StationInteract>().ShowStaminaMessage();
+            return;
+        }
+
         GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().ToggleMovement();
 
         // TODO: for now we are assuming player has pie, implementation may change
-        pizza = GameObject.FindWithTag("Player").GetComponentInChildren<PizzaObject>();
+        pizza = player.GetComponentInChildren<PizzaObject>();
         ResetTopGame();
 
+        float baseTime = Mathf.Lerp(minTopTime, maxTopTime, stats.GetStats().Toppings / 100f);
+        topChangeTime = baseTime * Mathf.Pow(1f -  timeChangePerTopping, pizza.GetToppingCount());
+
         actualGame.SetActive(true);
-        pizza.GetToppings().ForEach((t) => {
-            toppingTxt.text += t.ToString() + ", ";
-        });
-        topChangeTime = baseTopTime - (pizza.GetToppingCount() * timeChangePerTopping);
         StartCoroutine(SwapTopOptions());
     }
     public void ResetTopGame() {
         timer = 0f;
-        toppingTxt.text = "Current: ";
         gameActive = false;
         actualGame.SetActive(false);
     }
 
 
     public void SelectTopping(Topping t) {
+        var playerCreature = GameObject.FindWithTag("Player");
+        var stats = playerCreature.GetComponent<CreatureStats>();
+        if (!stats.TryPerformTask(staminaCost)) { // if fail to top, send msg about stamina requirement
+            gameActive = false;
+            this.gameObject.SetActive(false);
+            GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().ToggleMovement();
+            transform.parent.GetComponentInChildren<StationInteract>().ShowStaminaMessage();
+            return;
+        }
+
         gameActive = false;
         timer = 0;
-        topChangeTime -= timeChangePerTopping;
+        topChangeTime *= 1f - timeChangePerTopping;
 
-        toppingTxt.text += t.ToString() + ", ";
         pizza.AddTopping(t);
         StartCoroutine(SwapTopOptions());
     }
@@ -107,16 +115,18 @@ public class TopGameManager : MonoBehaviour {
         var options = new HashSet<Topping>();
         if (pizza.GetToppingCount() == 0) {
             // if no toppings, always show bases as options
-            options.Add(Topping.RedSauce);
-            options.Add(Topping.OliveOil);
+            foreach (Topping t in ToppingMethods.GetBases()) {
+                options.Add(t);
+            }
         } else if (pizza.GetToppingCount() == 1) {
             // if only base, always show secondary bases
-            options.Add(Topping.Cheese);
+            foreach (Topping t in ToppingMethods.GetSecondaryBases()) {
+                options.Add(t);
+            }
         }
-
-        var allOptions = System.Enum.GetValues(typeof(Topping)).Cast<Topping>().ToArray();
+        
         while (options.Count < toppingSlots.Length) {
-            options.Add(allOptions[Random.Range(0, allOptions.Length)]);
+            options.Add(ToppingMethods.GetRandomNonbaseTopping());
         }
         var optionsArr = options.ToArray();
         System.Random random = new System.Random();

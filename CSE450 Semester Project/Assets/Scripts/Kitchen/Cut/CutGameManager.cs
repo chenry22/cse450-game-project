@@ -14,15 +14,26 @@ using UnityEngine;
 // and this wouldn't be too crazy since we're storing them as GameObjects already
 
 public class CutGameManager : MonoBehaviour {
+    public static float requiredStamina = 10f; // maybe should depend on skill also
+
+
     // VARS AFFECTING GAMEPLAY
-    private const int numCuts = 4;
-    private const int baseRotationSpeed = 110; // in degrees per second
-    private const int rotationSpeedIncrease = 32; // how much to speed up after each cut
     private const int closeEnoughDegrees = 3; // if a cut is within this many degrees, it is considered perfect (no penalty)
-    private const float qualityLenience = 2f;
+    private const float qualityLenience = 2.5f;
     // used to calculate penalty for cut error
     // formula is [ maxQuality - (degreesOff / qualityLenience) ]
     // basically # of degrees a cut has to be off to subtract 1 point from quality score
+
+    private const int numCuts = 4; // don't change this unless you change the actual game too
+
+    // player cutting stats scaling
+    private const int minRotationSpeed = 60; // how fast pie spins (degrees/second) | for stat = 100
+    private const int maxRotationSpeed = 160; // for stat = 0
+    private const int minRotationSpeedIncrease = 10; // how much to speed up after each cut (in degrees) | for stat = 100
+    private const int maxRotationSpeedIncrease = 60; // for stat = 0
+    private int rotationSpeed = 0;
+    private int rotationSpeedIncrease = 0;
+
 
 
     // Text to show
@@ -45,7 +56,6 @@ public class CutGameManager : MonoBehaviour {
     private List<GameObject> cuts = new List<GameObject>(); // keep track of rotation amount of cuts
                                                             // for a perfect cut, we sohuld have one at 0/180, 45/225, 90/270, 135/315
 
-    private int rotationSpeed = 0;
 
     void Update() {
         if (Input.GetKeyDown(KeyCode.Q)) {
@@ -112,6 +122,15 @@ public class CutGameManager : MonoBehaviour {
 
     // Main game managers
     public void BeginCutGame() {
+        var playerCreature = GameObject.FindWithTag("Player");
+        var stats = playerCreature.GetComponent<CreatureStats>();
+        if (stats.stamina < 10f) {
+            return;
+        }
+
+        rotationSpeed = Mathf.RoundToInt(Mathf.Lerp(maxRotationSpeed, minRotationSpeed, stats.GetStats().Cutting / 100f));
+        rotationSpeedIncrease = Mathf.RoundToInt(Mathf.Lerp(maxRotationSpeedIncrease, minRotationSpeedIncrease, stats.GetStats().Cutting / 100f));
+
         GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().ToggleMovement();
         ResetCutGame();
         
@@ -138,13 +157,17 @@ public class CutGameManager : MonoBehaviour {
         //   or just update the player pizza
         GameObject.FindWithTag("Player").GetComponentInChildren<PizzaObject>().CutPizza(quality);
         progressTxt.text = "Quality: " + quality + " / 100";
+        
+        // use stamina to do this.
+        var playerCreature = GameObject.FindWithTag("Player");
+        var stats = playerCreature.GetComponent<CreatureStats>();
+        stats.TryPerformTask(requiredStamina);
     }
 
 
     // allow for delay to give time to react
     private IEnumerator BeginSpinning(float delay) {
         yield return new WaitForSeconds(delay); // small delay to allow for some reaction time
-        rotationSpeed = baseRotationSpeed;
         gameActive = true;
     }
 

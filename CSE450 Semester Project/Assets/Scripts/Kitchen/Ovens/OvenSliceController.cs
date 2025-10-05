@@ -15,8 +15,8 @@ public class OvenSliceController : MonoBehaviour {
     private const float actualMaxAlpha = 255f; // dont change this...
 
     private const float cookedAlpha = 200f; // whatever we define as "Cooked" as far as visual color
-    private const int maxCookRate = 6; // how much the hottest part of the oven cooks per tick
-    private const int minCookRate = 2; // how the much coldest part of the oven cooks per tick (must be less than maxCookRate) 
+    public static int maxCookRate = 7; // how much the hottest part of the oven cooks per tick
+    public static int minCookRate = 4; // how the much coldest part of the oven cooks per tick (must be less than maxCookRate) 
 
     private int midDiff = Mathf.FloorToInt((maxCookRate - minCookRate) / 2f); // probably dont need to change this? defining cook rates of non max slots
 

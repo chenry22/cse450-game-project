@@ -8,13 +8,17 @@ using UnityEngine;
     // as a trigger, and only GameObject with the "Player" tag will trigger collisions
 
 public enum Station {
-    Toss, Top, Ovens, Cut, Table
+    Toss, Top, Ovens, Cut, Table,
+    Orders, Submit, Trash
 }
 
 
 public class StationInteract : MonoBehaviour {
-    // janky solution, basically prevents multiple simultaneous interactions
+    // kind of janky solution, basically prevents multiple simultaneous interactions
     public static GameObject interacting = null;
+    private DayManager dayManager;
+    private CreatureAssign assigner;
+
 
     public Station station = Station.Table; // default to table
     public GameObject stationGame;
@@ -25,11 +29,16 @@ public class StationInteract : MonoBehaviour {
     private SpriteRenderer sr; // for changing color to show interaction
     private bool interactable = false;
 
+    
+
     void Start() {
-        sr = this.GetComponent<SpriteRenderer>();
+        dayManager = GameObject.Find(DayManager.dayManagerObjName).GetComponent<DayManager>();
+        assigner = GameObject.Find("CreatureHandler").GetComponent<CreatureAssign>();
+        sr = this.gameObject.GetComponentInChildren<SpriteRenderer>();
         sr.color = defaultColor;
         
-        if (station != Station.Table) {
+        // table, submit, and trash don't have interactable stuff
+        if (station != Station.Table && station != Station.Submit && station != Station.Trash) {
             stationGame.SetActive(station == Station.Ovens); // ovens should be running in background always
         }
         helpText.gameObject.SetActive(false);
@@ -38,10 +47,18 @@ public class StationInteract : MonoBehaviour {
 
     // handle keyboard input to initialize games
     void Update() {
-        if (interactable) {
+        if (interactable && dayManager.DayIsActive()) {
             switch (station) {
                 case Station.Toss:
                     if (Input.GetKeyDown(KeyCode.E) && stationGame != null) {
+                        var playerCreature = GameObject.FindWithTag("Player");
+                        var stats = playerCreature.GetComponent<CreatureStats>();
+                        if (stats.stamina < TossGameManager.requiredStamina) {
+                            helpText.text = "Too tired! Rest to regain stamina.";
+                            helpText.gameObject.SetActive(true);
+                            return;
+                        }
+
                         helpText.gameObject.SetActive(false);
                         stationGame.SetActive(true);
                         stationGame.GetComponent<TossGameManager>().BeginTossGame();
@@ -62,7 +79,7 @@ public class StationInteract : MonoBehaviour {
                         if (stationGame.transform.GetChild(0).gameObject.activeSelf) {
                             helpText.gameObject.SetActive(true);
                             stationGame.GetComponent<OvenGameManager>().CloseOvenUI();
-                        } else {
+                        } else  {
                             helpText.gameObject.SetActive(false);
                             stationGame.GetComponent<OvenGameManager>().ShowOvenUI();
                         }
@@ -70,6 +87,14 @@ public class StationInteract : MonoBehaviour {
                     break;
                 case Station.Cut:
                     if (Input.GetKeyDown(KeyCode.E) && stationGame != null) {
+                        var playerCreature = GameObject.FindWithTag("Player");
+                        var stats = playerCreature.GetComponent<CreatureStats>();
+                        if (stats.stamina < CutGameManager.requiredStamina) {
+                            helpText.text = "Too tired! Rest to regain stamina.";
+                            helpText.gameObject.SetActive(true);
+                            return;
+                        }
+                        
                         helpText.gameObject.SetActive(false);
                         stationGame.SetActive(true);
                         stationGame.GetComponent<CutGameManager>().BeginCutGame();
@@ -77,16 +102,58 @@ public class StationInteract : MonoBehaviour {
                     }
                     break;
                 case Station.Table:
-                    if (Input.GetKeyDown(KeyCode.Q)) {
-                        // pizza is sibling of this gameobject
-                        var tablePie = this.transform.parent.GetComponentInChildren<PizzaObject>();
-                        if (tablePie == null) {
-                            var playerPie = GameObject.FindWithTag("Player").GetComponentInChildren<PizzaObject>().transform;
-                            playerPie.parent = this.gameObject.transform.parent;
-                            playerPie.localPosition = Vector2.zero;
+                    if (Input.GetKeyDown(KeyCode.E)) {
+                        PizzaObject pie = GameObject.FindWithTag("Player").GetComponentInChildren<PizzaObject>();
+                        if (!TryPlacePie(pie)) {
+                            if (!TryClaimPie(GameObject.FindWithTag("Player"))) {
+                                Debug.LogError("Could not place or claim pie from Station.Table interact");
+                            }
                         } else {
-                            tablePie.transform.parent = GameObject.FindWithTag("Player").transform;
-                            tablePie.transform.localPosition = new Vector2(0.6f, 0.2f);
+                            // send ping to creature assignment manager
+                            // it will ping any creature that should be watching this station for work
+                            assigner.HandlePlacedPizza(pie, this, Station.Table);
+                        }
+                    }
+                    break;
+                case Station.Orders:
+                    if (Input.GetKeyDown(KeyCode.E) && stationGame != null) {
+                        if (!stationGame.gameObject.activeSelf) {
+                            helpText.gameObject.SetActive(false);
+                            stationGame.GetComponent<OrderStationManager>().ShowOrderUI();
+                        } else {
+                            helpText.gameObject.SetActive(true);
+                            stationGame.GetComponent<OrderStationManager>().CloseOrderUI();
+                        }
+                    }
+                    break;
+                case Station.Submit:
+                    if (Input.GetKeyDown(KeyCode.E)) {
+                        GameObject player = GameObject.FindWithTag("Player");
+                        var currPie = player?.GetComponentInChildren<PizzaObject>();
+                        if (currPie == null) {
+                            Debug.LogWarning("Station submit interactor triggered with null pie.");
+                            return;
+                        }
+
+                        var ticket = player?.GetComponentInChildren<OrderTicket>();
+                        if (currPie.GetLinkedOrder() != null) {
+                            var result = dayManager.SubmitOrderWithPizza(currPie.GetLinkedOrder(), currPie);
+                            helpText.text = result.ToString();
+                        } else if (ticket?.GetOrder() != null) {
+                            var result = dayManager.SubmitOrderWithPizza(ticket.GetOrder(), currPie);
+                            helpText.text = result.ToString();
+
+                            ticket.SetOrder(null); // order is used now
+                        }
+                    }
+                    break;
+                case Station.Trash:
+                    if (Input.GetKeyDown(KeyCode.E)) {
+                        PizzaObject currPie = GameObject.FindWithTag("Player").GetComponentInChildren<PizzaObject>();
+                        if (currPie != null) {
+                            Debug.Log("Deleting pie");
+                            Destroy(currPie.gameObject);
+                            helpText.text = "Trashed.";
                         }
                     }
                     break;
@@ -95,40 +162,87 @@ public class StationInteract : MonoBehaviour {
 
         // should trigger if creature selection is swapped during an interaction
         // cancels previous interaction to reset station for player
-        if (interacting == null && helpText.gameObject.activeSelf) {
+        // HOWEVER comma should not affect Order station so that NEW ORDER noti stays
+        if (interacting == null && helpText.gameObject.activeSelf && this.station != Station.Orders) {
             sr.color = defaultColor;
             helpText.gameObject.SetActive(false);
             interactable = false;
             SetHelpText();
         }
     }
+    
+    public bool HasPie(PizzaObject pie) {
+        PizzaObject ownedPie = this.transform.parent.GetComponentInChildren<PizzaObject>();
+        return ownedPie.Equals(pie);
+    }
+    
+    public bool TryPlacePie(PizzaObject pie) {
+        var tablePie = this.transform.parent.GetComponentInChildren<PizzaObject>();
+        if (tablePie == null) {
+            pie.transform.parent = this.gameObject.transform.parent;
+            pie.transform.localPosition = Vector2.zero;
+            return true;
+        }
+        return false;
+    }
+    public bool TryClaimPie(GameObject creature) {
+        var tablePie = this.transform.parent.GetComponentInChildren<PizzaObject>();
+        if (tablePie != null) {
+            tablePie.transform.parent = creature.transform;
+            tablePie.transform.localPosition = TossGameManager.pizzaOffset;
+            return true;
+        }
+        return false;
+    }
 
+    public void ShowStaminaMessage() {
+        helpText.text = "You're too tired! Idle to regain stamina.";
+        interactable = true;
+        sr.color = triggeredColor;
+        helpText.gameObject.SetActive(true);
+    }
     private void SetHelpText() {
         switch (station) {
             case Station.Toss:
-                helpText.text = "Press [E] to begin tossing";
+                helpText.text = "[E] to begin tossing";
                 break;
             case Station.Top:
-                helpText.text = "Press [E] to begin topping";
+                helpText.text = "[E] to begin topping";
                 break;
             case Station.Ovens:
-                helpText.text = "Press [E] to view oven";
+                helpText.text = "[E] to view oven";
                 break;
             case Station.Cut:
-                helpText.text = "Press [E] to begin cutting";
+                helpText.text = "[E] to begin cutting";
                 break;
             case Station.Table:
-                helpText.text = "Press [Q] to place/pickup pie";
+                helpText.text = "[E] to place/pickup pie";
+                break;
+            case Station.Orders:
+                helpText.text = "[E] to view active orders";
+                break;
+            case Station.Submit:
+                helpText.text = "[E] to submit order";
+                break;
+            case Station.Trash:
+                helpText.text = "[E] to trash pie";
                 break;
         }
     }
     public void StartInteraction() {
         interactable = true;
         sr.color = triggeredColor;
+        SetHelpText();
         helpText.gameObject.SetActive(true);
     }
     public void StopInteraction(){
         sr.color = defaultColor;
+        
+        // idk why this is broken, this maybe fixes it?
+        if (station == Station.Ovens) {
+            stationGame.GetComponent<OvenGameManager>().CloseOvenUI();
+        }
+
         helpText.gameObject.SetActive(false);
         interactable = false;
         SetHelpText();
@@ -173,7 +287,7 @@ public class StationInteract : MonoBehaviour {
                     }
                     break;
                 case Station.Table:
-                    // if there is not already a pizza here
+                    // either the slot must be empty OR player must not have an active pizza
                     var tablePie = this.transform.parent.GetComponentInChildren<PizzaObject>();
                     if (currPie == null && tablePie == null) {
                         helpText.text = "You don't have a pizza to place";
@@ -181,6 +295,34 @@ public class StationInteract : MonoBehaviour {
                         helpText.text = "This spot is occupied";
                     } else {
                         // can pick up or set down
+                        StartInteraction();
+                    }
+                    break;
+                case Station.Orders:
+                    // this is a view you should always be allowed to access
+                    StartInteraction();
+                    break;
+                case Station.Submit:
+                    if (currPie == null) {
+                        helpText.text = "You must be holding a pizza to do this";
+                    } else {
+                        var currOrder = currPie.GetLinkedOrder();
+                        if (currOrder == null) {
+                            var ticket = c.gameObject.GetComponentInChildren<OrderTicket>()?.GetOrder();
+                            if (ticket == null) {
+                                helpText.text = "This pizza is not linked to a current order";
+                            }  else {
+                                StartInteraction();
+                            }
+                        } else {
+                            StartInteraction();
+                        }
+                    }
+                    break;
+                case Station.Trash:
+                    if (currPie == null) {
+                        helpText.text = "You must be holding a pizza to do this.";
+                    } else {
                         StartInteraction();
                     }
                     break;
