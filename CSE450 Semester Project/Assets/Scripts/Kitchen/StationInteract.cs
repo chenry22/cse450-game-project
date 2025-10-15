@@ -9,7 +9,7 @@ using UnityEngine;
 
 public enum Station {
     Toss, Top, Ovens, Cut, Table,
-    Orders, Submit, Trash
+    Orders, Submit, Trash, Creatures
 }
 
 
@@ -157,6 +157,18 @@ public class StationInteract : MonoBehaviour {
                         }
                     }
                     break;
+                case Station.Creatures:
+                    if (Input.GetKeyDown(KeyCode.E)) {
+                        if (stationGame.activeSelf) {
+                            // load creatures and show ui
+                            helpText.gameObject.SetActive(false);
+                        } else {
+                            stationGame.SetActive(false);
+                            SetHelpText();
+                            helpText.gameObject.SetActive(true);
+                        }
+                    }
+                    break;
             }
         }
 
@@ -202,7 +214,8 @@ public class StationInteract : MonoBehaviour {
         helpText.gameObject.SetActive(true);
     }
     private void SetHelpText() {
-        switch (station) {
+        switch (station)
+        {
             case Station.Toss:
                 helpText.text = "[E] to begin tossing";
                 break;
@@ -226,6 +239,9 @@ public class StationInteract : MonoBehaviour {
                 break;
             case Station.Trash:
                 helpText.text = "[E] to trash pie";
+                break;
+            case Station.Creatures:
+                helpText.text = "[E] to manage creatures";
                 break;
         }
     }

@@ -41,8 +41,10 @@ public class CreatureSelect : MonoBehaviour {
             sizeLabel.text = (Mathf.Round(size / (1024 * 100)) / 10f) + "mb";
         }
         SetTextSelected();
-        creatureMover.UpdateSelectedCreature(this.gameObject); // new creatures are automatically taken control of by the user
         GetComponent<CreatureStats>().SetStats(stats, size); // moved setup to stats script
+    }
+    public void SelectCreature() {
+        creatureMover.UpdateSelectedCreature(this.gameObject); // new creatures are automatically taken control of by the user
     }
 
     void OnMouseDown() {

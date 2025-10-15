@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     private const KeyCode creatureUIKey = KeyCode.Tab;
     private const KeyCode orderUIKey = KeyCode.RightShift;
 
+    private const int maxActiveCreatures = 6;
     private const int startingBalance = 50;
     private const float creatureCostIncreaseRate = 50f; // how much more expensive each consecutive upload is
 
@@ -72,7 +73,7 @@ public class GameManager : MonoBehaviour
     }
 
     public void RegisterCreature(GameObject creature) {
-        if (currentBalance >= GetCurrentUploadCost() && creature.GetComponent<CreatureStats>() != null) {
+        if (creature.GetComponent<CreatureStats>() != null) {
             // handle cost
             currentBalance -= GetCurrentUploadCost();
 
@@ -80,8 +81,15 @@ public class GameManager : MonoBehaviour
             GameObject creatureCopy = Instantiate(creature);
             creatureCopy.SetActive(false);
             registeredCreatures.Add(creatureCopy);
+
+            // if more than 6 active creatures, push this one to storage
+            if (GameObject.FindGameObjectsWithTag("Creature").Length > maxActiveCreatures) {
+                Destroy(creature);
+            }
             
             if (day == 0) {
+                // auto take control of just first upload!
+                creature.GetComponent<CreatureSelect>().SelectCreature();
                 dayBeginButton.gameObject.SetActive(true);
                 creatureUIInstructions.SetActive(false);
                 creatureUI.HideCreatureInfo();
@@ -90,6 +98,11 @@ public class GameManager : MonoBehaviour
             UpdateMoneyLabel();
         }
     }
+    public List<GameObject> GetRegisteredCreatures() {
+        return registeredCreatures;
+    }
+    
+
     public float GetCurrentUploadCost() {
         return creatureCostIncreaseRate * registeredCreatures.Count;
     }
