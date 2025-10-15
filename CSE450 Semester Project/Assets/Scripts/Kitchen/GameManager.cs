@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     private const KeyCode orderUIKey = KeyCode.RightShift;
 
     private const int maxActiveCreatures = 6;
-    private const int startingBalance = 50;
+    private const int startingBalance = 5000;
     private const float creatureCostIncreaseRate = 50f; // how much more expensive each consecutive upload is
 
     public static string kitchenGameManager = "GameManager"; // name for other scripts to reference
@@ -76,7 +76,7 @@ public class GameManager : MonoBehaviour
             registeredCreatures.Add(creatureCopy);
 
             // if more than 6 active creatures, push this one to storage
-            if (GameObject.FindGameObjectsWithTag("Creature").Length > maxActiveCreatures) {
+            if (GameObject.FindGameObjectsWithTag("Creature").Length >= maxActiveCreatures) {
                 Destroy(creature);
             }
             
