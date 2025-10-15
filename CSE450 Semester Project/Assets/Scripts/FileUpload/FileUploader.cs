@@ -84,8 +84,8 @@ public class FileUploader : MonoBehaviour {
 
             bool isSupported = prefabMap.ContainsKey(extension);
             GameObject prefabToUse = isSupported ? prefabMap[extension] : defaultCreaturePrefab;
-            var mon = Instantiate(prefabToUse, prefabToUse.transform.position,
-                prefabToUse.transform.rotation, GameObject.Find("Spawner").transform);
+            var mon = Instantiate(prefabToUse, GameObject.Find("Spawner").transform);
+            mon.transform.localPosition = new Vector3(UnityEngine.Random.Range(-0.5f, .5f), UnityEngine.Random.Range(-0.5f, .5f), 0);
             var dataHolder = mon.AddComponent<CreatureDataHolder>();
 
             Stats stats = null;

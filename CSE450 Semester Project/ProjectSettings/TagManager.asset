@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Dough
   - Creature
+  - Pizza
   layers:
   - Default
   - TransparentFX

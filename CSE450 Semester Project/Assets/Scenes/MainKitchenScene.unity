@@ -311,11 +311,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 115
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 140
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -347,11 +347,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 682.5
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -70
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -488,7 +488,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1154525962}
+      - m_Target: {fileID: 1638514913}
         m_TargetAssemblyTypeName: CreatureManagerUIController, Assembly-CSharp
         m_MethodName: SelectActiveCreature
         m_Mode: 3
@@ -536,7 +536,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.46994466, g: 0.4510502, b: 0.5283019, a: 0}
+  m_BackGroundColor: {r: 0.8113208, g: 0.71564615, b: 0.7450845, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -755,11 +755,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 114
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -791,11 +791,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 308
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -150
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -933,7 +933,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1154525962}
+      - m_Target: {fileID: 1638514913}
         m_TargetAssemblyTypeName: CreatureManagerUIController, Assembly-CSharp
         m_MethodName: SelectStoredCreature
         m_Mode: 3
@@ -1039,11 +1039,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 114
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1075,11 +1075,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 184
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -150
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1217,7 +1217,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1154525962}
+      - m_Target: {fileID: 1638514913}
         m_TargetAssemblyTypeName: CreatureManagerUIController, Assembly-CSharp
         m_MethodName: SelectStoredCreature
         m_Mode: 3
@@ -1251,6 +1251,7 @@ GameObject:
   - component: {fileID: 204423180}
   - component: {fileID: 204423182}
   - component: {fileID: 204423181}
+  - component: {fileID: 204423183}
   m_Layer: 5
   m_Name: creatures
   m_TagString: Untagged
@@ -1321,6 +1322,30 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 204423179}
   m_CullTransparentMesh: 1
+--- !u!114 &204423183
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 204423179}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a8695521f0d02e499659fee002a26c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 4
+  m_StartCorner: 0
+  m_StartAxis: 0
+  m_CellSize: {x: 200, y: 130}
+  m_Spacing: {x: 10, y: 10}
+  m_Constraint: 2
+  m_ConstraintCount: 2
 --- !u!1 &219015620
 GameObject:
   m_ObjectHideFlags: 0
@@ -1581,8 +1606,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5235540b7a23043949b9522eb0818924, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fileUploadButton: {fileID: 843378103}
-  creatureUIInstructions: {fileID: 1038457161}
+  fileUploadButton: {fileID: 1869615918}
   dayBeginButton: {fileID: 755757003}
   moneyTxt: {fileID: 392784912}
 --- !u!114 &242946829
@@ -1633,6 +1657,7 @@ GameObject:
   m_Component:
   - component: {fileID: 269035952}
   - component: {fileID: 269035953}
+  - component: {fileID: 269035954}
   m_Layer: 0
   m_Name: CreatureStation
   m_TagString: Untagged
@@ -1710,6 +1735,51 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!61 &269035954
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 269035951}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
 --- !u!114 &273961401 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7891318101422818662, guid: f9102691adb3b41dfa9b03351abd5ec1, type: 3}
@@ -2194,11 +2264,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 115
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 140
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2230,11 +2300,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 432.5
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -70
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -2371,7 +2441,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1154525962}
+      - m_Target: {fileID: 1638514913}
         m_TargetAssemblyTypeName: CreatureManagerUIController, Assembly-CSharp
         m_MethodName: SelectActiveCreature
         m_Mode: 3
@@ -2812,19 +2882,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_AnchorMin.x
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_SizeDelta.x
@@ -2864,11 +2934,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 330
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 75
+      value: -219.88358
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -3001,11 +3071,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 114
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3037,11 +3107,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -150
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -3179,7 +3249,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1154525962}
+      - m_Target: {fileID: 1638514913}
         m_TargetAssemblyTypeName: CreatureManagerUIController, Assembly-CSharp
         m_MethodName: SelectStoredCreature
         m_Mode: 3
@@ -3392,19 +3462,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
-      propertyPath: m_AnchorMin.x
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
-      propertyPath: m_AnchorMin.y
+      propertyPath: m_AnchorMin.x
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_SizeDelta.x
@@ -3444,11 +3514,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -125
+      value: 540
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 75
+      value: -219.88358
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -4126,11 +4196,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 115
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 140
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4162,11 +4232,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 57.5
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -70
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -4219,15 +4289,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8929009597923287470, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_Color.b
-      value: 0.7122642
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8929009597923287470, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_Color.g
-      value: 0.7658214
+      value: 0.7137255
       objectReference: {fileID: 0}
     - target: {fileID: 8929009597923287470, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_Color.r
-      value: 1
+      value: 0.7926962
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
@@ -4266,7 +4336,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 685100334}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
@@ -4303,7 +4373,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1154525962}
+      - m_Target: {fileID: 1638514913}
         m_TargetAssemblyTypeName: CreatureManagerUIController, Assembly-CSharp
         m_MethodName: SelectActiveCreature
         m_Mode: 3
@@ -5067,7 +5137,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &843378102
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5733,7 +5803,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 130, y: -24}
+  m_AnchoredPosition: {x: 120, y: -24}
   m_SizeDelta: {x: 220, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1038457163
@@ -5785,8 +5855,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 12
-  m_fontSizeBase: 12
+  m_fontSize: 11
+  m_fontSizeBase: 11
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -6063,11 +6133,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 114
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -6099,11 +6169,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 556
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -150
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -6241,7 +6311,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1154525962}
+      - m_Target: {fileID: 1638514913}
         m_TargetAssemblyTypeName: CreatureManagerUIController, Assembly-CSharp
         m_MethodName: SelectStoredCreature
         m_Mode: 3
@@ -6477,11 +6547,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 114
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -6513,11 +6583,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 556
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -50
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -6655,7 +6725,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1154525962}
+      - m_Target: {fileID: 1638514913}
         m_TargetAssemblyTypeName: CreatureManagerUIController, Assembly-CSharp
         m_MethodName: SelectStoredCreature
         m_Mode: 3
@@ -6676,14 +6746,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1154525961}
-  - component: {fileID: 1154525962}
   m_Layer: 5
-  m_Name: CreatureManagerUI
+  m_Name: ActualUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1154525961
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6691,7 +6760,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1154525960}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -6704,47 +6773,13 @@ RectTransform:
   - {fileID: 557455231}
   - {fileID: 1794067377}
   - {fileID: 1443053419}
-  m_Father: {fileID: 1330416025}
+  m_Father: {fileID: 1638514912}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -40, y: -40}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1154525962
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1154525960}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dfb62be526b394820b1c33cf0d3867f6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ui: {fileID: 0}
-  exitButton: {fileID: 0}
-  activeSlots:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  storedSlots:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
 --- !u!1 &1176145745
 GameObject:
   m_ObjectHideFlags: 0
@@ -7435,11 +7470,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 115
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 140
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -7471,11 +7506,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 557.5
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -70
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -7612,7 +7647,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1154525962}
+      - m_Target: {fileID: 1638514913}
         m_TargetAssemblyTypeName: CreatureManagerUIController, Assembly-CSharp
         m_MethodName: SelectActiveCreature
         m_Mode: 3
@@ -7670,9 +7705,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29eaca397f01248d689a5f7c709a1f2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  station: 7
-  stationGame: {fileID: 0}
-  helpText: {fileID: 5492508999514351750}
+  station: 8
+  stationGame: {fileID: 1638514911}
+  helpText: {fileID: 1392632333}
   defaultColor: {r: 255, g: 255, b: 255, a: 0.1}
   triggeredColor: {r: 255, g: 0, b: 0, a: 0.2}
 --- !u!61 &1287953289
@@ -7738,7 +7773,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_AnchorMax.y
@@ -7746,7 +7781,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_AnchorMin.x
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_AnchorMin.y
@@ -7790,11 +7825,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 330
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -75
+      value: -79.883575
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -7997,7 +8032,7 @@ RectTransform:
   - {fileID: 755757002}
   - {fileID: 2038681804}
   - {fileID: 1213687657}
-  - {fileID: 1154525961}
+  - {fileID: 1638514912}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -8146,7 +8181,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '[E] to upload creatures'
+  m_text: '[E] to manage creatures'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -8431,11 +8466,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 114
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -8467,11 +8502,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -50
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -8609,7 +8644,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1154525962}
+      - m_Target: {fileID: 1638514913}
         m_TargetAssemblyTypeName: CreatureManagerUIController, Assembly-CSharp
         m_MethodName: SelectStoredCreature
         m_Mode: 3
@@ -8816,7 +8851,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1154525962}
+      - m_Target: {fileID: 1638514913}
         m_TargetAssemblyTypeName: CreatureManagerUIController, Assembly-CSharp
         m_MethodName: HideCreatureUI
         m_Mode: 1
@@ -9358,6 +9393,77 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1638514911
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1638514912}
+  - component: {fileID: 1638514913}
+  m_Layer: 5
+  m_Name: CreatureManagerUI
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1638514912
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1638514911}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1154525961}
+  m_Father: {fileID: 1330416025}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1638514913
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1638514911}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfb62be526b394820b1c33cf0d3867f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ui: {fileID: 1154525960}
+  exitButton: {fileID: 1443053418}
+  activeSlots:
+  - {fileID: 685100334}
+  - {fileID: 1927870049}
+  - {fileID: 1707381250}
+  - {fileID: 337062862}
+  - {fileID: 1283441614}
+  - {fileID: 69366582}
+  storedSlots:
+  - {fileID: 1415950524}
+  - {fileID: 1867097976}
+  - {fileID: 1832651939}
+  - {fileID: 1836324019}
+  - {fileID: 1145634149}
+  - {fileID: 1883134243}
+  - {fileID: 442717557}
+  - {fileID: 166988849}
+  - {fileID: 138903727}
+  - {fileID: 2054297784}
+  - {fileID: 1046850624}
+  - {fileID: 2098173879}
 --- !u!114 &1639033640 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7891318101422818662, guid: f9102691adb3b41dfa9b03351abd5ec1, type: 3}
@@ -9463,11 +9569,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 115
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 140
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -9499,11 +9605,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 307.5
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -70
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -9640,7 +9746,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1154525962}
+      - m_Target: {fileID: 1638514913}
         m_TargetAssemblyTypeName: CreatureManagerUIController, Assembly-CSharp
         m_MethodName: SelectActiveCreature
         m_Mode: 3
@@ -9947,7 +10053,7 @@ Transform:
   m_GameObject: {fileID: 1788266350}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -13, y: 4, z: 0}
+  m_LocalPosition: {x: -13, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -10236,11 +10342,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 114
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -10272,11 +10378,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 308
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -50
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -10414,7 +10520,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1154525962}
+      - m_Target: {fileID: 1638514913}
         m_TargetAssemblyTypeName: CreatureManagerUIController, Assembly-CSharp
         m_MethodName: SelectStoredCreature
         m_Mode: 3
@@ -10520,11 +10626,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 114
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -10556,11 +10662,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 432
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -50
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -10698,7 +10804,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1154525962}
+      - m_Target: {fileID: 1638514913}
         m_TargetAssemblyTypeName: CreatureManagerUIController, Assembly-CSharp
         m_MethodName: SelectStoredCreature
         m_Mode: 3
@@ -10876,11 +10982,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 114
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -10912,11 +11018,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 184
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -50
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -11054,7 +11160,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1154525962}
+      - m_Target: {fileID: 1638514913}
         m_TargetAssemblyTypeName: CreatureManagerUIController, Assembly-CSharp
         m_MethodName: SelectStoredCreature
         m_Mode: 3
@@ -11293,11 +11399,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 114
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -11329,11 +11435,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 680
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -50
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -11471,7 +11577,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1154525962}
+      - m_Target: {fileID: 1638514913}
         m_TargetAssemblyTypeName: CreatureManagerUIController, Assembly-CSharp
         m_MethodName: SelectStoredCreature
         m_Mode: 3
@@ -11577,11 +11683,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 115
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 140
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -11613,11 +11719,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 182.5
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -70
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -11754,7 +11860,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1154525962}
+      - m_Target: {fileID: 1638514913}
         m_TargetAssemblyTypeName: CreatureManagerUIController, Assembly-CSharp
         m_MethodName: SelectActiveCreature
         m_Mode: 3
@@ -11784,19 +11890,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
-      propertyPath: m_AnchorMin.x
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_SizeDelta.x
@@ -11836,11 +11942,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -120
+      value: 540
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 75
+      value: -79.883575
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -12196,8 +12302,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 2.3
-  m_fontSizeBase: 2.3
+  m_fontSize: 3
+  m_fontSizeBase: 3
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -12416,7 +12522,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -80, y: -80}
+  m_SizeDelta: {x: -100, y: -80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2038681806
 MonoBehaviour:
@@ -12550,11 +12656,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 114
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -12586,11 +12692,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 432
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -150
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -12728,7 +12834,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1154525962}
+      - m_Target: {fileID: 1638514913}
         m_TargetAssemblyTypeName: CreatureManagerUIController, Assembly-CSharp
         m_MethodName: SelectStoredCreature
         m_Mode: 3
@@ -12955,11 +13061,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 114
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -12991,11 +13097,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 680
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -150
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -13133,7 +13239,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1154525962}
+      - m_Target: {fileID: 1638514913}
         m_TargetAssemblyTypeName: CreatureManagerUIController, Assembly-CSharp
         m_MethodName: SelectStoredCreature
         m_Mode: 3
@@ -13251,7 +13357,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_AnchorMin.x
@@ -13259,7 +13365,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_SizeDelta.x
@@ -13303,7 +13409,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 75
+      value: -219.88358
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -13623,7 +13729,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -75
+      value: -79.883575
       objectReference: {fileID: 0}
     - target: {fileID: 5290034871905209428, guid: cea549969d18d47e0a9fe2872411927e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -13790,17 +13896,6 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: d871502f1a3df406286b75b849d9eaad, type: 3}
---- !u!114 &5492508999514351750 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4531866393111282213, guid: d871502f1a3df406286b75b849d9eaad, type: 3}
-  m_PrefabInstance: {fileID: 5492508999514351749}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9541d86e2fd84c1d9990edf0852d74ab, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

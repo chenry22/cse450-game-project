@@ -37,17 +37,31 @@ public class StationInteract : MonoBehaviour {
         sr = this.gameObject.GetComponentInChildren<SpriteRenderer>();
         sr.color = defaultColor;
         
-        // table, submit, and trash don't have interactable stuff
-        if (station != Station.Table && station != Station.Submit && station != Station.Trash) {
-            stationGame.SetActive(station == Station.Ovens); // ovens should be running in background always
+        switch (station) {
+            case Station.Table:
+            case Station.Submit:
+            case Station.Trash:
+                // table, submit, and trash don't have interactable stuff
+                break;
+            case Station.Ovens:
+            case Station.Creatures:
+                // creatures and ovens are container parent objects
+                // so they should ALWAYS be active
+                stationGame.SetActive(true);
+                break;
+            default:
+                // all others are mini-games, should not be active
+                stationGame.SetActive(false);
+                break;
         }
+        
         helpText.gameObject.SetActive(false);
         SetHelpText();
     }
 
     // handle keyboard input to initialize games
     void Update() {
-        if (interactable && dayManager.DayIsActive()) {
+        if (interactable) {
             switch (station) {
                 case Station.Toss:
                     if (Input.GetKeyDown(KeyCode.E) && stationGame != null) {
@@ -151,7 +165,6 @@ public class StationInteract : MonoBehaviour {
                     if (Input.GetKeyDown(KeyCode.E)) {
                         PizzaObject currPie = GameObject.FindWithTag("Player").GetComponentInChildren<PizzaObject>();
                         if (currPie != null) {
-                            Debug.Log("Deleting pie");
                             Destroy(currPie.gameObject);
                             helpText.text = "Trashed.";
                         }
@@ -159,13 +172,13 @@ public class StationInteract : MonoBehaviour {
                     break;
                 case Station.Creatures:
                     if (Input.GetKeyDown(KeyCode.E)) {
-                        if (stationGame.activeSelf) {
-                            // load creatures and show ui
-                            helpText.gameObject.SetActive(false);
-                        } else {
-                            stationGame.SetActive(false);
+                        if (stationGame.transform.GetChild(0).gameObject.activeSelf) {
                             SetHelpText();
                             helpText.gameObject.SetActive(true);
+                            stationGame.GetComponent<CreatureManagerUIController>().HideCreatureUI();
+                        } else {
+                            helpText.gameObject.SetActive(false);
+                            stationGame.GetComponent<CreatureManagerUIController>().ShowCreatureUI();            
                         }
                     }
                     break;
@@ -255,6 +268,7 @@ public class StationInteract : MonoBehaviour {
         sr.color = defaultColor;
         
         // idk why this is broken, this maybe fixes it?
+        // UPDATE: I think it was a collider that was assigned, we should (?) be able to remove this
         if (station == Station.Ovens) {
             stationGame.GetComponent<OvenGameManager>().CloseOvenUI();
         }
@@ -326,7 +340,7 @@ public class StationInteract : MonoBehaviour {
                         if (currOrder == null) {
                             var ticket = c.gameObject.GetComponentInChildren<OrderTicket>()?.GetOrder();
                             if (ticket == null) {
-                                helpText.text = "This pizza is not linked to a current order";
+                                helpText.text = "This pizza is not linked to an order";
                             }  else {
                                 StartInteraction();
                             }
@@ -341,6 +355,9 @@ public class StationInteract : MonoBehaviour {
                     } else {
                         StartInteraction();
                     }
+                    break;
+                case Station.Creatures:
+                    StartInteraction();
                     break;
             }
             helpText.gameObject.SetActive(true);
