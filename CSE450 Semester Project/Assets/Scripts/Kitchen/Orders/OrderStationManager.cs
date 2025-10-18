@@ -34,7 +34,7 @@ public class OrderStationManager : MonoBehaviour {
     private void SetOrderSlots() {
         for (int i = 0; i < orderSlots.Length; i++) {
             int orderIndex = Mathf.Max(0, orderEndIndex - orderSlots.Length + 1) + i;
-            if (activeOrders != null && orderIndex < activeOrders.Count) {
+            if (orderIndex < activeOrders.Count) {
                 orderSlots[i].SetOrder(activeOrders[orderIndex]);
                 orderSlots[i].gameObject.SetActive(true);
             } else {
@@ -69,11 +69,7 @@ public class OrderStationManager : MonoBehaviour {
         // lock movement
         GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().ToggleMovement();
         activeOrders = GameObject.Find(DayManager.dayManagerObjName).GetComponent<DayManager>().GetActiveOrders();
-        if (activeOrders == null) {
-            orderEndIndex = 0;
-        } else {
-            orderEndIndex = Mathf.Min(activeOrders.Count - 1, orderSlots.Length - 1);
-        }
+        orderEndIndex = Mathf.Min(activeOrders.Count - 1, orderSlots.Length - 1);
         // trigger immediate load of orders
         timer = updateRate;
         // then actually show UI

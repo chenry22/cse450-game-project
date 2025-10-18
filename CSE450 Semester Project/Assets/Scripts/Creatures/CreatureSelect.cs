@@ -20,29 +20,13 @@ public class CreatureSelect : MonoBehaviour {
     // label colors for different states
     private Color normalColor = Color.black;
     private Color selectedColor = new Color(0, 49/255f, 118/255f);
-    private Color highlightedColor = new Color(230 / 255f, 32 / 255f, 65 / 255f);
+    private Color highlightedColor = new Color(230/255f, 32/255f, 65/255f);
 
-    private string fileName;
-    private long size;
-    private Stats stats;
-
-    public string GetName() {
-        if (nameLabel == null) {
-            return "---";
-        }
-        return nameLabel.text; 
-    }
+    public string GetName() { return nameLabel.text; }
     public Sprite GetSprite() { return spr; }
     public Color GetSpriteColor() { return spriteColor;  }
 
-    public void CopyCreature(CreatureSelect cs) {
-        InitCreature(cs.fileName, cs.size, cs.stats);
-    }
     public void InitCreature(string name, long size, Stats stats) {
-        this.fileName = name;
-        this.size = size;
-        this.stats = stats;
-        
         spr = GetComponent<SpriteRenderer>().sprite;
         spriteColor = GetComponent<SpriteRenderer>().color;
         nameLabel = transform.GetChild(0).GetComponent<TMP_Text>();
@@ -56,12 +40,9 @@ public class CreatureSelect : MonoBehaviour {
         } else {
             sizeLabel.text = (Mathf.Round(size / (1024 * 100)) / 10f) + "mb";
         }
-        SetTextNormal();
-        GetComponent<CreatureStats>().SetStats(stats, size); // moved setup to stats script
-    }
-    public void SelectCreature() {
         SetTextSelected();
         creatureMover.UpdateSelectedCreature(this.gameObject); // new creatures are automatically taken control of by the user
+        GetComponent<CreatureStats>().SetStats(stats, size); // moved setup to stats script
     }
 
     void OnMouseDown() {
