@@ -9,7 +9,8 @@ public class GameManager : MonoBehaviour
     private const KeyCode creatureUIKey = KeyCode.Tab;
     private const KeyCode orderUIKey = KeyCode.RightShift;
 
-    private const int startingBalance = 50;
+    private const int maxActiveCreatures = 6;
+    private const int startingBalance = 5000;
     private const float creatureCostIncreaseRate = 50f; // how much more expensive each consecutive upload is
 
     public static string kitchenGameManager = "GameManager"; // name for other scripts to reference
@@ -23,7 +24,6 @@ public class GameManager : MonoBehaviour
     private OrderUIController orderUI;
 
     public Button fileUploadButton;
-    public GameObject creatureUIInstructions;
     public Button dayBeginButton;
     public TMP_Text moneyTxt;
     public TMP_Text dayTxt;
@@ -38,21 +38,13 @@ public class GameManager : MonoBehaviour
         ActivateBeginDayButton();
         UpdateFileUploadButton();
         UpdateMoneyLabel();
-
-        // on new game, start by showing creature screen with upload button
-        if (day == 0) {
-            creatureUI.ShowCreatureInfo();
-        } else {
-            creatureUI.HideCreatureInfo();
-            creatureUIInstructions.SetActive(false);
-        }
     }
 
     void Update() {
         if (Input.GetKeyDown(creatureUIKey) && !Input.GetKey(orderUIKey)) {
             creatureUI.ShowCreatureInfo();
         }
-        if (Input.GetKeyDown(orderUIKey) && !Input.GetKey(creatureUIKey) && !creatureUIInstructions.activeSelf) {
+        if (Input.GetKeyDown(orderUIKey) && !Input.GetKey(creatureUIKey)) {
             orderUI.Show();
         }
         
@@ -74,24 +66,38 @@ public class GameManager : MonoBehaviour
     }
 
     public void RegisterCreature(GameObject creature) {
-        if (currentBalance >= GetCurrentUploadCost() && creature.GetComponent<CreatureStats>() != null) {
+        if (creature.GetComponent<CreatureStats>() != null) {
+            var cs = creature.GetComponent<CreatureSelect>();
             // handle cost
             currentBalance -= GetCurrentUploadCost();
 
             // is valid creature
             GameObject creatureCopy = Instantiate(creature);
             creatureCopy.SetActive(false);
+            creatureCopy.GetComponent<CreatureSelect>().CopyCreature(cs);
             registeredCreatures.Add(creatureCopy);
-            
-            if (day == 0) {
-                dayBeginButton.gameObject.SetActive(true);
-                creatureUIInstructions.SetActive(false);
-                creatureUI.HideCreatureInfo();
+
+            // if more than 6 active creatures, push this one to storage
+            if (GameObject.FindGameObjectsWithTag("Creature").Length >= maxActiveCreatures) {
+                Destroy(creature);
             }
+            
+            if (registeredCreatures.Count == 1) {
+                // auto take control of just first upload
+                cs.SelectCreature();
+                dayBeginButton.gameObject.SetActive(true);
+            }
+
+            GameObject.Find(CreatureManagerUIController.sceneName).GetComponent<CreatureManagerUIController>().LoadUI();
             UpdateFileUploadButton();
             UpdateMoneyLabel();
         }
     }
+    public List<GameObject> GetRegisteredCreatures() {
+        return registeredCreatures;
+    }
+    
+
     public float GetCurrentUploadCost() {
         return creatureCostIncreaseRate * registeredCreatures.Count;
     }
@@ -153,11 +159,11 @@ public class GameManager : MonoBehaviour
     }
 
     public void ActivateFileUpload() {
-        fileUploadButton.gameObject.SetActive(true);
+        fileUploadButton.interactable = true;
     }
 
     public void DeactivateFileUpload() {
-        fileUploadButton.gameObject.SetActive(false);
+        fileUploadButton.interactable = false;
     }
 
     public void ToggleMovement() {

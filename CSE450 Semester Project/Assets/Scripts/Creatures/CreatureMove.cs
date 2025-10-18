@@ -34,8 +34,7 @@ public class CreatureMove : MonoBehaviour {
             selectedCreature.GetComponent<Rigidbody2D>().velocity = new Vector2(h, v);
         }
 
-        if (mainCam.transform.localPosition != baseCamPosition)
-        {
+        if (selectedCreature != null && mainCam.transform.localPosition != baseCamPosition) {
             // smooth transition to new creature assignment 
             mainCam.transform.localPosition = Vector3.SmoothDamp(mainCam.transform.localPosition, baseCamPosition, ref camVelocity, camMoveTime);
         }
