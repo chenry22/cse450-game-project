@@ -54,12 +54,6 @@ public class DayManager : MonoBehaviour {
         this.orderInterval = baseOrderInterval * Mathf.Pow(orderIntervalDecreasePerDay, day);
         this.orderTimeAllowed = baseOrderTimeAllowed - (day * orderTimeAllowedDecreasePerDay);
 
-        // destroy all active pies (don't let player set up to "cheat" day system)
-        // but we should still allow practice/intermediate work if desired
-        foreach (GameObject pie in GameObject.FindGameObjectsWithTag("Pizza")) {
-            Destroy(pie);
-        }
-
         activeOrders = new List<Order>();
         completedOrders = new List<Order>();
         profit = 0;
