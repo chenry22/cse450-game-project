@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour
 
     public Button fileUploadButton;
     public Button dayBeginButton;
+    public GameObject managerWall; // blocks kitchen from manager 
     public TMP_Text moneyTxt;
 
 
@@ -33,9 +34,10 @@ public class GameManager : MonoBehaviour
         creatureUI = this.GetComponent<CreatureInfoUIController>();
         orderUI = this.GetComponent<OrderUIController>();
 
-        ActivateBeginDayButton();
+        DeactivateBeginDayButton();
         UpdateFileUploadButton();
         UpdateMoneyLabel();
+        managerWall.SetActive(false);
     }
 
     void Update() {
@@ -59,8 +61,12 @@ public class GameManager : MonoBehaviour
             + "\nTotal Profit: $" + System.Math.Round(totalProfit, 2);
     }
     public void ActivateBeginDayButton() { 
+        if (dayManager.DayIsActive()) { return; }
         dayBeginButton.GetComponentInChildren<TMP_Text>().text = "Begin Day " + (day + 1);
         dayBeginButton.gameObject.SetActive(true);
+    }
+    public void DeactivateBeginDayButton() {
+        dayBeginButton.gameObject.SetActive(false);
     }
 
     public void RegisterCreature(GameObject creature) {
@@ -83,7 +89,6 @@ public class GameManager : MonoBehaviour
             if (registeredCreatures.Count == 1) {
                 // auto take control of just first upload
                 cs.SelectCreature();
-                dayBeginButton.gameObject.SetActive(true);
             }
 
             GameObject.Find(CreatureManagerUIController.sceneName).GetComponent<CreatureManagerUIController>().LoadUI();
@@ -111,9 +116,9 @@ public class GameManager : MonoBehaviour
     }
 
     public void BeginDay() {
-        dayBeginButton.gameObject.SetActive(false);
+        DeactivateBeginDayButton();
+        managerWall.SetActive(true);
         dayManager.StartDay(day, currentBalance);
-        DeactivateFileUpload();
     }
 
     // called by DayManager
@@ -124,9 +129,9 @@ public class GameManager : MonoBehaviour
         currentBalance += profit;
 
         ActivateBeginDayButton();
+        managerWall.SetActive(false);
         // don't allow new upload if can't afford
         fileUploadButton.interactable = GetCurrentUploadCost() <= currentBalance;
-        ActivateFileUpload();
         UpdateMoneyLabel();
     }
 
@@ -145,14 +150,6 @@ public class GameManager : MonoBehaviour
         ActivateBeginDayButton();
         UpdateFileUploadButton();
         UpdateMoneyLabel();
-    }
-
-    public void ActivateFileUpload() {
-        fileUploadButton.interactable = true;
-    }
-
-    public void DeactivateFileUpload() {
-        fileUploadButton.interactable = false;
     }
 
     public void ToggleMovement() {
