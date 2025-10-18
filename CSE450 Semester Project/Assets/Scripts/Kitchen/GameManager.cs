@@ -26,8 +26,6 @@ public class GameManager : MonoBehaviour
     public GameObject creatureUIInstructions;
     public Button dayBeginButton;
     public TMP_Text moneyTxt;
-    public TMP_Text dayTxt;
-    public TMP_Text ordersCompletedTxt;
 
 
     void Start() {
@@ -110,8 +108,6 @@ public class GameManager : MonoBehaviour
         dayBeginButton.gameObject.SetActive(false);
         dayManager.StartDay(day, currentBalance);
         DeactivateFileUpload();
-        dayTxt.text = "Day " + (day + 1);
-        UpdateOrdersCompleted(0, dayManager.GetNumOrders());
     }
 
     // called by DayManager
@@ -126,14 +122,11 @@ public class GameManager : MonoBehaviour
         fileUploadButton.interactable = GetCurrentUploadCost() <= currentBalance;
         ActivateFileUpload();
         UpdateMoneyLabel();
-        dayTxt.text = "Day " + (day + 1);
     }
 
-    public void GameOver()
-    {
+    public void GameOver() {
         // remove all creatures
-        foreach (var creature in GameObject.FindGameObjectsWithTag("Creature"))
-        {
+        foreach (var creature in GameObject.FindGameObjectsWithTag("Creature")) {
             registeredCreatures.Remove(creature);
             Destroy(creature);
         }
@@ -146,10 +139,6 @@ public class GameManager : MonoBehaviour
         ActivateBeginDayButton();
         UpdateFileUploadButton();
         UpdateMoneyLabel();
-    }
-    
-    public void UpdateOrdersCompleted(int completed, int total) {
-        ordersCompletedTxt.text = completed + "/" + total + " orders completed";
     }
 
     public void ActivateFileUpload() {
