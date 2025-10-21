@@ -45,8 +45,18 @@ public class CreatureMove : MonoBehaviour {
         } else if (selectedCreature == null) {
             selectedCreature = selected;
             selected.gameObject.tag = playerTag;
-            mainCam.transform.parent = selected.transform;
-            GameObject.Find("CreatureHandler").GetComponent<CreatureAssign>().UnassignCreature(selected.GetComponent<CreatureSelect>());
+            if (mainCam != null) {
+                mainCam.transform.parent = selected.transform;
+            } else {
+                GameObject.FindWithTag("MainCamera").transform.SetParent(selected.transform);
+            }
+
+            var creatureAssign = GameObject.Find("CreatureHandler");
+            if (creatureAssign == null) {
+                Debug.LogWarning("Creature Handler is null. (this is ok if not in kitchen scene)");
+            } else {
+                creatureAssign.GetComponent<CreatureAssign>().UnassignCreature(selected.GetComponent<CreatureSelect>());
+            }
             return true;
         } else {
             // SWAP CREATURE SELECTION
