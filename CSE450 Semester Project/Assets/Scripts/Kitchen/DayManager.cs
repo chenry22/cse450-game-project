@@ -54,6 +54,12 @@ public class DayManager : MonoBehaviour {
         this.orderInterval = baseOrderInterval * Mathf.Pow(orderIntervalDecreasePerDay, day);
         this.orderTimeAllowed = baseOrderTimeAllowed - (day * orderTimeAllowedDecreasePerDay);
 
+        // destroy all active pies (don't let player set up to "cheat" day system)
+        // but we should still allow practice/intermediate work if desired
+        foreach (GameObject pie in GameObject.FindGameObjectsWithTag("Pizza")) {
+            Destroy(pie);
+        }
+
         activeOrders = new List<Order>();
         completedOrders = new List<Order>();
         profit = 0;
@@ -104,8 +110,9 @@ public class DayManager : MonoBehaviour {
         //     + "\nCut: " + targetCutQuality + "\nTime: " + orderTimeAllowed);
         return newOrder;
     }
-    
-    public OrderResult SubmitOrderWithPizza(Order o, PizzaObject p) {
+
+    public OrderResult SubmitOrderWithPizza(Order o, PizzaObject p)
+    {
         OrderResult or = o.SubmitPizza(p);
         Destroy(p.gameObject); // this pizza gets "used" if successfully submitted
 
@@ -113,15 +120,19 @@ public class DayManager : MonoBehaviour {
         Debug.Log("Pizza: $" + or.GetPizzaCost() + "\nTip: $" + or.GetTip() + "\nTotal: $" + or.GetProfit());
         completedOrders.Add(o);
         activeOrders.Remove(o);
+        GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().UpdateOrdersCompleted(completedOrders.Count, numOrders);
         profit += or.GetProfit();
         moneyText.text = "Daily Profit: $" + System.Math.Round(profit, 2)
                 + "\nBalance: $" + System.Math.Round(balance, 2);
 
-        if (activeOrders.Count == 0 && completedOrders.Count >= numOrders) {
+        if (activeOrders.Count == 0 && completedOrders.Count >= numOrders)
+        {
             EndDay();
         }
         return or;
     }
+    
+    public int GetNumOrders() { return numOrders; }
 
     // we want generated numbers to tend away from extremes
     private int RandomBellCurve(int min, int max) {
