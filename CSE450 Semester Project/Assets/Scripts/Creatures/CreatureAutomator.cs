@@ -62,7 +62,7 @@ public class CreatureAutomator : MonoBehaviour {
 
 
     void Start() {
-        assigner = GameObject.Find("CreatureHandler").GetComponent<CreatureAssign>();
+        assigner = GameObject.Find("CreatureHandler")?.GetComponent<CreatureAssign>();
         rb = this.gameObject.GetComponent<Rigidbody2D>();
         creature = this.gameObject.GetComponent<CreatureStats>();
 

@@ -109,7 +109,7 @@ public class FileUploader : MonoBehaviour {
                 );
             }
             mon.GetComponent<CreatureSelect>().InitCreature(name, size, stats);
-            GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().RegisterCreature(mon);
+            GameManager.instance.RegisterCreature(mon);
 
             // Put each new creature into save state buffer.
             dataHolder.savedCreature = new SavedCreature(name, size, stats,

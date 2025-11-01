@@ -32,6 +32,11 @@ static class ToppingMethods {
         return ts[Random.Range(0, ts.Count)];
     }
     
+    public static Topping GetRandomTopping() {
+        var ts = System.Enum.GetValues(typeof(Topping)).Cast<Topping>().ToList();
+        return ts[Random.Range(0, ts.Count)];
+    }
+    
     // basically just adding spaces...
     public static string ToString(Topping t) {
         switch (t) {

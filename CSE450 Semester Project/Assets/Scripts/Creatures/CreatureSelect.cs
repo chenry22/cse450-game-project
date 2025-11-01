@@ -44,7 +44,6 @@ public class CreatureSelect : MonoBehaviour {
         this.stats = stats;
 
         spr = GetComponent<SpriteRenderer>().sprite;
-        spriteColor = GetComponent<SpriteRenderer>().color;
         nameLabel = transform.GetChild(0).GetComponent<TMP_Text>();
         sizeLabel = transform.GetChild(1).GetComponent<TMP_Text>();
         creatureMover = GameObject.Find("CreatureHandler").GetComponent<CreatureMove>();
@@ -58,6 +57,7 @@ public class CreatureSelect : MonoBehaviour {
         }
         SetTextNormal();
         GetComponent<CreatureStats>().SetStats(stats, size); // moved setup to stats script
+        spriteColor = GetComponent<SpriteRenderer>().color; // have to set color after since we update in SetStats
     }
     
     public void SelectCreature() {

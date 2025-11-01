@@ -92,7 +92,7 @@ public class OvenGameManager : MonoBehaviour {
         var stats = playerCreature.GetComponent<CreatureStats>();
         if (!stats.TryPerformTask(rotationStaminaCost)) { // if fail to use stamina
             gameUI.SetActive(false);
-            GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().ToggleMovement();
+            GameManager.instance.ToggleMovement();
             transform.parent.GetComponentInChildren<StationInteract>().ShowStaminaMessage();
             return;
         }
@@ -116,7 +116,7 @@ public class OvenGameManager : MonoBehaviour {
         var stats = GameObject.FindWithTag("Player").GetComponent<CreatureStats>();
         tickRate = Mathf.Lerp(maxTickRate, minTickRate, stats.GetStats().Cooking / 100f);
 
-        GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().DisableMovement();
+        GameManager.instance.DisableMovement();
         if (currentPie == null) {
             emptyTxt.gameObject.SetActive(true);
             pieIndicator.SetActive(false);
@@ -127,7 +127,7 @@ public class OvenGameManager : MonoBehaviour {
         gameUI.SetActive(true);
     }
     public void CloseOvenUI() {
-        GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().EnableMovement();
+        GameManager.instance.EnableMovement();
         gameUI.SetActive(false);
     }
 }

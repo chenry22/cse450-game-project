@@ -4,7 +4,7 @@ using UnityEngine;
 public class CreatureStats : MonoBehaviour {
 
     // save reference to base stats generated
-    private Stats baseStats;
+    private Stats baseStats = new Stats();
     private long fileSize;
 
     public float speed = 3f; // default speed

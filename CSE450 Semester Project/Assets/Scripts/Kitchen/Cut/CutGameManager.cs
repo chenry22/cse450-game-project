@@ -65,11 +65,11 @@ public class CutGameManager : MonoBehaviour {
             this.gameObject.SetActive(false);
             ResetCutGame();
             // and enable user movement again
-            GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().ToggleMovement();
+            GameManager.instance.ToggleMovement();
             transform.parent.GetComponentInChildren<StationInteract>().StartInteraction();
         } else if (!gameActive && cuts.Count == numCuts && Input.GetKeyDown(KeyCode.E)) {
             gameObject.SetActive(false); // basically just kill UI
-            GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().ToggleMovement();
+            GameManager.instance.ToggleMovement();
             Debug.Log("GAME END TRIGGERED");
 
             // set cut of current pizza (find from parent)
@@ -131,7 +131,7 @@ public class CutGameManager : MonoBehaviour {
         rotationSpeed = Mathf.RoundToInt(Mathf.Lerp(maxRotationSpeed, minRotationSpeed, stats.GetStats().Cutting / 100f));
         rotationSpeedIncrease = Mathf.RoundToInt(Mathf.Lerp(maxRotationSpeedIncrease, minRotationSpeedIncrease, stats.GetStats().Cutting / 100f));
 
-        GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().ToggleMovement();
+        GameManager.instance.ToggleMovement();
         ResetCutGame();
         
         actualGame.SetActive(true);

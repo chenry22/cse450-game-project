@@ -38,7 +38,7 @@ public class TopGameManager : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.E)) {
             gameActive = false;
             this.gameObject.SetActive(false);
-            GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().ToggleMovement();
+            GameManager.instance.ToggleMovement();
             transform.parent.GetComponentInChildren<StationInteract>().StartInteraction(); // allow re-interact
         }
         if (gameActive && timer > topChangeTime) {
@@ -59,7 +59,7 @@ public class TopGameManager : MonoBehaviour {
             return;
         }
 
-        GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().ToggleMovement();
+        GameManager.instance.ToggleMovement();
 
         // TODO: for now we are assuming player has pie, implementation may change
         pizza = player.GetComponentInChildren<PizzaObject>();
@@ -84,7 +84,7 @@ public class TopGameManager : MonoBehaviour {
         if (!stats.TryPerformTask(staminaCost)) { // if fail to top, send msg about stamina requirement
             gameActive = false;
             this.gameObject.SetActive(false);
-            GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().ToggleMovement();
+            GameManager.instance.ToggleMovement();
             transform.parent.GetComponentInChildren<StationInteract>().ShowStaminaMessage();
             return;
         }

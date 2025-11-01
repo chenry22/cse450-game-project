@@ -23,7 +23,11 @@ public class CreatureManagerUIController : MonoBehaviour {
 
 
     void Start() {
-        ShowCreatureUI();
+        if (GameManager.instance.GetRegisteredCreatures().Count > 0) {
+            exitButton.SetActive(true);
+        } else {
+            ShowCreatureUI();
+        }
     }
 
     // should be called instead of basic view activation
@@ -66,7 +70,7 @@ public class CreatureManagerUIController : MonoBehaviour {
 
         offset = 0;
         // load one page of stored creatures
-        List<GameObject> registeredCreatures = GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().GetRegisteredCreatures();
+        List<GameObject> registeredCreatures = GameManager.instance.GetRegisteredCreatures();
         for (int i = 0; i < storedSlots.Length; i++) {
             if (registeredCreatures.Count <= i + offset) { break; }
             var c = registeredCreatures[i + offset];
@@ -115,8 +119,7 @@ public class CreatureManagerUIController : MonoBehaviour {
         if (activeCS != null) {
             SetStoredCreatureSlot(storedSlots[storedIdx].transform, activeCS.GetSprite(), activeCS.GetSpriteColor(), activeCS.GetName());
             var toDestroy = activeCS.gameObject;
-            activeCS = GameObject.Find(GameManager.kitchenGameManager)
-                .GetComponent<GameManager>().GetRegisteredCreatures().Find((g) => {
+            activeCS = GameManager.instance.GetRegisteredCreatures().Find((g) => {
                     var cs = g.GetComponent<CreatureSelect>();
                     if (cs == null) { return false; }
                     return cs.GetName().Equals(activeCS.GetName());

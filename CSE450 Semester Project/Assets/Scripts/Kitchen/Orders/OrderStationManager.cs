@@ -67,7 +67,7 @@ public class OrderStationManager : MonoBehaviour {
 
     public void ShowOrderUI() {
         // lock movement
-        GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().ToggleMovement();
+        GameManager.instance.ToggleMovement();
         activeOrders = GameObject.Find(DayManager.dayManagerObjName).GetComponent<DayManager>().GetActiveOrders();
         if (activeOrders == null) {
             orderEndIndex = 0;
@@ -80,7 +80,7 @@ public class OrderStationManager : MonoBehaviour {
         this.gameObject.SetActive(true);
     }
     public void CloseOrderUI() {
-        GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().ToggleMovement();
+        GameManager.instance.ToggleMovement();
         this.gameObject.SetActive(false);
     }
 
