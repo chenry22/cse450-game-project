@@ -4,10 +4,11 @@ using System.Runtime.InteropServices;
 
 public class StartMenu : MonoBehaviour
 {
-#if UNITY_WEBGL
-    [DllImport("__Internal")]
-    private static extern void QuitGameWebGl();
-#endif
+    // TODO: add this plugin
+// #if UNITY_WEBGL
+//     [DllImport("__Internal")]
+//     private static extern void QuitGameWebGl();
+// #endif
     public void StartGame()
     {
         SceneManager.LoadScene("MainKitchenScene");
@@ -18,7 +19,8 @@ public class StartMenu : MonoBehaviour
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #elif UNITY_WEBGL
-        QuitGameWebGl();
+        Debug.Log("The application quits.");
+        // QuitGameWebGl();
 #else
         Application.Quit();
 #endif
