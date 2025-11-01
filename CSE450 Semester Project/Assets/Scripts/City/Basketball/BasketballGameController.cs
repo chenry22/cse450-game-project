@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 // Mainly used to handle main player and their interactions in the game
 
@@ -137,5 +138,9 @@ public class BasketballGameController : MonoBehaviour {
             stats.TryPerformTask(shootStaminaCost);
             ball = null;
         }
+    }
+    
+    public void BackToCity() {
+        SceneManager.LoadScene("City");
     }
 }

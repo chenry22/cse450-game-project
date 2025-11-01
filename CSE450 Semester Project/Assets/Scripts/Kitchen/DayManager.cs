@@ -76,10 +76,10 @@ public class DayManager : MonoBehaviour {
             profit = 0;
             balance = 0;
 
-            GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().GameOver();
+            GameManager.instance.GameOver();
         } else {
             // continue to next day
-            GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().EndDay(profit);
+            GameManager.instance.EndDay(profit);
         }
     }
 

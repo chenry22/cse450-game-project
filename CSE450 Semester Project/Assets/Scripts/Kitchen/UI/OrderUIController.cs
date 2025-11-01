@@ -16,10 +16,18 @@ public class OrderUIController : MonoBehaviour {
     private OrderTicket currTicket;
     private float timer = 0f;
     
+    public void LinkComponents()
+    {
+        orderUI = GameObject.Find("GameUI").transform.GetChild(3).gameObject;
+        orderToPizzaLink = orderUI.transform.GetChild(0).GetChild(0).GetChild(3).gameObject;
+        currOrderTxt = orderUI.transform.GetChild(0).GetChild(0).GetChild(1).GetComponent<TMP_Text>();
+        currPizzaTxt = orderUI.transform.GetChild(0).GetChild(0).GetChild(2).GetComponent<TMP_Text>();
+    }
+
     void Start() { Hide(); }
 
     void Update() {
-        if (orderUI.activeSelf) {
+        if (orderUI != null && orderUI.activeSelf) {
             if (timer >= updateRate) {
                 Order currOrder = currPie?.GetLinkedOrder();
                 if (currOrder != null) {

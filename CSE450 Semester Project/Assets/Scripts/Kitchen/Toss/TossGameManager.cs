@@ -68,12 +68,12 @@ public class TossGameManager : MonoBehaviour {
             ResetTossGame();
 
             // and enable user movement again
-            GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().ToggleMovement();
+            GameManager.instance.ToggleMovement();
             // allow re-interaction right after
             transform.parent.GetComponentInChildren<StationInteract>().StartInteraction();
         } else if (!gameActive && progress >= 1f && Input.GetKeyDown(KeyCode.E)) {
             gameObject.SetActive(false); // basically just kill UI
-            GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().ToggleMovement();
+            GameManager.instance.ToggleMovement();
 
             // create new pie
             var newPie = Instantiate(pizza);
@@ -106,7 +106,7 @@ public class TossGameManager : MonoBehaviour {
         progressPerToss = Mathf.Lerp(minProgressPerToss, maxProgressPerToss, tossSkill);
         qualityLossPerMistake = Mathf.RoundToInt(Mathf.Lerp(maxQualityLossPerMistake, minQualityLossPerMistake, tossSkill));
 
-        GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().ToggleMovement();
+        GameManager.instance.ToggleMovement();
         ResetTossGame();
         
         actualGame.SetActive(true);

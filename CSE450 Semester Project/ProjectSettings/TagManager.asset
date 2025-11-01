@@ -8,6 +8,8 @@ TagManager:
   - Creature
   - Pizza
   - BasketballCourt
+  - FileUpload
+  - BeginDay
   layers:
   - Default
   - TransparentFX

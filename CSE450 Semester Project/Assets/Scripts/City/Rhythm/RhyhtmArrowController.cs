@@ -10,6 +10,7 @@ public class RhyhtmArrowController : MonoBehaviour
     private IEnumerator DestroySelf() {
         yield return new WaitForSeconds(liveTime);
         if (active) {
+            active = false;
             RhythmGameController.instance.RhyhtmFail();
             Destroy(this.gameObject);
         }
@@ -22,6 +23,7 @@ public class RhyhtmArrowController : MonoBehaviour
     }
     void OnTriggerExit2D(Collider2D collision) {
         if (!active) { return; }
+        active = false;
         RhythmGameController.instance.RhyhtmFail();
         Destroy(this.gameObject);
     }

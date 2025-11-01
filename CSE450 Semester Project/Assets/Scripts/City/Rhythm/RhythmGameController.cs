@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class RhythmGameController : MonoBehaviour
 {
@@ -71,4 +72,8 @@ public class RhythmGameController : MonoBehaviour
         score -= failPenalty;
         scoreText.text = "Score: " + score;
     }   
+    
+    public void BackToCity() {
+        SceneManager.LoadScene("City");
+    }
 }

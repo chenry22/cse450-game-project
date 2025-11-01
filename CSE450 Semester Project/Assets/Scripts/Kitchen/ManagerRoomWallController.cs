@@ -6,7 +6,7 @@ public class ManagerRoomWallController : MonoBehaviour {
     private GameManager gameManager;
 
     void Start() {
-        gameManager = GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>();
+        gameManager = GameManager.instance;
     }
 
     void OnTriggerExit2D(Collider2D collision) {
@@ -16,6 +16,12 @@ public class ManagerRoomWallController : MonoBehaviour {
             } else {
                 gameManager.ActivateBeginDayButton();
             }
+        }
+    }
+
+    void OnTriggerEnter2D(Collider2D collision) {
+        if (collision.tag == "Player") {
+            gameManager.DeactivateBeginDayButton();
         }
     }
 }

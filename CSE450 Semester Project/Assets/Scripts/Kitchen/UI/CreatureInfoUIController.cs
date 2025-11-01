@@ -1,5 +1,6 @@
 using FileAnalysis;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,6 +9,14 @@ public class CreatureInfoUIController : MonoBehaviour {
     public GameObject creatureUI;
     public GameObject[] creatureSlots = new GameObject[6];
     public CreatureAssign creatureAssigner;
+
+    public void LinkComponents() {
+        creatureUI = GameObject.Find("GameUI").transform.GetChild(2).gameObject;
+        for (int i = 0; i < creatureSlots.Length; i++) {
+            creatureSlots[i] = creatureUI.transform.GetChild(1).GetChild(i).gameObject;
+        }
+        creatureAssigner = GameObject.Find("CreatureHandler").GetComponent<CreatureAssign>();
+    }
 
     void Start() {
         creatureAssigner = GameObject.Find("CreatureHandler").GetComponent<CreatureAssign>();
