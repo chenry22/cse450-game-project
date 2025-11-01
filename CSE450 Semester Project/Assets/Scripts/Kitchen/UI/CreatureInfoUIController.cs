@@ -11,7 +11,7 @@ public class CreatureInfoUIController : MonoBehaviour {
     public CreatureAssign creatureAssigner;
 
     public void LinkComponents() {
-        creatureUI = GameObject.Find("GameUI").transform.GetChild(2).gameObject;
+        creatureUI = GameObject.Find("GameUI").transform.GetChild(4).gameObject;
         for (int i = 0; i < creatureSlots.Length; i++) {
             creatureSlots[i] = creatureUI.transform.GetChild(1).GetChild(i).gameObject;
         }

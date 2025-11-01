@@ -120,7 +120,7 @@ public class DayManager : MonoBehaviour {
         Debug.Log("Pizza: $" + or.GetPizzaCost() + "\nTip: $" + or.GetTip() + "\nTotal: $" + or.GetProfit());
         completedOrders.Add(o);
         activeOrders.Remove(o);
-        GameObject.Find(GameManager.kitchenGameManager).GetComponent<GameManager>().UpdateOrdersCompleted(completedOrders.Count, numOrders);
+        GameManager.instance.UpdateOrdersCompleted(completedOrders.Count, numOrders);
         profit += or.GetProfit();
         moneyText.text = "Daily Profit: $" + System.Math.Round(profit, 2)
                 + "\nBalance: $" + System.Math.Round(balance, 2);

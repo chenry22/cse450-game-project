@@ -39,9 +39,10 @@ public class CreatureMove : MonoBehaviour {
                 // smooth transition to new creature assignment 
                 mainCam.transform.localPosition = Vector3.SmoothDamp(mainCam.transform.localPosition, baseCamPosition, ref camVelocity, camMoveTime);
             }
-            
+
             var statsComp = selectedCreature.GetComponent<CreatureStats>();
             // display low stamina UI when stamina is low
+            if (lowStaminaUI == null) { return; } // if not in kitchen scene, ignore
             if (statsComp.stamina <= 10f) {
                 lowStaminaUI.SetActive(true);
 
