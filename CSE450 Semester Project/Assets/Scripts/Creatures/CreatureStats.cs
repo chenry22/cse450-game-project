@@ -28,7 +28,8 @@ public class CreatureStats : MonoBehaviour {
         UpdateVisuals();
     }
 
-    public void SetStats(Stats s, long size) {
+    public void SetStats(Stats s, long size)
+    {
         baseStats = s;
         fileSize = size;
 

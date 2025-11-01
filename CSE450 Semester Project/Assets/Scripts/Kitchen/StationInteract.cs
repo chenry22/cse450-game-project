@@ -227,8 +227,7 @@ public class StationInteract : MonoBehaviour {
         helpText.gameObject.SetActive(true);
     }
     private void SetHelpText() {
-        switch (station)
-        {
+        switch (station) {
             case Station.Toss:
                 helpText.text = "[E] to begin tossing";
                 break;
@@ -267,8 +266,8 @@ public class StationInteract : MonoBehaviour {
     public void StopInteraction(){
         sr.color = defaultColor;
         
-        // idk why this is broken, this maybe fixes it?
         // UPDATE: I think it was a collider that was assigned, we should (?) be able to remove this
+        // idk why this is broken, this maybe fixes it?
         if (station == Station.Ovens) {
             stationGame.GetComponent<OvenGameManager>().CloseOvenUI();
         }

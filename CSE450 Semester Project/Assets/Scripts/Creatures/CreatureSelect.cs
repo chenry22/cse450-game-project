@@ -42,7 +42,7 @@ public class CreatureSelect : MonoBehaviour {
         this.fileName = name;
         this.size = size;
         this.stats = stats;
-        
+
         spr = GetComponent<SpriteRenderer>().sprite;
         nameLabel = transform.GetChild(0).GetComponent<TMP_Text>();
         sizeLabel = transform.GetChild(1).GetComponent<TMP_Text>();
@@ -59,6 +59,7 @@ public class CreatureSelect : MonoBehaviour {
         GetComponent<CreatureStats>().SetStats(stats, size); // moved setup to stats script
         spriteColor = GetComponent<SpriteRenderer>().color; // have to set color after since we update in SetStats
     }
+    
     public void SelectCreature() {
         SetTextSelected();
         creatureMover.UpdateSelectedCreature(this.gameObject); // new creatures are automatically taken control of by the user

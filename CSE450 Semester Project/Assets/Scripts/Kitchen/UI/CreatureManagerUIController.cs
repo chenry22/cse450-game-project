@@ -21,6 +21,7 @@ public class CreatureManagerUIController : MonoBehaviour {
     private int activeCreatureIdx = -1;
     private int storedCreatureIdx = -1;
 
+
     void Start() {
         if (GameManager.instance.GetRegisteredCreatures().Count > 0) {
             exitButton.SetActive(true);
@@ -59,7 +60,6 @@ public class CreatureManagerUIController : MonoBehaviour {
         for (int i = 1; i < activeSlots.Length; i++) {
             if (creatures.Length <= i - 1 + offset) { break; }
             var c = creatures[i - 1 + offset];
-            
             var stats = c.GetComponent<CreatureStats>().GetStats();
             var cs = c.GetComponent<CreatureSelect>();
 
@@ -86,6 +86,7 @@ public class CreatureManagerUIController : MonoBehaviour {
             storedCreatures[i] = cs;
             SetStoredCreatureSlot(storedSlots[i].transform, cs.GetSprite(), cs.GetSpriteColor(), cs.GetName());
         }
+
         ui.SetActive(true);
     }
     
@@ -127,7 +128,7 @@ public class CreatureManagerUIController : MonoBehaviour {
         } else {
             SetStoredCreatureSlot(storedSlots[storedIdx].transform, null, Color.clear, "---");
         }
-
+        
         activeCreatures[activeIdx] = storedCS;
         storedCreatures[storedIdx] = activeCS;
         activeCreatureIdx = -1;

@@ -19,6 +19,7 @@ public class CreatureMove : MonoBehaviour {
     private Vector3 baseCamPosition = new Vector3(0, 0, -10);
     private Vector3 camVelocity = Vector3.zero;
     private float camMoveTime = 0.2f;
+    public GameObject lowStaminaUI;
 
     private void Start() {
         mainCam = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
@@ -26,16 +27,30 @@ public class CreatureMove : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        if (selectedCreature != null && movementEnabled) {
-            float creatureSpeed = selectedCreature.GetComponent<CreatureStats>().speed;
-            float h = creatureSpeed * Input.GetAxis("Horizontal");
-            float v = creatureSpeed * Input.GetAxis("Vertical");
-            selectedCreature.GetComponent<Rigidbody2D>().velocity = new Vector2(h, v);
-        }
+        if(selectedCreature != null) {
+            if (movementEnabled) {
+                float creatureSpeed = selectedCreature.GetComponent<CreatureStats>().speed;
+                float h = creatureSpeed * Input.GetAxis("Horizontal");
+                float v = creatureSpeed * Input.GetAxis("Vertical");
+                selectedCreature.GetComponent<Rigidbody2D>().velocity = new Vector2(h, v);
+            }
+            
+            if (mainCam.transform.localPosition != baseCamPosition) {
+                // smooth transition to new creature assignment 
+                mainCam.transform.localPosition = Vector3.SmoothDamp(mainCam.transform.localPosition, baseCamPosition, ref camVelocity, camMoveTime);
+            }
+            
+            var statsComp = selectedCreature.GetComponent<CreatureStats>();
+            // display low stamina UI when stamina is low
+            if (statsComp.stamina <= 10f) {
+                lowStaminaUI.SetActive(true);
 
-        if (selectedCreature != null && mainCam.transform.localPosition != baseCamPosition) {
-            // smooth transition to new creature assignment 
-            mainCam.transform.localPosition = Vector3.SmoothDamp(mainCam.transform.localPosition, baseCamPosition, ref camVelocity, camMoveTime);
+                Vector3 worldPos = selectedCreature.transform.position + new Vector3(0, 1.5f, 0); // adjust Y offset as needed
+                Vector3 screenPos = Camera.main.WorldToScreenPoint(worldPos);
+                lowStaminaUI.transform.position = screenPos;
+            } else {
+                lowStaminaUI.SetActive(false);
+            }
         }
     }
 

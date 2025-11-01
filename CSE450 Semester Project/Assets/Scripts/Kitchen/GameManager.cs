@@ -5,13 +5,12 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class GameManager : MonoBehaviour
-{
+public class GameManager : MonoBehaviour {
     private const KeyCode creatureUIKey = KeyCode.Tab;
     private const KeyCode orderUIKey = KeyCode.RightShift;
 
     private const int maxActiveCreatures = 6;
-    private const int startingBalance = 5000;
+    private const int startingBalance = 50;
     private const float creatureCostIncreaseRate = 50f; // how much more expensive each consecutive upload is
 
 
@@ -29,6 +28,8 @@ public class GameManager : MonoBehaviour
     public Button dayBeginButton;
     public GameObject managerWall; // blocks kitchen from manager 
     public TMP_Text moneyTxt;
+    public TMP_Text dayTxt;
+    public TMP_Text ordersCompletedTxt;
 
 
     void Awake() {
@@ -124,17 +125,17 @@ public class GameManager : MonoBehaviour
             if (GameObject.FindGameObjectsWithTag("Creature").Length >= maxActiveCreatures) {
                 Destroy(creature);
             }
-            
+
             if (registeredCreatures.Count == 1) {
                 // auto take control of just first upload
                 cs.SelectCreature();
             }
-
             GameObject.Find(CreatureManagerUIController.sceneName).GetComponent<CreatureManagerUIController>().LoadUI();
             UpdateFileUploadButton();
             UpdateMoneyLabel();
         }
     }
+    
     public List<GameObject> GetRegisteredCreatures() {
         return registeredCreatures;
     }
@@ -142,7 +143,6 @@ public class GameManager : MonoBehaviour
     public float GetBalance() { return currentBalance; }
     public float GetProfit() { return totalProfit; }
     
-
     public float GetCurrentUploadCost() {
         return creatureCostIncreaseRate * registeredCreatures.Count;
     }
@@ -175,11 +175,14 @@ public class GameManager : MonoBehaviour
         // don't allow new upload if can't afford
         fileUploadButton.interactable = GetCurrentUploadCost() <= currentBalance;
         UpdateMoneyLabel();
+        dayTxt.text = "Day " + (day + 1);
     }
 
-    public void GameOver() {
+    public void GameOver()
+    {
         // remove all creatures
-        foreach (var creature in GameObject.FindGameObjectsWithTag("Creature")) {
+        foreach (var creature in GameObject.FindGameObjectsWithTag("Creature"))
+        {
             registeredCreatures.Remove(creature);
             Destroy(creature);
         }
@@ -192,6 +195,10 @@ public class GameManager : MonoBehaviour
         ActivateBeginDayButton();
         UpdateFileUploadButton();
         UpdateMoneyLabel();
+    }
+    
+    public void UpdateOrdersCompleted(int completed, int total) {
+        ordersCompletedTxt.text = completed + "/" + total + " orders completed";
     }
 
     public void ToggleMovement() {
