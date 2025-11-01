@@ -208,13 +208,13 @@ public class CreatureAutomator : MonoBehaviour {
                 // if no station, regain stamina when rigid body is not moving
                 if (rb.velocity.magnitude <= maxVelocityForStaminaRecovery) {
                     creature.RecoverStamina(Time.deltaTime * staminaRecoveryRate); // TODO: parameterize this...
-                    Debug.Log($"Creature stamina: {creature.stamina}/{creature.maxStamina}");
+                    // Debug.Log($"Creature stamina: {creature.stamina}/{creature.maxStamina}");
                 }
             } else {
                 // if assigned, should be in "Idle" phase
                 if (phase == AutomationPhase.Idle) {
                     creature.RecoverStamina(Time.deltaTime * staminaRecoveryRate); // TODO: parameterize this...
-                    Debug.Log($"Creature stamina: {creature.stamina}/{creature.maxStamina}");
+                    // Debug.Log($"Creature stamina: {creature.stamina}/{creature.maxStamina}");
                 }
             }
         }
