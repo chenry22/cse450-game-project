@@ -553,7 +553,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.8113208, g: 0.71564615, b: 0.7450845, a: 0}
+  m_BackGroundColor: {r: 0.07944374, g: 0.06808472, b: 0.09433961, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -2083,7 +2083,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 78a811096b27c473f97170b836472b96, type: 3}
       propertyPath: m_Name
-      value: oven (1)
+      value: OvenSprite
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7244,7 +7244,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 78a811096b27c473f97170b836472b96, type: 3}
       propertyPath: m_Name
-      value: oven (2)
+      value: OvenSprite (2)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -13078,7 +13078,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1901528519}
   m_Layer: 0
-  m_Name: Kitchen Background
+  m_Name: KitchenGraphics
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14176,7 +14176,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 78a811096b27c473f97170b836472b96, type: 3}
       propertyPath: m_Name
-      value: oven (3)
+      value: OvenSprite (3)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
