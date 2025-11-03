@@ -210,9 +210,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 286737278489229815, guid: 1d907fce3e0104bd19e41a3973bcb244, type: 3}
+      propertyPath: m_Color.b
+      value: 0.4198113
+      objectReference: {fileID: 0}
+    - target: {fileID: 286737278489229815, guid: 1d907fce3e0104bd19e41a3973bcb244, type: 3}
+      propertyPath: m_Color.g
+      value: 0.4198113
+      objectReference: {fileID: 0}
+    - target: {fileID: 286737278489229815, guid: 1d907fce3e0104bd19e41a3973bcb244, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1371606621957378201, guid: 1d907fce3e0104bd19e41a3973bcb244, type: 3}
       propertyPath: m_Name
-      value: tempTeammate
+      value: TempOpponent
       objectReference: {fileID: 0}
     - target: {fileID: 2639690636059577177, guid: 1d907fce3e0104bd19e41a3973bcb244, type: 3}
       propertyPath: m_LocalPosition.x
@@ -297,6 +309,7 @@ MonoBehaviour:
   selectedCreature: {fileID: 0}
   movementEnabled: 1
   speed: 3
+  lowStaminaUI: {fileID: 0}
 --- !u!4 &91954767
 Transform:
   m_ObjectHideFlags: 0
@@ -440,6 +453,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2421069840522744831, guid: 15db8f04f20cd4a0091cf81c671ed2db, type: 3}
+      propertyPath: m_Color.b
+      value: 0.99982053
+      objectReference: {fileID: 0}
+    - target: {fileID: 2421069840522744831, guid: 15db8f04f20cd4a0091cf81c671ed2db, type: 3}
+      propertyPath: m_Color.g
+      value: 0.5613208
+      objectReference: {fileID: 0}
+    - target: {fileID: 2421069840522744831, guid: 15db8f04f20cd4a0091cf81c671ed2db, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6957891330162722559, guid: 15db8f04f20cd4a0091cf81c671ed2db, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -482,7 +507,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7391808108981735557, guid: 15db8f04f20cd4a0091cf81c671ed2db, type: 3}
       propertyPath: m_Name
-      value: tempBaller
+      value: TempBaller
       objectReference: {fileID: 0}
     - target: {fileID: 7391808108981735557, guid: 15db8f04f20cd4a0091cf81c671ed2db, type: 3}
       propertyPath: m_TagString
