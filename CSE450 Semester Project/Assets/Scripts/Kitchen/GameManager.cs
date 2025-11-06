@@ -82,19 +82,31 @@ public class GameManager : MonoBehaviour {
     }
 
     void Update() {
-        if (Input.GetKeyDown(creatureUIKey) && !Input.GetKey(orderUIKey)) {
-            creatureUI.ShowCreatureInfo();
+        // do the same for the other scenes
+        // this fixes the game crash null references
+
+        // only allow kitchen UI toggles when the MainKitchenScene is active
+        if (SceneManager.GetActiveScene().name == "MainKitchenScene")
+        {
+            if (Input.GetKeyDown(creatureUIKey) && !Input.GetKey(orderUIKey))
+            {
+                creatureUI.ShowCreatureInfo();
+            }
+            if (Input.GetKeyDown(orderUIKey) && !Input.GetKey(creatureUIKey))
+            {
+                orderUI.Show();
+            }
+
+            if (Input.GetKeyUp(creatureUIKey))
+            {
+                creatureUI.HideCreatureInfo();
+            }
+            if (Input.GetKeyUp(orderUIKey))
+            {
+                orderUI.Hide();
+            }
         }
-        if (Input.GetKeyDown(orderUIKey) && !Input.GetKey(creatureUIKey)) {
-            orderUI.Show();
-        }
-        
-        if (Input.GetKeyUp(creatureUIKey)) {
-            creatureUI.HideCreatureInfo();
-        }
-        if (Input.GetKeyUp(orderUIKey)) {
-            orderUI.Hide();
-        }
+
     }
     
     public void UpdateMoneyLabel() {
