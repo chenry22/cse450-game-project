@@ -61,6 +61,8 @@ public class GameManager : MonoBehaviour {
         dayBeginButton = GameObject.FindWithTag("BeginDay").GetComponent<Button>();
         managerWall = GameObject.Find("ManagerRoomWall");
         moneyTxt = GameObject.Find("moneyTxt")?.GetComponent<TMP_Text>();
+        dayTxt = GameObject.Find("dayTxt")?.GetComponent<TMP_Text>();
+        ordersCompletedTxt = GameObject.Find("ordersCompletedTxt")?.GetComponent<TMP_Text>();
 
         DeactivateBeginDayButton();
         UpdateFileUploadButton();
