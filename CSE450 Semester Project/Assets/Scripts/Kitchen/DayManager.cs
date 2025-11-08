@@ -86,6 +86,22 @@ public class DayManager : MonoBehaviour {
             GameManager.instance.EndDay(profit);
         }
     }
+    
+    // REALLY ONLY TO BE USED IN TUTORIAL
+    public void AddOrder(Order o) {
+        if (activeOrders == null) {
+            activeOrders = new List<Order>();
+            completedOrders = new List<Order>();
+        }
+        activeOrders.Add(o);
+        var orderStation = orderNotifyText.transform.parent.GetComponentInChildren<StationInteract>();
+        GameObject.Find("CreatureHandler").GetComponent<CreatureAssign>().HandleNewOrder(o, orderStation);
+
+        // notify order station
+        orderNotifyText.text = "<b>[ NEW ORDER ]</b>";
+        orderNotifyText.gameObject.SetActive(true);
+        orderTimer = 0f;
+    }
 
     private Order GenerateRandomOrder() {
         int targetTossQuality = RandomBellCurve(minTossQuality, maxTossQuality);
