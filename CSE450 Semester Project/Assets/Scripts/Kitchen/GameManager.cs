@@ -175,6 +175,8 @@ public class GameManager : MonoBehaviour {
         DeactivateBeginDayButton();
         managerWall.SetActive(true);
         dayManager.StartDay(day, currentBalance);
+        dayTxt.text = "Day " + (day + 1);
+        UpdateOrdersCompleted(0, dayManager.GetNumOrders());
     }
 
     // called by DayManager

@@ -6,13 +6,11 @@ using UnityEngine;
 
 public class DayManager : MonoBehaviour {
     public static string dayManagerObjName = "DayManager"; // name for other scripts to reference
-    public const float profitThreshold = 20f;   // minimum profit required to continue the game
+    public float profitThreshold = 15f;   // minimum profit required to continue the game
+    private const float avgPizzaPrice = 15f;
 
 
     // consts defining gameplay
-    private const int baseNumOrders = 4;
-    private const float extraOrdersPerDay = 1 / 3; // will take FLOOR of computed val
-    // e.g. if 1/3, extra order required every 3 days
     private const float baseOrderInterval = 80f; // in seconds
     private const float orderIntervalDecreasePerDay = 0.95f; // multiplified to default
                                                              // e.g. if 0.9f, day 2 will have interval of (defaultOrderInterval * 0.9f * 0.9f)
@@ -50,7 +48,9 @@ public class DayManager : MonoBehaviour {
     public void StartDay(int day, float balance) {
         Debug.Log("Starting day " + day);
         this.balance = balance;
-        this.numOrders = baseNumOrders + (int)(day * extraOrdersPerDay);
+        this.numOrders = Mathf.Max(1, day + 1);
+
+
         this.orderInterval = baseOrderInterval * Mathf.Pow(orderIntervalDecreasePerDay, day);
         this.orderTimeAllowed = baseOrderTimeAllowed - (day * orderTimeAllowedDecreasePerDay);
 
@@ -63,6 +63,7 @@ public class DayManager : MonoBehaviour {
         activeOrders = new List<Order>();
         completedOrders = new List<Order>();
         profit = 0;
+        profitThreshold = Mathf.Max(avgPizzaPrice, day * avgPizzaPrice);
         orderTimer = orderInterval * 9f / 10f;
         dayActive = true;
     }
@@ -70,14 +71,17 @@ public class DayManager : MonoBehaviour {
         dayActive = false;
 
         // check if restaurant met the profit threshold ($50)
-        if (profit < profitThreshold) {
+        if (profit < profitThreshold)
+        {
             Debug.Log("GAME OVER: Your restaurant is not profitable. All employees have quit.");
             moneyText.text = "Daily Profit: $0\nBalance: $0";
             profit = 0;
             balance = 0;
 
             GameManager.instance.GameOver();
-        } else {
+        }
+        else
+        {
             // continue to next day
             GameManager.instance.EndDay(profit);
         }
