@@ -181,7 +181,7 @@ public class TossGameManager : MonoBehaviour {
     }
     public void DropDough() {
         gameActive = false;
-        quality -= qualityLossPerMistake;
+        quality = Mathf.Max(0, quality - qualityLossPerMistake);
         qualityTxt.text = "<b>Quality:</b> " + quality + " / 100";
         dough.velocity = Vector2.zero;
         dough.transform.localPosition = Vector2.zero;

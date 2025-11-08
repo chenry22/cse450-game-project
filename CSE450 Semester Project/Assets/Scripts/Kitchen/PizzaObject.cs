@@ -29,10 +29,10 @@ public class PizzaObject : MonoBehaviour {
 
     // functions to update state
     public void InitializePizza(int tossQuality) {
-        this.tossQuality = tossQuality;
+        this.tossQuality = Mathf.Max(0, tossQuality);
     }
     public void CutPizza(int cutQuality) {
-        this.cutQuality = cutQuality;
+        this.cutQuality = Mathf.Max(0, cutQuality);
     }
     public void AddTopping(Topping t) {
         toppings.Add(t);
