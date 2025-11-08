@@ -6,9 +6,13 @@ using UnityEngine.UI;
 public class StartMenu : MonoBehaviour
 {
     public Toggle skipTutorial;
+    private
 
-    void Update() {
+    void Start() {
         skipTutorial.isOn = PlayerPrefs.GetInt("SkipTutorial", 0) == 1;
+        skipTutorial.onValueChanged.AddListener(delegate {
+                ToggleTutorial();
+            });
     }
 
     // TODO: add this plugin

@@ -85,7 +85,7 @@ public class GameManager : MonoBehaviour {
         // this fixes the game crash null references
 
         // only allow kitchen UI toggles when the MainKitchenScene is active
-        if (SceneManager.GetActiveScene().name == "MainKitchenScene")
+        if (SceneManager.GetActiveScene().name == "MainKitchenScene" || SceneManager.GetActiveScene().name == "TutorialScene")
         {
             if (Input.GetKeyDown(creatureUIKey) && !Input.GetKey(orderUIKey))
             {
