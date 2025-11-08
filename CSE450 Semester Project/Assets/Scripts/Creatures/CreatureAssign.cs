@@ -133,6 +133,7 @@ public class CreatureAssign : MonoBehaviour {
 
 
     // creature assignment logic
+    public int CreaturesAssigned() { return creatureToStation.Count; }
     public bool IsTrackingCreature() {
         return currentCreature != null;
     }

@@ -31,7 +31,6 @@ public class GameManager : MonoBehaviour {
     public TMP_Text dayTxt;
     public TMP_Text ordersCompletedTxt;
 
-
     void Awake() {
         if (instance != null && instance != this) {
             Destroy(this.gameObject);
@@ -47,6 +46,8 @@ public class GameManager : MonoBehaviour {
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
+        creatureUI = this.GetComponent<CreatureInfoUIController>();
+        orderUI = this.GetComponent<OrderUIController>();
         if (scene.name == "MainKitchenScene") {
             LoadKitchenScene();
         }
@@ -54,9 +55,6 @@ public class GameManager : MonoBehaviour {
 
     void LoadKitchenScene() {
         dayManager = GameObject.Find(DayManager.dayManagerObjName).GetComponent<DayManager>();
-        creatureUI = this.GetComponent<CreatureInfoUIController>();
-        orderUI = this.GetComponent<OrderUIController>();
-
         fileUploadButton = GameObject.FindWithTag("FileUpload").GetComponent<Button>();
         dayBeginButton = GameObject.FindWithTag("BeginDay").GetComponent<Button>();
         managerWall = GameObject.Find("ManagerRoomWall");
@@ -68,6 +66,7 @@ public class GameManager : MonoBehaviour {
         managerWall.SetActive(false);
 
         if (registeredCreatures.Count > 0) {
+            dayBeginButton.onClick.AddListener(delegate { BeginDay(); });
             creatureUI.LinkComponents();
             orderUI.LinkComponents();
             var mon = Instantiate(registeredCreatures[0].gameObject, GameObject.Find("Spawner").transform);
@@ -99,8 +98,8 @@ public class GameManager : MonoBehaviour {
         moneyTxt.text = "Balance: $" + System.Math.Round(currentBalance, 2)
             + "\nTotal Profit: $" + System.Math.Round(totalProfit, 2);
     }
-    public void ActivateBeginDayButton() { 
-        if (dayManager.DayIsActive()) { return; }
+    public void ActivateBeginDayButton() {
+        if (dayManager == null || dayManager.DayIsActive()) { return; }
         dayBeginButton.GetComponentInChildren<TMP_Text>().text = "Begin Day " + (day + 1);
         dayBeginButton.gameObject.SetActive(true);
     }
@@ -141,6 +140,7 @@ public class GameManager : MonoBehaviour {
     }
     public int GetDay() { return day; }
     public float GetBalance() { return currentBalance; }
+    public void SetBalance(float bal) { currentBalance = bal; }
     public float GetProfit() { return totalProfit; }
     
     public float GetCurrentUploadCost() {

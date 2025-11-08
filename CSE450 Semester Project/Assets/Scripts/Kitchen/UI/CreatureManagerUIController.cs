@@ -179,10 +179,12 @@ public class CreatureManagerUIController : MonoBehaviour {
     }
 
     public void HideCreatureUI() {
+        GameManager.instance.EnableMovement();
         ui.SetActive(false);
     }
     public void ShowCreatureUI(){
         LoadUI();
         ui.SetActive(true);
+        GameManager.instance.DisableMovement();
     }
 }

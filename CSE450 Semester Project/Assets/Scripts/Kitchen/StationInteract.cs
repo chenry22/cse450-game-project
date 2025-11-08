@@ -365,6 +365,8 @@ public class StationInteract : MonoBehaviour {
 
     void OnTriggerExit2D(Collider2D c) {
         if (c.gameObject.tag == "Player") {
+            // if the player gets pushed out of their interaction, they should be able to leave
+            GameManager.instance.EnableMovement();
             StopInteraction();
             if (interacting == this.gameObject) {
                 interacting = null;

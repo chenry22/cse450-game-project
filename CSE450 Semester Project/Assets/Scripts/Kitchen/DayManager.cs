@@ -70,17 +70,36 @@ public class DayManager : MonoBehaviour {
         dayActive = false;
 
         // check if restaurant met the profit threshold ($50)
-        if (profit < profitThreshold) {
+        if (profit < profitThreshold)
+        {
             Debug.Log("GAME OVER: Your restaurant is not profitable. All employees have quit.");
             moneyText.text = "Daily Profit: $0\nBalance: $0";
             profit = 0;
             balance = 0;
 
             GameManager.instance.GameOver();
-        } else {
+        }
+        else
+        {
             // continue to next day
             GameManager.instance.EndDay(profit);
         }
+    }
+    
+    // REALLY ONLY TO BE USED IN TUTORIAL
+    public void AddOrder(Order o) {
+        if (activeOrders == null) {
+            activeOrders = new List<Order>();
+            completedOrders = new List<Order>();
+        }
+        activeOrders.Add(o);
+        var orderStation = orderNotifyText.transform.parent.GetComponentInChildren<StationInteract>();
+        GameObject.Find("CreatureHandler").GetComponent<CreatureAssign>().HandleNewOrder(o, orderStation);
+
+        // notify order station
+        orderNotifyText.text = "<b>[ NEW ORDER ]</b>";
+        orderNotifyText.gameObject.SetActive(true);
+        orderTimer = 0f;
     }
 
     private Order GenerateRandomOrder() {

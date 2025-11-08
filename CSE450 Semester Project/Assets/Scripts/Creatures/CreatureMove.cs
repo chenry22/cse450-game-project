@@ -73,6 +73,7 @@ public class CreatureMove : MonoBehaviour {
             } else {
                 creatureAssign.GetComponent<CreatureAssign>().UnassignCreature(selected.GetComponent<CreatureSelect>());
             }
+            movementEnabled = true;
             return true;
         } else {
             // SWAP CREATURE SELECTION
@@ -87,6 +88,7 @@ public class CreatureMove : MonoBehaviour {
             // Reset multiple interaction blocker 
             // (any active interactions should be ended since we are taking control of a new creature)
             StationInteract.interacting = null;
+            movementEnabled = true;
             return true;
         }
     }
@@ -96,6 +98,7 @@ public class CreatureMove : MonoBehaviour {
     }
 
     public void ToggleMovement() {
+        if (selectedCreature == null) { return; }
         selectedCreature.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
         movementEnabled = !movementEnabled;
     }
