@@ -29,7 +29,7 @@ public class CreatureMove : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        if(selectedCreature != null) {
+        if(selectedCreature != null && selectedCreature.GetComponent<CreatureStats>() != null) {
             if (movementEnabled) {
                 float creatureSpeed = selectedCreature.GetComponent<CreatureStats>().speed;
                 float h = creatureSpeed * Input.GetAxis("Horizontal");
@@ -64,6 +64,9 @@ public class CreatureMove : MonoBehaviour {
             } else {
                 lowStaminaUI.SetActive(false);
             }
+        } else {
+            if (staminaUI != null) staminaUI.SetActive(false);
+            if (lowStaminaUI != null) lowStaminaUI.SetActive(false);
         }
     }
 
