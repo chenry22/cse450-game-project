@@ -20,6 +20,8 @@ public class CreatureMove : MonoBehaviour {
     private Vector3 camVelocity = Vector3.zero;
     private float camMoveTime = 0.2f;
     public GameObject lowStaminaUI;
+    public GameObject staminaUI;
+    public RectTransform staminaFill;
 
     private void Start() {
         mainCam = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
@@ -41,6 +43,16 @@ public class CreatureMove : MonoBehaviour {
             }
 
             var statsComp = selectedCreature.GetComponent<CreatureStats>();
+
+            if (staminaUI != null && staminaFill != null){
+                staminaUI.SetActive(true);
+
+                float pct = statsComp.stamina / statsComp.maxStamina;
+                pct = Mathf.Clamp01(pct);
+
+                staminaFill.localScale = new Vector3(pct, 1f, 1f);
+            }
+
             // display low stamina UI when stamina is low
             if (lowStaminaUI == null) { return; } // if not in kitchen scene, ignore
             if (statsComp.stamina <= 10f) {
