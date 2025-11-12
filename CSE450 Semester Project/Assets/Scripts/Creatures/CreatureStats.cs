@@ -2,6 +2,7 @@ using FileAnalysis;
 using UnityEngine;
 
 public class CreatureStats : MonoBehaviour {
+    public string id = System.Guid.NewGuid().ToString();
 
     // save reference to base stats generated
     private Stats baseStats = new Stats();

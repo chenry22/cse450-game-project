@@ -13,7 +13,7 @@ public class OpponentController : MonoBehaviour {
     [Header("Opponent")]
     public const float actionTickRate = 0.4f;
     public Transform[] targetPositions;
-    private Transform target = null;
+    // TODO: private Transform target = null;
 
     private float timer = 0f;
     private float opponentSpeed;

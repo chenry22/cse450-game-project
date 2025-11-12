@@ -36,7 +36,7 @@ public class CityCreatureBehavior : MonoBehaviour
     void Start() {
         rb = this.GetComponent<Rigidbody2D>();
         stats = this.GetComponent<CreatureStats>().GetStats();
-        speed = this.GetComponent<CreatureStats>().speed;
+        speed = this.GetComponent<CreatureStats>().speed * 0.7f; // automation decrease
         speechText = this.transform.GetChild(2).GetComponentInChildren<TMP_Text>();
         interval = Random.Range(minPauseTime, maxPauseTime);
 
@@ -134,6 +134,7 @@ public class CityCreatureBehavior : MonoBehaviour
     }
 
     void OnCollisionEnter2D(Collision2D other) {
+        if (rb == null) { return; }
         if (other.gameObject.tag == "Creature" && this.tag == "Creature") {
             rb.velocity = Vector2.zero; // freeze at collision
             phase = CreaturePhase.Talk;
