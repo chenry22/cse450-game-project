@@ -54,9 +54,10 @@ public class FileUploader : MonoBehaviour {
             // { ".extension", path => [EXTENSION]Analyzer.Analyze(path) },
         };
     }
-    
 
-    public void UploadNewFile() {
+
+    public void UploadNewFile()
+    {
 #if UNITY_EDITOR
         string path = EditorUtility.OpenFilePanel("Upload a file", "", "*");
         HandleFileUpload(path);
@@ -65,6 +66,20 @@ public class FileUploader : MonoBehaviour {
 #else
         // TODO: there is probably some way to do this
         Debug.Log("not yet implemented...");
+#endif
+    }
+    
+    // TODO: translate to WebGL functionality
+    public void UploadAllFilesInDirectory() {
+#if UNITY_EDITOR
+        string directory = EditorUtility.OpenFolderPanel("Upload all files in folder", "", "");
+        if (directory != "") {
+            DirectoryInfo d = new DirectoryInfo(directory);
+            foreach (FileInfo f in d.GetFiles()) {
+                Debug.Log(f.FullName);
+                HandleFileUpload(f.FullName);
+            }
+        }
 #endif
     }
 
@@ -100,21 +115,22 @@ public class FileUploader : MonoBehaviour {
             if (stats != null) {
                 Debug.Log(
                     $"Stats:\n" +
-                    $"Dough Handling: {stats.DoughHandling}\n" +
-                    $"Toppings: {stats.Toppings}\n" +
-                    $"Cooking: {stats.Cooking}\n" +
-                    $"Cutting: {stats.Cutting}\n" +
-                    $"Speed: {stats.Speed}\n" +
-                    $"Stamina: {stats.Stamina}"
+                    $"Dough Handling: {stats.DoughHandling}\n" + $"Toppings: {stats.Toppings}\n" +
+                    $"Cooking: {stats.Cooking}\n" + $"Cutting: {stats.Cutting}\n" +
+                    $"Speed: {stats.Speed}\n" + $"Stamina: {stats.Stamina}\n" +
+                    $"Morality: {stats.Morality}\n" + $"Extroversion: {stats.Extroversion}\n" + 
+                    $"Impulsiveness: {stats.Impulsiveness}\n" + $"Impressionability: {stats.Impressionability}\n"
                 );
             }
             mon.GetComponent<CreatureSelect>().InitCreature(name, size, stats);
-            GameManager.instance.RegisterCreature(mon);
+            if (GameManager.instance != null) {
+                GameManager.instance.RegisterCreature(mon);
+            }
 
             // Put each new creature into save state buffer.
             dataHolder.savedCreature = new SavedCreature(name, size, stats,
                 extension, mon.transform.position);
-            SaveData.Instance.creatures.Add(dataHolder.savedCreature);
+            SaveData.Instance?.creatures.Add(dataHolder.savedCreature);
         }
     }
 

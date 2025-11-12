@@ -53,21 +53,34 @@ public class TutorialManager : MonoBehaviour {
         tutorialText.text = "Welcome to Creature Kitchen Simulator Game! To start, upload a file to become your first creature!";
 
         GameManager.instance.SetBalance(500);
-        GameManager.instance.fileUploadButton.onClick.AddListener(OnFirstFile);
         GameManager.instance.dayBeginButton.gameObject.SetActive(false);
     }
     
     void Update() {
-        if (phase == 1 && Input.GetKeyDown(KeyCode.E)) {
-            StartCoroutine(CheckCreatureUIAfterDelay());
+        if (phase == 0 && GameObject.FindWithTag("Player") != null) {
+            // only do this if file uploaded
+            phase = 1;
+            GameObject.Find("CreatureManagerUI").transform.GetChild(0).gameObject.SetActive(false);
+            GameManager.instance.EnableMovement();
+            tutorialText.text = "This is your file as a creature! Use [WASD] or the arrow keys to move around. Go to the [Creatures] station and push [E] to view your creature's stats. <b>Upload a second creature to continue.</b>";
         }
+
+        if (phase == 1 && GameObject.FindWithTag("Creature")) {
+            // only do this if file uploaded
+            phase = 2;
+            tempGO = cm.selectedCreature;
+            GameObject.Find("CreatureManagerUI").transform.GetChild(0).gameObject.SetActive(false);
+            GameManager.instance.EnableMovement();
+            tutorialText.text = "You now have two creatures! <b>Click on a creature to switch control over to it.</b>";
+        }
+        
         if (phase == 2 && !cm.IsSelectedCreature(tempGO)) {
-            tutorialText.text = "You can also drag and drop from one of your creatures to a station to assign it to that station. Try assigning your friend to a station (toss, top, ovens, or cut) by clicking and dragging.";
+            tutorialText.text = "You can also drag and drop from one of your creatures to a station to assign it to that station. <b>Assign your friend to a station (toss, top, ovens, or cut) by clicking and dragging.</b>";
             phase = 3;
         }
         if (phase == 3 && ca.CreaturesAssigned() > 0) {
             phase = 4;
-            tutorialText.text = "When a creature is assigned to a station, they will do the work required at that station. Otherwise they will stand idly by, content to be directionless. You can hold [Tab] to view your staff and their station assignments. Take back control of your other creature to continue.";
+            tutorialText.text = "When a creature is assigned to a station, they will do the work required at that station. Otherwise they will stand idly by, content to be directionless. <b>You can hold [Tab] to view your staff and their station assignments. Take back control of your other creature to continue.</b>";
             tempGO = cm.selectedCreature;
         }
         
@@ -84,7 +97,7 @@ public class TutorialManager : MonoBehaviour {
             OrderTicket o = GameObject.FindWithTag("Player").GetComponentInChildren<OrderTicket>();
             if (o != null && o.GetOrder() != null) {
                 phase = 7;
-                tutorialText.text = "Great! The next step is tossing out the pie. For all stations, your stats will affect the difficulty of the minigame. Hold [Tab] to view your current staff's stats. Take control of the worker with the higher toss rating and interact with the toss station!";
+                tutorialText.text = "Great! The next step is tossing out the pie. For all stations, your stats will affect the difficulty of the minigame. Hold [Tab] to view your current staff's stats. <b>Take control of the worker with the higher toss rating and push [E] at the toss station!</b>";
                 tossInteract.SetActive(true);
             }
         }
@@ -93,7 +106,7 @@ public class TutorialManager : MonoBehaviour {
             PizzaObject p = GameObject.FindWithTag("Player").GetComponentInChildren<PizzaObject>();
             if (p != null) {
                 phase = 8;
-                tutorialText.text = "Awesome! Next you have to add the toppings. Hold [ShiftR] to view your current order and pizza, then interact with the topping station. Remember you can view the topping skill of your creatures by holding [Tab]!";
+                tutorialText.text = "Awesome! Next you have to add the toppings. <b>Hold [ShiftR] to view your current order and pizza</b>, then interact with the topping station. Remember you can view the topping skill of your creatures by holding [Tab]!";
                 topInteract.SetActive(true);
 
             }
@@ -103,7 +116,7 @@ public class TutorialManager : MonoBehaviour {
             PizzaObject p = GameObject.FindWithTag("Player").GetComponentInChildren<PizzaObject>();
             if (p != null && p.GetToppingCount() > 2) {
                 phase = 9;
-                tutorialText.text = "Now you have to cook the pizza. Hold [ShiftR] to view the target cook level of your order. The oven station is a little special, because it will cook your pie even when the minigame UI is not active. Cook your pizza to continue";
+                tutorialText.text = "Now you have to cook the pizza. <b>Hold [ShiftR] to view the target cook level of your order</b>. The oven station is a little special, because it will cook your pie even when the minigame UI is not active. Cook your pizza to continue";
                 ovensInteract.SetActive(true);
             }
         }
@@ -135,7 +148,7 @@ public class TutorialManager : MonoBehaviour {
     }
     
     private IEnumerator CheckCreatureUIAfterDelay() {
-        yield return new WaitForEndOfFrame();
+        yield return new WaitForSeconds(0.1f);
         if (GameObject.Find("CreatureManagerUI").transform.GetChild(0).gameObject.activeSelf) {
             tutorialText.text = " This is also where you can upload more files to turn into creatures! Upload a second file to continues.";
         }
@@ -149,7 +162,7 @@ public class TutorialManager : MonoBehaviour {
     }
     
     private IEnumerator CheckStationOrderUIAfterDelay() {
-        yield return new WaitForEndOfFrame();
+        yield return new WaitForSeconds(0.1f);
         if (stationOrderUI.activeSelf) {
             phase = 6;
             tutorialText.text = "Here you can see all active orders and the time remaining on them. Click on the one order to claim it. View your current claimed order or owned pie by holding [Shift-R]";
@@ -157,35 +170,10 @@ public class TutorialManager : MonoBehaviour {
     }
     
     private IEnumerator CheckOrderUIAfterDelay() {
-        yield return new WaitForEndOfFrame();
+        yield return new WaitForSeconds(0.1f);
         if (currOrderUI.activeSelf) {
             phase = 8;
             tutorialText.text = "Here you can see all active orders and the time remaining on them. Click on the one order to claim it. View your current claimed order or owned pie by holding [Shift-R]";
         }
     }
-
-
-
-    private void OnFirstFile() {
-        if (GameObject.FindWithTag("Player") == null) { return; } // only do this if file uploaded
-        phase = 1;
-        GameObject.Find("CreatureManagerUI").transform.GetChild(0).gameObject.SetActive(false);
-        GameManager.instance.EnableMovement();
-        tutorialText.text = "This is your file as a creature! Use [WASD] or the arrow keys to move around. Go to the [Creatures] station and push [E] to view your creature's stats.";
-
-        GameManager.instance.fileUploadButton.onClick.RemoveListener(OnFirstFile);
-        GameManager.instance.fileUploadButton.onClick.AddListener(OnSecondFile);
-    }
-    
-    private void OnSecondFile() {
-        if (GameObject.FindWithTag("Creature") == null) { return; } // only do this if file uploaded
-        phase = 2;
-        tempGO = cm.selectedCreature;
-        GameObject.Find("CreatureManagerUI").transform.GetChild(0).gameObject.SetActive(false);
-        GameManager.instance.EnableMovement();
-        tutorialText.text = "You now have two creatures! Click on a creature to switch control over to it.";
-        
-        GameManager.instance.fileUploadButton.onClick.RemoveListener(OnSecondFile);
-    }
-
 }

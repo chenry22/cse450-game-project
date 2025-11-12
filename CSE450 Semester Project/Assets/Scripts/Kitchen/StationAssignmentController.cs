@@ -13,10 +13,13 @@ public class StationAssignmentController : MonoBehaviour
     private Color baseColor;
     private Color highlightedColor;
 
-    void Start() {
-        creatureAssigner = GameObject.Find("CreatureHandler").GetComponent<CreatureAssign>();
+    void Awake() {
         si = GetComponentInChildren<StationInteract>();
         spr = GetComponent<SpriteRenderer>();
+    }
+
+    void Start() {
+        creatureAssigner = GameObject.Find("CreatureHandler").GetComponent<CreatureAssign>();
         baseColor = spr.color;
         highlightedColor = spr.color;
         highlightedColor.a = 0.8f;
