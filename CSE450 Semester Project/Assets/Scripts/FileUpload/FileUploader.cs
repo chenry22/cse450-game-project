@@ -68,23 +68,9 @@ public class FileUploader : MonoBehaviour {
         Debug.Log("not yet implemented...");
 #endif
     }
-    
-    // TODO: translate to WebGL functionality
-    public void UploadAllFilesInDirectory() {
-#if UNITY_EDITOR
-        string directory = EditorUtility.OpenFolderPanel("Upload all files in folder", "", "");
-        if (directory != "") {
-            DirectoryInfo d = new DirectoryInfo(directory);
-            foreach (FileInfo f in d.GetFiles()) {
-                Debug.Log(f.FullName);
-                HandleFileUpload(f.FullName);
-            }
-        }
-#endif
-    }
 
     // because WebGL upload will not wait, needs to be a separate call
-    public void HandleFileUpload(string path) {
+    public GameObject HandleFileUpload(string path) {
         if (path.Length != 0) {
             // want to avoid super long names as to not clutter UI
             var name = Path.GetFileName(path).Split(".")[0];
@@ -131,7 +117,9 @@ public class FileUploader : MonoBehaviour {
             dataHolder.savedCreature = new SavedCreature(name, size, stats,
                 extension, mon.transform.position);
             SaveData.Instance?.creatures.Add(dataHolder.savedCreature);
+            return mon;
         }
+        return null; // bad path
     }
 
 
