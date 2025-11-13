@@ -8,7 +8,7 @@ public class CityCreatureBehavior : MonoBehaviour
 {
     private enum CreaturePhase
     {
-        Idle, Move, Talk, Flee
+        Idle, Move, Talk, Flee, Dance
     }
 
     private Rigidbody2D rb;
@@ -60,7 +60,10 @@ public class CityCreatureBehavior : MonoBehaviour
 
                     phase = CreaturePhase.Move;
                     interval = Random.Range(minMoveTime, maxMoveTime);
-                }
+                } 
+                // else if (Random.Range(0, 1f) < 0.2f + (stats.Extroversion / 150f)) {
+                    
+                // }
                 break;
             case CreaturePhase.Move:
                 if (timer < interval) {
@@ -132,6 +135,18 @@ public class CityCreatureBehavior : MonoBehaviour
         interval = Random.Range(minMoveTime, maxMoveTime);
         phase = CreaturePhase.Move;
     }
+    
+    private IEnumerator Dance() {
+        yield return new WaitForSeconds(0.5f);
+        this.GetComponent<SpriteRenderer>().flipX = true;
+        yield return new WaitForSeconds(0.8f);
+        this.GetComponent<SpriteRenderer>().flipX = false;
+        yield return new WaitForSeconds(0.8f);
+        this.GetComponent<SpriteRenderer>().flipX = true;
+        yield return new WaitForSeconds(0.5f);
+        this.GetComponent<SpriteRenderer>().flipX = false;
+    }
+    
 
     void OnCollisionEnter2D(Collision2D other) {
         if (rb == null) { return; }
