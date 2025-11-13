@@ -28,6 +28,17 @@ public class CityController : MonoBehaviour {
     
     public void LoadTestCity1() {
         cityName.text = "Test City 1 | Population: 8";
+        // transfer player to current scene (if possible)
+        if (GameManager.instance?.playerCreature != null) {
+            var player = Instantiate(GameManager.instance.playerCreature);
+            player.tag = "Player";
+            GameObject.Find("CreatureHandler").GetComponent<CreatureMove>().selectedCreature = player;
+            player.SetActive(true);
+            GameObject.FindWithTag("MainCamera").transform.parent = player.transform;
+        } else {
+            Debug.LogWarning("No player creature found for city");
+        }
+
         testCity1.SetActive(true);
         cityUploadButton.SetActive(false);
         map.SetActive(true);
@@ -36,7 +47,18 @@ public class CityController : MonoBehaviour {
         }
     }
     public void LoadTestCity2() {
-        cityName.text = "Test City 2 | Population: 14";
+        cityName.text = "Test City 2 | Population: 16";
+        // transfer player to current scene (if possible)
+        if (GameManager.instance?.playerCreature != null) {
+            var player = Instantiate(GameManager.instance.playerCreature);
+            player.tag = "Player";
+            GameObject.Find("CreatureHandler").GetComponent<CreatureMove>().selectedCreature = player;
+            player.SetActive(true);
+            GameObject.FindWithTag("MainCamera").transform.parent = player.transform;
+        } else {
+            Debug.LogWarning("No player creature found for city");
+        }
+        
         testCity2.SetActive(true);
         cityUploadButton.SetActive(false);
         map.SetActive(true);
@@ -96,7 +118,7 @@ public class CityController : MonoBehaviour {
     public int UploadFilesFromDir(DirectoryInfo d, int populationLim) {
         int added = 0;
         foreach (FileInfo f in d.GetFiles()) {
-            Debug.Log(f.FullName);
+            // Debug.Log(f.FullName);
             var mon = fileUploader.HandleFileUpload(f.FullName);
             if (mon != null) { added++; }
 
@@ -126,7 +148,7 @@ public class CityController : MonoBehaviour {
     }
     
     private bool SpawnOverlapping(Vector3 pos) {
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(pos, 2f);
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(pos, 4f);
         for(int i = 0; i < colliders.Length; i++) {
             Vector3 center = colliders[i].bounds.center;
             float w = colliders[i].bounds.extents.x;

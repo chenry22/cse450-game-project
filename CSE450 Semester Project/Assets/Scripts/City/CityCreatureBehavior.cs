@@ -60,10 +60,10 @@ public class CityCreatureBehavior : MonoBehaviour
 
                     phase = CreaturePhase.Move;
                     interval = Random.Range(minMoveTime, maxMoveTime);
-                } 
-                // else if (Random.Range(0, 1f) < 0.2f + (stats.Extroversion / 150f)) {
-                    
-                // }
+                } else if (Random.Range(0, 1f) < (stats.Extroversion / 200f) - 0.25f) {
+                    phase = CreaturePhase.Dance;
+                    StartCoroutine("Dance");
+                }
                 break;
             case CreaturePhase.Move:
                 if (timer < interval) {
@@ -137,13 +137,14 @@ public class CityCreatureBehavior : MonoBehaviour
     }
     
     private IEnumerator Dance() {
-        yield return new WaitForSeconds(0.5f);
+        Debug.Log("Start dance, Extroversion: " + stats.Extroversion);
+        yield return new WaitForSeconds(0.4f);
         this.GetComponent<SpriteRenderer>().flipX = true;
-        yield return new WaitForSeconds(0.8f);
+        yield return new WaitForSeconds(0.9f);
         this.GetComponent<SpriteRenderer>().flipX = false;
-        yield return new WaitForSeconds(0.8f);
+        yield return new WaitForSeconds(0.7f);
         this.GetComponent<SpriteRenderer>().flipX = true;
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.6f);
         this.GetComponent<SpriteRenderer>().flipX = false;
     }
     
@@ -152,6 +153,8 @@ public class CityCreatureBehavior : MonoBehaviour
         if (rb == null) { return; }
         if (other.gameObject.tag == "Creature" && this.tag == "Creature") {
             rb.velocity = Vector2.zero; // freeze at collision
+            StopCoroutine("Dance");
+            this.GetComponent<SpriteRenderer>().flipX = false;
             phase = CreaturePhase.Talk;
             this.other = other.gameObject;
 

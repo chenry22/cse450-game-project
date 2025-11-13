@@ -188,7 +188,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16dae36e9492d4691a58d18591a421a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 3
+  id: 76790fac-0f86-4587-ac62-bb7e7ff3357f
+  speed: 4
   stamina: 100
   maxStamina: 100
 --- !u!114 &7354833305201190883
