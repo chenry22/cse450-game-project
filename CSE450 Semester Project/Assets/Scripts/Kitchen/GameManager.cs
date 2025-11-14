@@ -149,8 +149,10 @@ public class GameManager : MonoBehaviour {
             if (registeredCreatures.Count == 1) {
                 // auto take control of just first upload
                 cs.SelectCreature();
+                GameObject.Find(CreatureManagerUIController.sceneName).GetComponent<CreatureManagerUIController>().HideCreatureUI();
+            } else {
+                GameObject.Find(CreatureManagerUIController.sceneName).GetComponent<CreatureManagerUIController>().LoadUI();
             }
-            GameObject.Find(CreatureManagerUIController.sceneName).GetComponent<CreatureManagerUIController>().LoadUI();
             UpdateFileUploadButton();
             UpdateMoneyLabel();
         }

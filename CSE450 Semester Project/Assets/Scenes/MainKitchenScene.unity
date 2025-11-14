@@ -1990,6 +1990,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5235540b7a23043949b9522eb0818924, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerCreature: {fileID: 0}
   fileUploadButton: {fileID: 0}
   dayBeginButton: {fileID: 0}
   managerWall: {fileID: 0}
@@ -11492,7 +11493,7 @@ Transform:
   m_GameObject: {fileID: 1788266350}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -13, y: 3, z: 0}
+  m_LocalPosition: {x: -13, y: 4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
