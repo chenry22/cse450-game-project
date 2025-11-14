@@ -66,12 +66,15 @@ public class CreatureSelect : MonoBehaviour {
     }
 
     void OnMouseDown() {
+        // only trigger if assignments are active (e.g. tutorial and kitchen scenes)
+        if (creatureAssign == null) { return; }
         if (!creatureMover.IsSelectedCreature(this.gameObject)) {
             creatureAssign.BeginTrackingCreature(this);
             SetTextHighlighted();
         }
     }
     void OnMouseUp() {
+        if (creatureAssign == null) { return; }
         creatureAssign.FinishTrackingCreature(this);
         if (creatureMover.IsSelectedCreature(this.gameObject)) {
             SetTextSelected();
@@ -85,6 +88,7 @@ public class CreatureSelect : MonoBehaviour {
     // this seemingly always happens BEFORE OnMouseUp()
         // probably, maybe
     void OnMouseUpAsButton() {
+        if (creatureAssign == null) { return; }
         var selected = creatureMover.UpdateSelectedCreature(this.gameObject);
         if (selected) {
             SetTextSelected();

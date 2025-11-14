@@ -68,23 +68,9 @@ public class FileUploader : MonoBehaviour {
         Debug.Log("not yet implemented...");
 #endif
     }
-    
-    // TODO: translate to WebGL functionality
-    public void UploadAllFilesInDirectory() {
-#if UNITY_EDITOR
-        string directory = EditorUtility.OpenFolderPanel("Upload all files in folder", "", "");
-        if (directory != "") {
-            DirectoryInfo d = new DirectoryInfo(directory);
-            foreach (FileInfo f in d.GetFiles()) {
-                Debug.Log(f.FullName);
-                HandleFileUpload(f.FullName);
-            }
-        }
-#endif
-    }
 
     // because WebGL upload will not wait, needs to be a separate call
-    public void HandleFileUpload(string path) {
+    public GameObject HandleFileUpload(string path) {
         if (path.Length != 0) {
             // want to avoid super long names as to not clutter UI
             var name = Path.GetFileName(path).Split(".")[0];
@@ -94,8 +80,8 @@ public class FileUploader : MonoBehaviour {
             var extension = fi.Extension.ToLowerInvariant();
             name += extension;
             long size = fi.Length;
-            Debug.Log(extension + ", " + size);
-            Debug.Log(fi.ToString());
+            // Debug.Log(extension + ", " + size);
+            // Debug.Log(fi.ToString());
 
             bool isSupported = prefabMap.ContainsKey(extension);
             GameObject prefabToUse = isSupported ? prefabMap[extension] : defaultCreaturePrefab;
@@ -112,16 +98,16 @@ public class FileUploader : MonoBehaviour {
                 stats = new Stats(path); // make things a little interesting by using more variable constructor
             }
 
-            if (stats != null) {
-                Debug.Log(
-                    $"Stats:\n" +
-                    $"Dough Handling: {stats.DoughHandling}\n" + $"Toppings: {stats.Toppings}\n" +
-                    $"Cooking: {stats.Cooking}\n" + $"Cutting: {stats.Cutting}\n" +
-                    $"Speed: {stats.Speed}\n" + $"Stamina: {stats.Stamina}\n" +
-                    $"Morality: {stats.Morality}\n" + $"Extroversion: {stats.Extroversion}\n" + 
-                    $"Impulsiveness: {stats.Impulsiveness}\n" + $"Impressionability: {stats.Impressionability}\n"
-                );
-            }
+            // if (stats != null) {
+            //     Debug.Log(
+            //         $"Stats:\n" +
+            //         $"Dough Handling: {stats.DoughHandling}\n" + $"Toppings: {stats.Toppings}\n" +
+            //         $"Cooking: {stats.Cooking}\n" + $"Cutting: {stats.Cutting}\n" +
+            //         $"Speed: {stats.Speed}\n" + $"Stamina: {stats.Stamina}\n" +
+            //         $"Morality: {stats.Morality}\n" + $"Extroversion: {stats.Extroversion}\n" + 
+            //         $"Impulsiveness: {stats.Impulsiveness}\n" + $"Impressionability: {stats.Impressionability}\n"
+            //     );
+            // }
             mon.GetComponent<CreatureSelect>().InitCreature(name, size, stats);
             if (GameManager.instance != null) {
                 GameManager.instance.RegisterCreature(mon);
@@ -131,7 +117,9 @@ public class FileUploader : MonoBehaviour {
             dataHolder.savedCreature = new SavedCreature(name, size, stats,
                 extension, mon.transform.position);
             SaveData.Instance?.creatures.Add(dataHolder.savedCreature);
+            return mon;
         }
+        return null; // bad path
     }
 
 
