@@ -26,6 +26,12 @@ namespace FileAnalysis
         public int Speed = 50;
         public int Stamina = 50;
 
+        // Behavioral Attributes (hidden)
+        public int Morality = 50;
+        public int Impulsiveness = 50;
+        public int Extroversion = 50;
+        public int Impressionability = 50;
+
         public Stats() {} // default constructor leaves default
 
         // a bit more interesting constructor using the file hash to compute stats
@@ -40,6 +46,11 @@ namespace FileAnalysis
             Toppings = val / 100 % 100;
             Cooking = val / 10000 % 100;
             Cutting = val / 1000000 % 100;
+
+            Morality = val / 10 % 100;
+            Impulsiveness = val / 1000 % 100;
+            Extroversion = val / 100000 % 100;
+            Impressionability = val / 10000000 % 100;
         }
         
         // taken basically straight from

@@ -38,6 +38,9 @@ mergeInto(LibraryManager.library, {
                     SendMessage(gameObjectName, methodName, path);
                 };
                 reader.readAsArrayBuffer(file);
+
+                // return focus to unity
+                unitycanvas.focus();
             };
 
             document.body.appendChild(input);
