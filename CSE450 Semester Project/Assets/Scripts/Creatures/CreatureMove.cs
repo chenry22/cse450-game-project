@@ -19,7 +19,7 @@ public class CreatureMove : MonoBehaviour {
     private Vector3 baseCamPosition = new Vector3(0, 0, -10);
     private Vector3 camVelocity = Vector3.zero;
     private float camMoveTime = 0.2f;
-    public GameObject lowStaminaUI;
+
     public GameObject staminaUI;
     public RectTransform staminaFill;
 
@@ -53,20 +53,20 @@ public class CreatureMove : MonoBehaviour {
                 staminaFill.localScale = new Vector3(pct, 1f, 1f);
             }
 
-            // display low stamina UI when stamina is low
-            if (lowStaminaUI == null) { return; } // if not in kitchen scene, ignore
-            if (statsComp.stamina <= 10f) {
-                lowStaminaUI.SetActive(true);
+            // // display low stamina UI when stamina is low
+            // if (lowStaminaUI == null) { return; } // if not in kitchen scene, ignore
+            // if (statsComp.stamina <= 10f) {
+            //     lowStaminaUI.SetActive(true);
 
-                Vector3 worldPos = selectedCreature.transform.position + new Vector3(0, 1.5f, 0); // adjust Y offset as needed
-                Vector3 screenPos = Camera.main.WorldToScreenPoint(worldPos);
-                lowStaminaUI.transform.position = screenPos;
-            } else {
-                lowStaminaUI.SetActive(false);
-            }
+            //     Vector3 worldPos = selectedCreature.transform.position + new Vector3(0, 1.5f, 0); // adjust Y offset as needed
+            //     Vector3 screenPos = Camera.main.WorldToScreenPoint(worldPos);
+            //     lowStaminaUI.transform.position = screenPos;
+            // } else {
+            //     lowStaminaUI.SetActive(false);
+            // }
         } else {
             if (staminaUI != null) staminaUI.SetActive(false);
-            if (lowStaminaUI != null) lowStaminaUI.SetActive(false);
+            // if (lowStaminaUI != null) lowStaminaUI.SetActive(false);
         }
     }
 

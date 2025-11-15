@@ -12,6 +12,8 @@ public class CreatureInteract : MonoBehaviour
     private TMP_Text dialogueBox; // parent should be toggled to show
     private CreatureAutomator automator;
     private SpriteRenderer spr;
+
+    private float creatureSpeechTime = 1.2f;
     private bool interactable = false;
 
     void Start() {
@@ -43,7 +45,7 @@ public class CreatureInteract : MonoBehaviour
     private IEnumerator DialogueInteraction() {
         dialogueBox.text = Dialogue.start[Random.Range(0, Dialogue.start.Length)];
         dialogueBox.transform.parent.gameObject.SetActive(true);
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(creatureSpeechTime);
         dialogueBox.transform.parent.gameObject.SetActive(false);
     }
 

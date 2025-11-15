@@ -6,7 +6,7 @@ using UnityEngine;
 
 // this class manages the UI overlay and the actual game mechanics of the toss minigame
 public class TossGameManager : MonoBehaviour {
-    public static float requiredStamina = 10f;
+    public static float staminaToToss = 1.2f;
     public static Vector2 pizzaOffset = new Vector2(0.6f, 0.1f); // when new pizza object, where to position
 
     // Game UI vars (not gameplay)
@@ -52,6 +52,8 @@ public class TossGameManager : MonoBehaviour {
     public TMP_Text qualityTxt;
     public TMP_Text helpTxt;
 
+    private CreatureStats stats;
+
     private bool gameActive = false;
     private float progress = 0;
     private int quality = 100;
@@ -94,7 +96,7 @@ public class TossGameManager : MonoBehaviour {
     // Main game managers
     public void BeginTossGame() {
         var playerCreature = GameObject.FindWithTag("Player");
-        var stats = playerCreature.GetComponent<CreatureStats>();
+        stats = playerCreature.GetComponent<CreatureStats>();
         if (stats.stamina < 10f) {
             return;
         }
@@ -130,12 +132,7 @@ public class TossGameManager : MonoBehaviour {
         gameActive = false;
         dough.velocity = Vector2.zero;
         dough.transform.localPosition = Vector3.zero;
-        helpTxt.text = completionHelpTxt;
-        
-        // use stamina to act
-        var playerCreature = GameObject.FindWithTag("Player");
-        var stats = playerCreature.GetComponent<CreatureStats>();
-        stats.TryPerformTask(requiredStamina);
+        helpTxt.text = completionHelpTxt;        
     }
 
 
@@ -153,6 +150,8 @@ public class TossGameManager : MonoBehaviour {
     // actual game interaction
     // single iteration of toss
     public void TossDough() {
+        stats.TryPerformTask(staminaToToss);
+
         var newX = Mathf.Min(0, progressFill.transform.localPosition.x + (0.5f * progressPerToss));
         var newScale = Mathf.Min(1, progressFill.transform.localScale.x + progressPerToss);
         progressFill.transform.localPosition = new Vector3(newX, 0);

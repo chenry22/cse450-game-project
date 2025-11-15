@@ -28,6 +28,7 @@ public class StationInteract : MonoBehaviour {
 
     private SpriteRenderer sr; // for changing color to show interaction
     private bool interactable = false;
+    private GameObject recentCol;
 
     
 
@@ -61,13 +62,13 @@ public class StationInteract : MonoBehaviour {
 
     // handle keyboard input to initialize games
     void Update() {
-        if (interactable) {
+        if (interactable && (recentCol == null || recentCol.tag == "Player")) {
             switch (station) {
                 case Station.Toss:
                     if (Input.GetKeyDown(KeyCode.E) && stationGame != null) {
                         var playerCreature = GameObject.FindWithTag("Player");
                         var stats = playerCreature.GetComponent<CreatureStats>();
-                        if (stats.stamina < TossGameManager.requiredStamina) {
+                        if (stats.stamina < TossGameManager.staminaToToss) {
                             helpText.text = "Too tired! Rest to regain stamina.";
                             helpText.gameObject.SetActive(true);
                             return;
@@ -283,6 +284,7 @@ public class StationInteract : MonoBehaviour {
                 interacting.GetComponent<StationInteract>().StopInteraction();
             }
             interacting = this.gameObject;
+            recentCol = c.gameObject;
 
             var currPie = c.gameObject.GetComponentInChildren<PizzaObject>();
             switch (station) {
@@ -368,6 +370,7 @@ public class StationInteract : MonoBehaviour {
             // if the player gets pushed out of their interaction, they should be able to leave
             GameManager.instance.EnableMovement();
             StopInteraction();
+            recentCol = null;
             if (interacting == this.gameObject) {
                 interacting = null;
             }
