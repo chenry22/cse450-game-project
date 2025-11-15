@@ -58,7 +58,6 @@ public class CreatureInteract : MonoBehaviour
         if (other.tag == "Player" || creature.tag == "Player") {
             spr.enabled = false;
             interactable = false;
-            dialogueBox.transform.parent.gameObject.SetActive(false);
         }
     }
 }

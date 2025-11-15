@@ -60,7 +60,7 @@ public class CityCreatureBehavior : MonoBehaviour
 
                     phase = CreaturePhase.Move;
                     interval = Random.Range(minMoveTime, maxMoveTime);
-                } else if (Random.Range(0, 1f) < (stats.Extroversion / 200f) - 0.25f) {
+                } else if (Random.Range(0, 1f) < (stats.Extroversion / 150f) - 0.25f) {
                     phase = CreaturePhase.Dance;
                     StartCoroutine("Dance");
                 }
@@ -137,7 +137,6 @@ public class CityCreatureBehavior : MonoBehaviour
     }
     
     private IEnumerator Dance() {
-        Debug.Log("Start dance, Extroversion: " + stats.Extroversion);
         yield return new WaitForSeconds(0.4f);
         this.GetComponent<SpriteRenderer>().flipX = true;
         yield return new WaitForSeconds(0.9f);
