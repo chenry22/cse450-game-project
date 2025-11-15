@@ -2,6 +2,7 @@ using System.IO;
 using UnityEngine;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public class SaveManager : MonoBehaviour
 {
@@ -78,6 +79,7 @@ public class SaveManager : MonoBehaviour
 
         if (Camera.main == null) Debug.LogError("[!] Camera destroyed");
 
+        var lastItem = loadedData.creatures.LastOrDefault();
         foreach (var c in loadedData.creatures)
         {
             GameObject prefab = fileUpload.Ext2Prefab(c.extension);
@@ -88,6 +90,12 @@ public class SaveManager : MonoBehaviour
             var dataHolder = creature.AddComponent<CreatureDataHolder>();
             dataHolder.savedCreature = c;
             Debug.Log($"Loaded object {c.name}");
+            if (c == lastItem)
+            {
+                Debug.Log("Last object loaded, positioning camera...");
+                //Camera.main.transform.position = c.position.SerialToVector2();
+                //Camera.main.transform.SetParent(c.position);
+            }
         }
         Debug.Log("Loaded game state");
         return;
