@@ -91,9 +91,9 @@ public class CreatureManagerUIController : MonoBehaviour {
     }
     
     private void SwapCreatures(int activeIdx, int storedIdx) {
-        // Debug.Log("Swapping active " + activeIdx + ", stored " + storedIdx);
-        // Debug.Log(string.Join<CreatureSelect>(", ", activeCreatures));
-        // Debug.Log(string.Join<CreatureSelect>(", ", storedCreatures));
+        Debug.Log("Swapping active " + activeIdx + ", stored " + storedIdx);
+        Debug.Log(string.Join<CreatureSelect>(", ", activeCreatures));
+        Debug.Log(string.Join<CreatureSelect>(", ", storedCreatures));
         var activeCS = activeCreatures[activeIdx];
         var storedCS = storedCreatures[storedIdx];
 
@@ -135,6 +135,7 @@ public class CreatureManagerUIController : MonoBehaviour {
         storedCreatureIdx = -1;
     }
     public void SelectActiveCreature(int idx) {
+        Debug.Log("selected active " + idx);
         if (storedCreatureIdx >= 0) {
             SwapCreatures(idx, storedCreatureIdx);
         } else {
@@ -142,6 +143,7 @@ public class CreatureManagerUIController : MonoBehaviour {
         }
     }
     public void SelectStoredCreature(int idx) {
+        Debug.Log("selected stored " + idx);
         if (activeCreatureIdx >= 0) {
             SwapCreatures(activeCreatureIdx, idx);
         } else {

@@ -14,7 +14,7 @@ public class CreatureInteract : MonoBehaviour
     private SpriteRenderer spr;
 
     private float creatureSpeechTime = 1.2f;
-    private bool interactable = false;
+    private GameObject interacting = null;
 
     void Start() {
         creature = this.transform.parent.gameObject;
@@ -25,21 +25,61 @@ public class CreatureInteract : MonoBehaviour
     }
 
     void Update() {
-        if (interactable) {
+        if (interacting != null) {
             if (Input.GetKeyDown(interactKey)) {
                 // interact, allow more in
                 StopCoroutine("DialogueInteraction");
                 StartCoroutine("DialogueInteraction");
             } else if (Input.GetKeyDown(transferKey)) {
-                if (Input.GetKey(KeyCode.RightShift)) {
-                    // transfer control + pie
+                if (Input.GetKey(KeyCode.LeftShift)) {
+                    TransferPieIfPossible();
+
+                    // transfer control
+                    var control = GameObject.Find("CreatureHandler").GetComponent<CreatureMove>();
+                    if (control != null) {
+                        control.UpdateSelectedCreature(this.creature);
+                        automator.StopStationAutomation();
+
+                        creature.GetComponent<CreatureSelect>().SetTextSelected();
+                        interacting.GetComponent<CreatureSelect>().SetTextNormal();
+                    }
+
                     spr.enabled = false;
-                    interactable = false;
+                    interacting = null;
                 } else {
-                    
+                    var claimed = TransferPieIfPossible();
+
+                    if (automator.assignedStation != null) {
+                        automator.ResetStationAutomation();
+                    }
+                    if (claimed != null) {
+                        if (automator.assignedStation != null) {
+                            automator.HandlePizza(claimed, null);
+                        } else {
+                            // TODO: implement singular pizza automation for unassigned creature
+                            // automator.BeginPizzaAutomation(claimed);
+                        }
+                    }
                 }
             }
         }
+    }
+
+    public PizzaObject TransferPieIfPossible() {
+        var thisPie = creature.GetComponentInChildren<PizzaObject>();
+        var otherPie = interacting.GetComponentInChildren<PizzaObject>();
+
+        if (thisPie == null && otherPie != null) {
+            // move to this creature
+            otherPie.transform.parent = creature.transform;
+            otherPie.transform.localPosition = TossGameManager.pizzaOffset;
+            return otherPie;
+        } else if (thisPie != null && otherPie == null) {
+            // move to player
+            thisPie.transform.parent = interacting.transform;
+            thisPie.transform.localPosition = TossGameManager.pizzaOffset;
+        }
+        return null;
     }
 
     private IEnumerator DialogueInteraction() {
@@ -52,14 +92,14 @@ public class CreatureInteract : MonoBehaviour
     void OnTriggerEnter2D(Collider2D other){
         if (other.tag == "Player") {
             spr.enabled = true;
-            interactable = true;
+            interacting = other.gameObject;
         }
     }
 
     void OnTriggerExit2D(Collider2D other) {
         if (other.tag == "Player" || creature.tag == "Player") {
             spr.enabled = false;
-            interactable = false;
+            interacting = null;
         }
     }
 }
