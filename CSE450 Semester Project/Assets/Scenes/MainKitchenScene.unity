@@ -14788,9 +14788,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selectedCreature: {fileID: 0}
   movementEnabled: 1
-  speed: 3
   staminaUI: {fileID: 353596811}
   staminaFill: {fileID: 440878856}
+  buddyCreature: {fileID: 0}
 --- !u!114 &2096269921
 MonoBehaviour:
   m_ObjectHideFlags: 0

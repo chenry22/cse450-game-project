@@ -144,6 +144,11 @@ public class CreatureAssign : MonoBehaviour {
     public void FinishTrackingCreature(CreatureSelect cs) {
         // If same creature as start AND station is defined, do assignment
         if (cs == currentCreature && currentStation != null) {
+            var mover = GameObject.Find("CreatureHandler")?.GetComponent<CreatureMove>();
+            if (mover != null && cs.gameObject == mover.buddyCreature) {
+                mover.UnassignBuddyCreature();
+            }
+
             creatureToStation[cs] = currentStation;
             cs.gameObject.GetComponent<CreatureAutomator>().BeginStationAutomation(currentStation);
         }

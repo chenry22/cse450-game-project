@@ -9,10 +9,10 @@ using UnityEngine;
 public class CreatureMove : MonoBehaviour {
     private const string playerTag = "Player"; // this is necessary for station interaction
     private const string creatureTag = "Creature";
+    private const string buddyTag = "Partner";
 
     public GameObject selectedCreature = null;
     public bool movementEnabled = true;
-    public float speed = 3f; // default speed
     private Camera mainCam;
 
     // this is where the camera should always be
@@ -23,15 +23,19 @@ public class CreatureMove : MonoBehaviour {
     public GameObject staminaUI;
     public RectTransform staminaFill;
 
+    // buddy system
+    public GameObject buddyCreature = null;
+
     private void Start() {
         mainCam = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
     }
 
     // Update is called once per frame
     void Update() {
-        if(selectedCreature != null && selectedCreature.GetComponent<CreatureStats>() != null) {
+        if (selectedCreature != null && selectedCreature.GetComponent<CreatureStats>() != null) {
+            var stats = selectedCreature.GetComponent<CreatureStats>();
             if (movementEnabled) {
-                float creatureSpeed = selectedCreature.GetComponent<CreatureStats>().speed;
+                float creatureSpeed = stats.speed;
                 float h = creatureSpeed * Input.GetAxis("Horizontal");
                 float v = creatureSpeed * Input.GetAxis("Vertical");
                 selectedCreature.GetComponent<Rigidbody2D>().velocity = new Vector2(h, v);
@@ -42,31 +46,22 @@ public class CreatureMove : MonoBehaviour {
                 mainCam.transform.localPosition = Vector3.SmoothDamp(mainCam.transform.localPosition, baseCamPosition, ref camVelocity, camMoveTime);
             }
 
-            var statsComp = selectedCreature.GetComponent<CreatureStats>();
-
             if (staminaUI != null && staminaFill != null){
-                staminaUI.SetActive(true);
-
-                float pct = statsComp.stamina / statsComp.maxStamina;
+                float pct = stats.stamina / stats.maxStamina;
                 pct = Mathf.Clamp01(pct);
 
                 staminaFill.localScale = new Vector3(pct, 1f, 1f);
+                staminaUI.SetActive(pct >= 1f);
             }
-
-            // // display low stamina UI when stamina is low
-            // if (lowStaminaUI == null) { return; } // if not in kitchen scene, ignore
-            // if (statsComp.stamina <= 10f) {
-            //     lowStaminaUI.SetActive(true);
-
-            //     Vector3 worldPos = selectedCreature.transform.position + new Vector3(0, 1.5f, 0); // adjust Y offset as needed
-            //     Vector3 screenPos = Camera.main.WorldToScreenPoint(worldPos);
-            //     lowStaminaUI.transform.position = screenPos;
-            // } else {
-            //     lowStaminaUI.SetActive(false);
-            // }
         } else {
             if (staminaUI != null) staminaUI.SetActive(false);
             // if (lowStaminaUI != null) lowStaminaUI.SetActive(false);
+        }
+    }
+
+    void FixedUpdate() {
+        if (selectedCreature != null && buddyCreature != null) {
+            
         }
     }
 
@@ -75,7 +70,7 @@ public class CreatureMove : MonoBehaviour {
             return true;
         } else if (selectedCreature == null) {
             selectedCreature = selected;
-            selected.gameObject.tag = playerTag;
+            selected.tag = playerTag;
             if (mainCam != null) {
                 mainCam.transform.parent = selected.transform;
             } else {
@@ -93,10 +88,16 @@ public class CreatureMove : MonoBehaviour {
         } else {
             // SWAP CREATURE SELECTION
             selectedCreature.GetComponent<CreatureSelect>().DeselectCreature();
-            selectedCreature.gameObject.tag = creatureTag; // reset so only one active player in scene...
+            if (selected.GetInstanceID() == buddyCreature.GetInstanceID()) {
+                // if swapping to buddy, keep buddy selection
+                UpdateBuddyCreature(selectedCreature);
+            } else {
+                // reset so only one active player in scene...
+                selectedCreature.tag = creatureTag;
+            }
 
             selectedCreature = selected;
-            selected.gameObject.tag = playerTag;
+            selected.tag = playerTag;
             mainCam.transform.parent = selected.transform;
             GameObject.Find("CreatureHandler").GetComponent<CreatureAssign>().UnassignCreature(selected.GetComponent<CreatureSelect>());
 
@@ -105,6 +106,28 @@ public class CreatureMove : MonoBehaviour {
             StationInteract.interacting = null;
             movementEnabled = true;
             return true;
+        }
+    }
+
+    public bool UpdateBuddyCreature(GameObject buddy) {
+        if (buddy.GetInstanceID() == buddyCreature.GetInstanceID()) {
+            // unset 
+            buddy.tag = creatureTag;
+            buddyCreature = null;
+            return true;
+        } else {
+            if (buddyCreature != null) {
+                buddyCreature.tag = creatureTag;
+            }
+            buddy.tag = buddyTag;
+            buddyCreature = buddy;
+            return true;
+        }
+    }
+    public void UnassignBuddyCreature() {
+        if (buddyCreature != null) {
+            buddyCreature.tag = creatureTag;
+            buddyCreature = null;
         }
     }
 

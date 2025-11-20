@@ -7,6 +7,7 @@ public class CreatureInteract : MonoBehaviour
 {
     private const KeyCode interactKey = KeyCode.E;
     private const KeyCode transferKey = KeyCode.Q; // q to transfer pie, shift+q to transfer control too
+    private const KeyCode buddyKey = KeyCode.F;
 
     private GameObject creature;
     private TMP_Text dialogueBox; // parent should be toggled to show
@@ -35,7 +36,7 @@ public class CreatureInteract : MonoBehaviour
                     TransferPieIfPossible();
 
                     // transfer control
-                    var control = GameObject.Find("CreatureHandler").GetComponent<CreatureMove>();
+                    var control = GameObject.Find("CreatureHandler")?.GetComponent<CreatureMove>();
                     if (control != null) {
                         control.UpdateSelectedCreature(this.creature);
                         automator.StopStationAutomation();
@@ -60,6 +61,11 @@ public class CreatureInteract : MonoBehaviour
                             // automator.BeginPizzaAutomation(claimed);
                         }
                     }
+                }
+            } else if (Input.GetKeyDown(buddyKey)) {
+                var control = GameObject.Find("CreatureHandler")?.GetComponent<CreatureMove>();
+                if (control != null) {
+                    control.UpdateBuddyCreature(this.creature);
                 }
             }
         }
