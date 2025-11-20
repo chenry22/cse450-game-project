@@ -37,6 +37,7 @@ public class CreatureInfoUIController : MonoBehaviour {
         for(int i = 1; i < creatureSlots.Length; i++){
             if (creatures.Length < i){ break; }
             var c = creatures[i - 1];
+            Debug.Log(c);
             var stats = c.GetComponent<CreatureStats>().GetStats();
             var cs = c.GetComponent<CreatureSelect>();
             var role = "none";

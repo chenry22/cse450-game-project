@@ -4019,6 +4019,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2171745993637585104, guid: f58ed9e58fdb541d9b14bec55b9b946f, type: 3}
+      propertyPath: m_SortingOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4351052647472365836, guid: f58ed9e58fdb541d9b14bec55b9b946f, type: 3}
       propertyPath: m_Name
       value: CutStation
@@ -7906,6 +7910,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee783620b0e0c48eea3c7fc8c361c6aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  profitThreshold: 15
   moneyText: {fileID: 1315496069}
   orderNotifyText: {fileID: 2124597519}
 --- !u!1001 &990625025
@@ -12147,6 +12152,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1679472297}
     m_Modifications:
+    - target: {fileID: 583803648055257186, guid: 1bf0ec637566d4aae8c8358f1467aef9, type: 3}
+      propertyPath: m_SortingOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 964089287200825410, guid: 1bf0ec637566d4aae8c8358f1467aef9, type: 3}
       propertyPath: m_Name
       value: TossStation
@@ -12190,6 +12199,10 @@ PrefabInstance:
     - target: {fileID: 3891489968122465341, guid: 1bf0ec637566d4aae8c8358f1467aef9, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8463388986811388272, guid: 1bf0ec637566d4aae8c8358f1467aef9, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -16,7 +16,7 @@ EditorBuildSettings:
     guid: 198c3bbfeaac24596949f771356b9cfa
   - enabled: 1
     path: Assets/Scenes/City.unity
-    guid: ba89f4f55df36408a8c3d475710a1205
+    guid: cfb3c7c09a0d542de8ee952a0229b572
   - enabled: 1
     path: Assets/Scenes/Minigames/BandRhythmGame.unity
     guid: a73be2f514ed84bd2a9d9550ec41424d

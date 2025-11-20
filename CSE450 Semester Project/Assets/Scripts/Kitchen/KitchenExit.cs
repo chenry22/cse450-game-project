@@ -13,10 +13,15 @@ public class KitchenExit : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        if (txt.activeSelf && Input.GetKeyDown(KeyCode.E))
-        {
+    void Update() {
+        if (txt.activeSelf && Input.GetKeyDown(KeyCode.E)) {
+            string id = GameObject.FindWithTag("Player").GetComponent<CreatureStats>().id;
+            foreach (GameObject registered in GameManager.instance.GetRegisteredCreatures()) {
+                if (registered.GetComponent<CreatureStats>().id == id) {
+                    GameManager.instance.playerCreature = registered;
+                }
+            }
+            GameManager.instance.lastCity = null;
             SceneManager.LoadScene("City");
         }
     }

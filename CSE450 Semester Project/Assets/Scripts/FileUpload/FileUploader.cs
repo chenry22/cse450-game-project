@@ -54,9 +54,10 @@ public class FileUploader : MonoBehaviour {
             // { ".extension", path => [EXTENSION]Analyzer.Analyze(path) },
         };
     }
-    
 
-    public void UploadNewFile() {
+
+    public void UploadNewFile()
+    {
 #if UNITY_EDITOR
         string path = EditorUtility.OpenFilePanel("Upload a file", "", "*");
         HandleFileUpload(path);
@@ -69,7 +70,7 @@ public class FileUploader : MonoBehaviour {
     }
 
     // because WebGL upload will not wait, needs to be a separate call
-    public void HandleFileUpload(string path) {
+    public GameObject HandleFileUpload(string path) {
         if (path.Length != 0) {
             // want to avoid super long names as to not clutter UI
             var name = Path.GetFileName(path).Split(".")[0];
@@ -79,13 +80,22 @@ public class FileUploader : MonoBehaviour {
             var extension = fi.Extension.ToLowerInvariant();
             name += extension;
             long size = fi.Length;
-            Debug.Log(extension + ", " + size);
-            Debug.Log(fi.ToString());
+            // Debug.Log(extension + ", " + size);
+            // Debug.Log(fi.ToString());
 
             bool isSupported = prefabMap.ContainsKey(extension);
             GameObject prefabToUse = isSupported ? prefabMap[extension] : defaultCreaturePrefab;
             var mon = Instantiate(prefabToUse, GameObject.Find("Spawner").transform);
-            mon.transform.localPosition = new Vector3(UnityEngine.Random.Range(-0.5f, .5f), UnityEngine.Random.Range(-0.5f, .5f), 0);
+
+            for(int i = 0; i < 10; i++) {
+                Vector3 spawnPos = new Vector3(UnityEngine.Random.Range(-0.5f, .5f), UnityEngine.Random.Range(-0.5f, .5f), 0);;
+                if (!SpawnOverlapping(spawnPos)) {
+                    mon.transform.localPosition = spawnPos;
+                    break;
+                } else {
+                    Debug.Log("Had to generate new spawnpoint to avoid overlap");
+                }
+            }
             var dataHolder = mon.AddComponent<CreatureDataHolder>();
 
             Stats stats = null;
@@ -97,25 +107,47 @@ public class FileUploader : MonoBehaviour {
                 stats = new Stats(path); // make things a little interesting by using more variable constructor
             }
 
-            if (stats != null) {
-                Debug.Log(
-                    $"Stats:\n" +
-                    $"Dough Handling: {stats.DoughHandling}\n" +
-                    $"Toppings: {stats.Toppings}\n" +
-                    $"Cooking: {stats.Cooking}\n" +
-                    $"Cutting: {stats.Cutting}\n" +
-                    $"Speed: {stats.Speed}\n" +
-                    $"Stamina: {stats.Stamina}"
-                );
-            }
+            // if (stats != null) {
+            //     Debug.Log(
+            //         $"Stats:\n" +
+            //         $"Dough Handling: {stats.DoughHandling}\n" + $"Toppings: {stats.Toppings}\n" +
+            //         $"Cooking: {stats.Cooking}\n" + $"Cutting: {stats.Cutting}\n" +
+            //         $"Speed: {stats.Speed}\n" + $"Stamina: {stats.Stamina}\n" +
+            //         $"Morality: {stats.Morality}\n" + $"Extroversion: {stats.Extroversion}\n" + 
+            //         $"Impulsiveness: {stats.Impulsiveness}\n" + $"Impressionability: {stats.Impressionability}\n"
+            //     );
+            // }
             mon.GetComponent<CreatureSelect>().InitCreature(name, size, stats);
-            GameManager.instance.RegisterCreature(mon);
+            if (GameManager.instance != null) {
+                GameManager.instance.RegisterCreature(mon);
+            }
 
             // Put each new creature into save state buffer.
             dataHolder.savedCreature = new SavedCreature(name, size, stats,
                 extension, mon.transform.position);
-            SaveData.Instance.creatures.Add(dataHolder.savedCreature);
+            SaveData.Instance?.creatures.Add(dataHolder.savedCreature);
+            return mon;
         }
+        return null; // bad path
+    }
+
+    private bool SpawnOverlapping(Vector3 pos) {
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(pos, 3f);
+        for(int i = 0; i < colliders.Length; i++) {
+            Vector3 center = colliders[i].bounds.center;
+            float w = colliders[i].bounds.extents.x;
+            float h = colliders[i].bounds.extents.y;
+            float left = center.x - w;
+            float right = center.x + w;
+            float top = center.y + h;
+            float bot = center.y - h;
+
+            if (pos.x >= left && pos.x <= right && pos.y <= top && pos.y >= bot) {
+                return true;
+            }
+        }
+        Debug.Log("No spawn overlap :)");
+        return false;
     }
 
 

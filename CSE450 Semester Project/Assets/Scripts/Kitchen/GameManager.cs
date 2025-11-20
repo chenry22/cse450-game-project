@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -19,6 +20,9 @@ public class GameManager : MonoBehaviour {
     private float totalProfit = 0;
     private float currentBalance = startingBalance; // start with 50 so you can buy a guy on day 0 if you want :)
     private List<GameObject> registeredCreatures = new List<GameObject>();
+    
+    public GameObject playerCreature = null;
+    public DirectoryInfo lastCity = null;
 
     private DayManager dayManager;
     private CreatureInfoUIController creatureUI;
@@ -122,6 +126,9 @@ public class GameManager : MonoBehaviour {
     }
 
     public void RegisterCreature(GameObject creature) {
+        // ignore city uploads 
+        if (SceneManager.GetActiveScene().name != "MainKitchenScene" && SceneManager.GetActiveScene().name != "TutorialScene") { return; }
+
         if (creature.GetComponent<CreatureStats>() != null) {
             var cs = creature.GetComponent<CreatureSelect>();
             // handle cost
@@ -142,8 +149,10 @@ public class GameManager : MonoBehaviour {
             if (registeredCreatures.Count == 1) {
                 // auto take control of just first upload
                 cs.SelectCreature();
+                GameObject.Find(CreatureManagerUIController.sceneName).GetComponent<CreatureManagerUIController>().HideCreatureUI();
+            } else {
+                GameObject.Find(CreatureManagerUIController.sceneName).GetComponent<CreatureManagerUIController>().LoadUI();
             }
-            GameObject.Find(CreatureManagerUIController.sceneName).GetComponent<CreatureManagerUIController>().LoadUI();
             UpdateFileUploadButton();
             UpdateMoneyLabel();
         }
