@@ -108,6 +108,7 @@ public class CreatureInteract : MonoBehaviour
     }
 
     void OnTriggerExit2D(Collider2D other) {
+        if (creature == null) { return; }
         if (other.tag == "Player" || creature.tag == "Player") {
             if (spr == null) {
                 spr = GetComponent<SpriteRenderer>();

@@ -52,6 +52,7 @@ public class BasketballGameController : MonoBehaviour {
 
         if (GameManager.instance.buddyCreature != null) {
             var buddy = Instantiate(GameManager.instance.buddyCreature);
+            buddy.GetComponentInChildren<CreatureInteract>().enabled = false;
             buddy.GetComponent<CreatureSelect>().SetTextBuddy();
             buddy.SetActive(true);
             opp.opponent = buddy;
