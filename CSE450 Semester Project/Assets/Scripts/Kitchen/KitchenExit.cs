@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,14 +16,22 @@ public class KitchenExit : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         if (colliding != null && colliding.tag == "Player" && Input.GetKeyDown(KeyCode.E)) {
-            string id = GameObject.FindWithTag("Player").GetComponent<CreatureStats>().id;
-            foreach (GameObject registered in GameManager.instance.GetRegisteredCreatures()) {
-                if (registered.GetComponent<CreatureStats>().id == id) {
+            string name = GameObject.FindWithTag("Player").GetComponent<CreatureSelect>().GetName();
+            string buddyName = GameObject.FindWithTag("Partner")?.GetComponent<CreatureSelect>().GetName() ?? "";
+            GameManager.instance.buddyCreature = null;
+            
+            for(int i = 0; i < GameManager.instance.GetRegisteredCreatures().Count; i++) {
+                var registered = GameManager.instance.GetRegisteredCreatures()[i];
+                if (registered.GetComponent<CreatureSelect>().GetName() == name) {
                     GameManager.instance.playerCreature = registered;
+                }
+                if (registered.GetComponent<CreatureSelect>().GetName() == buddyName) {
+                    GameManager.instance.buddyCreature = registered;
                 }
             }
             GameManager.instance.lastCity = null;
             SceneManager.LoadScene("City");
+            colliding = null;
         }
     }
 
@@ -35,7 +44,7 @@ public class KitchenExit : MonoBehaviour {
     void OnTriggerExit2D(Collider2D collision)
     {
         if(collision.tag != "Player") { return; }
-        collision = null;
+        colliding = null;
         txt.SetActive(false);
     }
 }

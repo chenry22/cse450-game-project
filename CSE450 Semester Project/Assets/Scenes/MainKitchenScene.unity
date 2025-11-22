@@ -1991,6 +1991,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerCreature: {fileID: 0}
+  buddyCreature: {fileID: 0}
   fileUploadButton: {fileID: 0}
   dayBeginButton: {fileID: 0}
   managerWall: {fileID: 0}
@@ -14791,6 +14792,7 @@ MonoBehaviour:
   staminaUI: {fileID: 353596811}
   staminaFill: {fileID: 440878856}
   buddyCreature: {fileID: 0}
+  buddyCloseEnoughDist: 2.2
 --- !u!114 &2096269921
 MonoBehaviour:
   m_ObjectHideFlags: 0

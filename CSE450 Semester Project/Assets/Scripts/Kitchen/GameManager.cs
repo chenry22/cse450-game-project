@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour {
     private List<GameObject> registeredCreatures = new List<GameObject>();
     
     public GameObject playerCreature = null;
+    public GameObject buddyCreature = null;
     public DirectoryInfo lastCity = null;
 
     private DayManager dayManager;

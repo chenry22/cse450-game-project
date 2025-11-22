@@ -21,6 +21,7 @@ public class CreatureSelect : MonoBehaviour {
     private Color normalColor = Color.white;
     private Color selectedColor = new Color(0, 49/255f, 118/255f);
     private Color highlightedColor = new Color(230 / 255f, 32 / 255f, 65 / 255f);
+    private Color buddyColor = new Color(0, 84/255f, 60/255f);
 
     private string fileName;
     private long size;
@@ -96,14 +97,37 @@ public class CreatureSelect : MonoBehaviour {
     }
 
     public void SetTextSelected() {
+        if (nameLabel == null) {
+            nameLabel = transform.GetChild(0).GetComponent<TMP_Text>();
+            sizeLabel = transform.GetChild(1).GetComponent<TMP_Text>();
+        }
+        
         nameLabel.color = selectedColor;
         nameLabel.fontStyle = FontStyles.Bold;
     }
     public void SetTextHighlighted() {
+        if (nameLabel == null) {
+            nameLabel = transform.GetChild(0).GetComponent<TMP_Text>();
+            sizeLabel = transform.GetChild(1).GetComponent<TMP_Text>();
+        }
+
         nameLabel.color = highlightedColor;
         nameLabel.fontStyle = FontStyles.Italic;
     }
+    public void SetTextBuddy() {
+        if (nameLabel == null) {
+            nameLabel = transform.GetChild(0).GetComponent<TMP_Text>();
+            sizeLabel = transform.GetChild(1).GetComponent<TMP_Text>();
+        }
+
+        nameLabel.color = buddyColor;
+    }
     public void SetTextNormal() {
+        if (nameLabel == null) {
+            nameLabel = transform.GetChild(0).GetComponent<TMP_Text>();
+            sizeLabel = transform.GetChild(1).GetComponent<TMP_Text>();
+        }
+        
         nameLabel.color = normalColor;
         nameLabel.fontStyle = FontStyles.Normal;
     }

@@ -30,11 +30,7 @@ public class CityController : MonoBehaviour {
         cityName.text = "Test City 1 | Population: 8";
         // transfer player to current scene (if possible)
         if (GameManager.instance?.playerCreature != null) {
-            var player = Instantiate(GameManager.instance.playerCreature);
-            player.tag = "Player";
-            GameObject.Find("CreatureHandler").GetComponent<CreatureMove>().selectedCreature = player;
-            player.SetActive(true);
-            GameObject.FindWithTag("MainCamera").transform.parent = player.transform;
+            AddPlayerAndBuddy();
         } else {
             Debug.LogWarning("No player creature found for city");
         }
@@ -50,11 +46,7 @@ public class CityController : MonoBehaviour {
         cityName.text = "Test City 2 | Population: 16";
         // transfer player to current scene (if possible)
         if (GameManager.instance?.playerCreature != null) {
-            var player = Instantiate(GameManager.instance.playerCreature);
-            player.tag = "Player";
-            GameObject.Find("CreatureHandler").GetComponent<CreatureMove>().selectedCreature = player;
-            player.SetActive(true);
-            GameObject.FindWithTag("MainCamera").transform.parent = player.transform;
+            AddPlayerAndBuddy();
         } else {
             Debug.LogWarning("No player creature found for city");
         }
@@ -80,6 +72,23 @@ public class CityController : MonoBehaviour {
         }
 #endif
     }
+
+    public void AddPlayerAndBuddy(){
+        var player = Instantiate(GameManager.instance.playerCreature);
+        player.GetComponent<CreatureSelect>().SetTextSelected();
+        player.tag = "Player";
+        GameObject.Find("CreatureHandler").GetComponent<CreatureMove>().selectedCreature = player;
+        player.SetActive(true);
+        GameObject.FindWithTag("MainCamera").transform.parent = player.transform;
+
+        if (GameManager.instance.buddyCreature != null) {
+            var buddy = Instantiate(GameManager.instance.buddyCreature);
+            buddy.GetComponent<CreatureSelect>().SetTextBuddy();
+            buddy.tag = "Partner";
+            GameObject.Find("CreatureHandler").GetComponent<CreatureMove>().buddyCreature = buddy;
+            buddy.SetActive(true);
+        }
+    }
     
     public void CreateCityFromDirectory(DirectoryInfo d) {
         map.SetActive(true);  
@@ -87,11 +96,7 @@ public class CityController : MonoBehaviour {
 
         // transfer player to current scene (if possible)
         if (GameManager.instance?.playerCreature != null) {
-            var player = Instantiate(GameManager.instance.playerCreature);
-            player.tag = "Player";
-            GameObject.Find("CreatureHandler").GetComponent<CreatureMove>().selectedCreature = player;
-            player.SetActive(true);
-            GameObject.FindWithTag("MainCamera").transform.parent = player.transform;
+            AddPlayerAndBuddy();
         } else {
             Debug.LogWarning("No player creature found for city");
         }

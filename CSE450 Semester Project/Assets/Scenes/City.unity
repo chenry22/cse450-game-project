@@ -6654,7 +6654,7 @@ Transform:
   m_GameObject: {fileID: 1571402952}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 16.97, y: 5.17, z: -0.09092298}
+  m_LocalPosition: {x: 16.28, y: 4.99, z: -0.09092298}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7201,7 +7201,7 @@ Transform:
   m_GameObject: {fileID: 1638048043}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 18.62, y: 2.92, z: -0.09092298}
+  m_LocalPosition: {x: 18.19, y: 3.06, z: -0.09092298}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7751,7 +7751,7 @@ Transform:
   m_GameObject: {fileID: 1766974162}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 16.58, y: 0.52, z: -0.09092298}
+  m_LocalPosition: {x: 16.15, y: -0.2, z: -0.09092298}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -9928,6 +9928,7 @@ MonoBehaviour:
   staminaUI: {fileID: 0}
   staminaFill: {fileID: 0}
   buddyCreature: {fileID: 0}
+  buddyCloseEnoughDist: 2.5
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

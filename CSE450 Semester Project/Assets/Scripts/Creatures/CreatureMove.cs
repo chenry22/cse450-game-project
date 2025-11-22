@@ -25,6 +25,7 @@ public class CreatureMove : MonoBehaviour {
 
     // buddy system
     public GameObject buddyCreature = null;
+    public float buddyCloseEnoughDist = 2.2f; // TODO: decide on right range for this...
 
     private void Start() {
         mainCam = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
@@ -61,7 +62,14 @@ public class CreatureMove : MonoBehaviour {
 
     void FixedUpdate() {
         if (selectedCreature != null && buddyCreature != null) {
-            
+            var targetPos = selectedCreature.transform.position;
+            var dir = targetPos - buddyCreature.transform.position;
+            var rb = buddyCreature.GetComponent<Rigidbody2D>();
+
+            if (dir.magnitude > buddyCloseEnoughDist) {
+                float speed = buddyCreature.GetComponent<CreatureStats>().speed;
+                rb.velocity = dir.normalized * speed;
+            }
         }
     }
 
@@ -88,7 +96,7 @@ public class CreatureMove : MonoBehaviour {
         } else {
             // SWAP CREATURE SELECTION
             selectedCreature.GetComponent<CreatureSelect>().DeselectCreature();
-            if (selected.GetInstanceID() == buddyCreature.GetInstanceID()) {
+            if (buddyCreature != null && selected.GetInstanceID() == buddyCreature.GetInstanceID()) {
                 // if swapping to buddy, keep buddy selection
                 UpdateBuddyCreature(selectedCreature);
             } else {
@@ -110,9 +118,10 @@ public class CreatureMove : MonoBehaviour {
     }
 
     public bool UpdateBuddyCreature(GameObject buddy) {
-        if (buddy.GetInstanceID() == buddyCreature.GetInstanceID()) {
+        if (buddyCreature != null && buddy == buddyCreature) {
             // unset 
             buddy.tag = creatureTag;
+            buddy.GetComponent<CreatureSelect>().SetTextNormal();
             buddyCreature = null;
             return true;
         } else {
@@ -121,6 +130,7 @@ public class CreatureMove : MonoBehaviour {
             }
             buddy.tag = buddyTag;
             buddyCreature = buddy;
+            buddy.GetComponent<CreatureSelect>().SetTextBuddy();
             return true;
         }
     }

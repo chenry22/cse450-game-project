@@ -38,11 +38,11 @@ public class CreatureInteract : MonoBehaviour
                     // transfer control
                     var control = GameObject.Find("CreatureHandler")?.GetComponent<CreatureMove>();
                     if (control != null) {
-                        control.UpdateSelectedCreature(this.creature);
-                        automator.StopStationAutomation();
-
                         creature.GetComponent<CreatureSelect>().SetTextSelected();
                         interacting.GetComponent<CreatureSelect>().SetTextNormal();
+                        
+                        control.UpdateSelectedCreature(this.creature);
+                        automator.StopStationAutomation();
                     }
 
                     spr.enabled = false;
@@ -63,9 +63,11 @@ public class CreatureInteract : MonoBehaviour
                     }
                 }
             } else if (Input.GetKeyDown(buddyKey)) {
-                var control = GameObject.Find("CreatureHandler")?.GetComponent<CreatureMove>();
+                // cant buddy w city creatures
+                if (creature.GetComponent<CityCreatureBehavior>() != null) { return; }
+                var control = GameObject.Find("CreatureHandler").GetComponent<CreatureMove>();
                 if (control != null) {
-                    control.UpdateBuddyCreature(this.creature);
+                    control.UpdateBuddyCreature(creature);
                 }
             }
         }
@@ -97,6 +99,9 @@ public class CreatureInteract : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other){
         if (other.tag == "Player") {
+            if (spr == null) {
+                spr = GetComponent<SpriteRenderer>();
+            }
             spr.enabled = true;
             interacting = other.gameObject;
         }
@@ -104,6 +109,9 @@ public class CreatureInteract : MonoBehaviour
 
     void OnTriggerExit2D(Collider2D other) {
         if (other.tag == "Player" || creature.tag == "Player") {
+            if (spr == null) {
+                spr = GetComponent<SpriteRenderer>();
+            }
             spr.enabled = false;
             interacting = null;
         }

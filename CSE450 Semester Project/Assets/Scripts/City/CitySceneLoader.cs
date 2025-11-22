@@ -19,10 +19,6 @@ public class CitySceneLoader : MonoBehaviour {
         }
     }
 
-    public void LoadBandRhythmScene() {
-        SceneManager.LoadScene("BandRhythmGame");
-    }
-
     void OnTriggerEnter2D(Collider2D collision) {
         if (collision.tag == "Player") {
             triggered = true;
