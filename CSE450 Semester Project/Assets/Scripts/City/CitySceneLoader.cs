@@ -19,10 +19,6 @@ public class CitySceneLoader : MonoBehaviour {
         }
     }
 
-    public void LoadBandRhythmScene() {
-        SceneManager.LoadScene("BandRhythmGame");
-    }
-
     void OnTriggerEnter2D(Collider2D collision) {
         if (collision.tag == "Player") {
             triggered = true;
@@ -33,7 +29,9 @@ public class CitySceneLoader : MonoBehaviour {
     void OnTriggerExit2D(Collider2D collision) {
         if (collision.tag == "Player") {
             triggered = false;
-            instructText.gameObject.SetActive(false);
+            if (instructText != null && instructText.gameObject != null) {
+                instructText?.gameObject.SetActive(false);
+            }
         }
     }
 }

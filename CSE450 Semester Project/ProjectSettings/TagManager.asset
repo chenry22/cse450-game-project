@@ -10,6 +10,7 @@ TagManager:
   - BasketballCourt
   - FileUpload
   - BeginDay
+  - Partner
   layers:
   - Default
   - TransparentFX

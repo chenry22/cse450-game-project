@@ -49,8 +49,8 @@ public class CreatureAutomator : MonoBehaviour {
 
     private CreatureStats creature;
     private Rigidbody2D rb;
-    private StationInteract assignedStation;
-    // private PizzaObject assignedPizza; // not yet implemented
+    public StationInteract assignedStation; // public so CreatureInteract can use it
+    private PizzaObject assignedPizza; // not yet implemented
 
     private Queue<AutoTask> queuedTasks;
     private AutoTask task;
@@ -91,6 +91,39 @@ public class CreatureAutomator : MonoBehaviour {
         assignedStation = null;
     }
 
+    public void BeginPizzaAutomation(PizzaObject p) {
+        if (p.GetLinkedOrder() == null) { return; } // can't do anything to a pizza w/o an order
+        
+        assignedPizza = p;
+        StartCoroutine("CompleteAssignedPizza");
+    }
+    public void EndPizzaAutomation() {
+        StopCoroutine("CompleteAssignedPizza");
+        StopCoroutine("TopPizza");
+        assignedPizza = null;
+    }
+    private IEnumerator CompleteAssignedPizza() {
+        if (assignedPizza.GetToppingCount() == 0 && assignedPizza.GetLinkedOrder().GetToppings().Count > 0) {
+            yield return StartCoroutine("TopPizza");
+        }
+    }
+
+    private IEnumerator TopPizza() {
+        // find top station 
+        // move there
+        // simulate topping work
+
+        // placeholder
+        yield return new WaitForEndOfFrame();
+    }
+
+    public void ResetStationAutomation() {
+        // continue working, but state may have changed (e.g. if )
+        var assigned = assignedStation;
+        StopStationAutomation();
+        BeginStationAutomation(assigned);
+    }
+
 
     public void HandleNewOrder(Order order, StationInteract orderStation) {
         // only toss should be allowed to handle new orders
@@ -116,7 +149,12 @@ public class CreatureAutomator : MonoBehaviour {
         switch (ph) {
             case AutomationPhase.Idle:
                 yield return new WaitForSeconds(waitForNext);
-                phase = AutomationPhase.TransferToCurrent;
+                // if you have the pie already, just go
+                if (this.gameObject.GetComponentInChildren<PizzaObject>() != null) {
+                    phase = AutomationPhase.StationWork;
+                } else {
+                    phase = AutomationPhase.TransferToCurrent;
+                }
                 break;
             case AutomationPhase.TransferToCurrent:
                 yield return new WaitForSeconds(waitForNext);
@@ -146,9 +184,9 @@ public class CreatureAutomator : MonoBehaviour {
                         foreach (Topping t in toppings) {
                             yield return new WaitForSeconds(waitForNext / toppings.Count); // incrementally add with delay
                             if ((Random.Range(0f, 1f) < accuracy)
-                                || (creature.GetTopStat() >= 75 && Random.Range(0f, 1f) < accuracy)
-                                || (creature.GetTopStat() >= 85 && Random.Range(0f, 1f) < accuracy)
-                                || (creature.GetTopStat() >= 95 && Random.Range(0f, 1f) < accuracy)
+                                || (creature.GetTopStat() >= 70 && Random.Range(0f, 1f) < accuracy)
+                                || (creature.GetTopStat() >= 80 && Random.Range(0f, 1f) < accuracy)
+                                || (creature.GetTopStat() >= 90 && Random.Range(0f, 1f) < accuracy)
                                 // special ability for skilled toppers, more chances to have
                                 // accurate placement if you hit above some thresholds
                             ) {

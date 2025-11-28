@@ -16,8 +16,7 @@ public class OrderUIController : MonoBehaviour {
     private OrderTicket currTicket;
     private float timer = 0f;
     
-    public void LinkComponents()
-    {
+    public void LinkComponents() {
         orderUI = GameObject.Find("GameUI").transform.GetChild(5).gameObject;
         orderToPizzaLink = orderUI.transform.GetChild(0).GetChild(0).GetChild(3).gameObject;
         currOrderTxt = orderUI.transform.GetChild(0).GetChild(0).GetChild(1).GetComponent<TMP_Text>();

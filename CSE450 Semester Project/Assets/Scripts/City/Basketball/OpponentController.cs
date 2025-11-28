@@ -22,10 +22,11 @@ public class OpponentController : MonoBehaviour {
     void Start() {
         player = GameObject.FindWithTag("Player");
         opponent = GameObject.FindWithTag("Creature");
-        opponentSpeed = opponent.GetComponent<CreatureStats>().speed;
+        opponentSpeed = opponent?.GetComponent<CreatureStats>().speed ?? 0;
     }
 
     void FixedUpdate() {
+        if (opponent == null) { return; } // don't do anything if no opp to control
         if (timer < actionTickRate) {
             timer += Time.deltaTime;
             return;

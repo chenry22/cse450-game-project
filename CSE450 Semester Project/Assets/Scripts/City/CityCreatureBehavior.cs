@@ -45,7 +45,7 @@ public class CityCreatureBehavior : MonoBehaviour
 
     // Update is called once per frame
     void Update() {     
-        if (this.tag == "Player") { return; } // don't automate player (for testing)   
+        if (this.tag == "Player" || this.tag == "Partner") { return; } // don't automate player (for testing)   
         switch(phase) {
             case CreaturePhase.Idle:
                 if (timer < interval) {

@@ -566,7 +566,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1638514913}
         m_TargetAssemblyTypeName: CreatureManagerUIController, Assembly-CSharp
         m_MethodName: SelectActiveCreature
         m_Mode: 3
@@ -1132,7 +1132,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1638514913}
         m_TargetAssemblyTypeName: CreatureManagerUIController, Assembly-CSharp
         m_MethodName: SelectStoredCreature
         m_Mode: 3
@@ -1481,7 +1481,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1638514913}
         m_TargetAssemblyTypeName: CreatureManagerUIController, Assembly-CSharp
         m_MethodName: SelectStoredCreature
         m_Mode: 3
@@ -1991,6 +1991,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerCreature: {fileID: 0}
+  buddyCreature: {fileID: 0}
   fileUploadButton: {fileID: 0}
   dayBeginButton: {fileID: 0}
   managerWall: {fileID: 0}
@@ -2718,7 +2719,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1638514913}
         m_TargetAssemblyTypeName: CreatureManagerUIController, Assembly-CSharp
         m_MethodName: SelectActiveCreature
         m_Mode: 3
@@ -3793,7 +3794,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1638514913}
         m_TargetAssemblyTypeName: CreatureManagerUIController, Assembly-CSharp
         m_MethodName: SelectStoredCreature
         m_Mode: 3
@@ -5095,7 +5096,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1638514913}
         m_TargetAssemblyTypeName: CreatureManagerUIController, Assembly-CSharp
         m_MethodName: SelectActiveCreature
         m_Mode: 3
@@ -7143,7 +7144,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1638514913}
         m_TargetAssemblyTypeName: CreatureManagerUIController, Assembly-CSharp
         m_MethodName: SelectStoredCreature
         m_Mode: 3
@@ -7765,7 +7766,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1638514913}
         m_TargetAssemblyTypeName: CreatureManagerUIController, Assembly-CSharp
         m_MethodName: SelectStoredCreature
         m_Mode: 3
@@ -8758,7 +8759,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1638514913}
         m_TargetAssemblyTypeName: CreatureManagerUIController, Assembly-CSharp
         m_MethodName: SelectActiveCreature
         m_Mode: 3
@@ -9636,7 +9637,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1638514913}
         m_TargetAssemblyTypeName: CreatureManagerUIController, Assembly-CSharp
         m_MethodName: SelectStoredCreature
         m_Mode: 3
@@ -11359,7 +11360,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1638514913}
         m_TargetAssemblyTypeName: CreatureManagerUIController, Assembly-CSharp
         m_MethodName: SelectActiveCreature
         m_Mode: 3
@@ -12155,7 +12156,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1638514913}
         m_TargetAssemblyTypeName: CreatureManagerUIController, Assembly-CSharp
         m_MethodName: SelectStoredCreature
         m_Mode: 3
@@ -12439,7 +12440,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1638514913}
         m_TargetAssemblyTypeName: CreatureManagerUIController, Assembly-CSharp
         m_MethodName: SelectStoredCreature
         m_Mode: 3
@@ -12795,7 +12796,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1638514913}
         m_TargetAssemblyTypeName: CreatureManagerUIController, Assembly-CSharp
         m_MethodName: SelectStoredCreature
         m_Mode: 3
@@ -13212,7 +13213,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1638514913}
         m_TargetAssemblyTypeName: CreatureManagerUIController, Assembly-CSharp
         m_MethodName: SelectStoredCreature
         m_Mode: 3
@@ -13495,7 +13496,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1638514913}
         m_TargetAssemblyTypeName: CreatureManagerUIController, Assembly-CSharp
         m_MethodName: SelectActiveCreature
         m_Mode: 3
@@ -14696,7 +14697,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1638514913}
         m_TargetAssemblyTypeName: CreatureManagerUIController, Assembly-CSharp
         m_MethodName: SelectStoredCreature
         m_Mode: 3
@@ -14788,9 +14789,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selectedCreature: {fileID: 0}
   movementEnabled: 1
-  speed: 3
   staminaUI: {fileID: 353596811}
   staminaFill: {fileID: 440878856}
+  buddyCreature: {fileID: 0}
+  buddyCloseEnoughDist: 2.2
 --- !u!114 &2096269921
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15103,7 +15105,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1638514913}
         m_TargetAssemblyTypeName: CreatureManagerUIController, Assembly-CSharp
         m_MethodName: SelectStoredCreature
         m_Mode: 3

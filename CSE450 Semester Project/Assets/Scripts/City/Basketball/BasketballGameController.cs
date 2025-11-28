@@ -9,6 +9,7 @@ public class BasketballGameController : MonoBehaviour {
     private const KeyCode dribbleKey = KeyCode.Space;
     private const KeyCode passkey = KeyCode.Q;
 
+    public OpponentController opp;
     public CreatureMove cm;
     public GameObject leftHoop;
     public GameObject rightHoop;
@@ -42,10 +43,26 @@ public class BasketballGameController : MonoBehaviour {
     private int opponentScore = 0;
 
     void Start() {
-        player = GameObject.FindWithTag("Player");
+        var player = Instantiate(GameManager.instance.playerCreature);
+        player.GetComponent<CreatureSelect>().SetTextSelected();
+        player.tag = "Player";
+        GameObject.Find("CreatureHandler").GetComponent<CreatureMove>().selectedCreature = player;
+        player.SetActive(true);
+        GameObject.FindWithTag("MainCamera").transform.parent = player.transform;
+
+        if (GameManager.instance.buddyCreature != null) {
+            var buddy = Instantiate(GameManager.instance.buddyCreature);
+            buddy.GetComponentInChildren<CreatureInteract>().enabled = false;
+            buddy.GetComponent<CreatureSelect>().SetTextBuddy();
+            buddy.SetActive(true);
+            opp.opponent = buddy;
+        }
+
+        this.player = player;
+        opp.player = player;
+
         stats = player.GetComponent<CreatureStats>();
         shootingUI.gameObject.SetActive(false);
-        cm.UpdateSelectedCreature(player);
         UpdateScoreUI();
     }
     
