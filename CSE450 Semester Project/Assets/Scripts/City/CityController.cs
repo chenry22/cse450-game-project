@@ -20,7 +20,7 @@ public class CityController : MonoBehaviour {
     public int populationLimit = 25;  
 
     void Start() {
-        map.SetActive(false);
+        // map.SetActive(false);
         if (GameManager.instance?.lastCity != null) {
             CreateCityFromDirectory(GameManager.instance.lastCity);
         }

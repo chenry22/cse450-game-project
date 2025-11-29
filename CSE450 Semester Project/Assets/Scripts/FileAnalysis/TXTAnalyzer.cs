@@ -31,16 +31,16 @@ namespace FileAnalysis
 
             // toppings
             var words = Regex.Matches(textContent.ToLower(), @"\b\w+\b").Cast<Match>().Select(m => m.Value).ToList();
-            int numUniqueWords = words.Distinct().Count();
+            int numUniqueWords = Math.Max(1, words.Distinct().Count()); // at least 1...
 
             // cooking
             var sentences = Regex.Split(textContent, @"[.!?]+").Where(s => s.Trim().Length > 0).ToList();
             double avgSentenceLength = sentences.Count > 0
                 ? sentences.Select(s => Regex.Matches(s, @"\b\w+\b").Count()).Average()
-                : 0;
+                : 1;
 
             // cutting
-            int punctuationCount = Regex.Matches(textContent, @"[.,;:!?]").Count;
+            int punctuationCount = Math.Max(1, Regex.Matches(textContent, @"[.,;:!?]").Count);
 
             // speed
             double avgWordLength = words.Count > 0
@@ -50,15 +50,14 @@ namespace FileAnalysis
             // stamina
             int charCount = textContent.Length;
 
-            int doughHandling = Math.Clamp(lineCount * 5, 0, 100);
-            int toppings = Math.Clamp(numUniqueWords * 2, 0, 100);
-            int cooking = Math.Clamp((int)(avgSentenceLength * 10), 0, 100);
-            int cutting = Math.Clamp(punctuationCount * 5, 0, 100);
-            int speed = Math.Clamp((int)(avgWordLength * 10), 0, 100);
-            int stamina = Math.Clamp(charCount / 10, 0, 100);
+            int doughHandling = lineCount % 100; // Math.Clamp(lineCount * 5, 0, 100);
+            int toppings = numUniqueWords % 100; // Math.Clamp(numUniqueWords * 2, 0, 100);
+            int cooking = (int)(avgSentenceLength * 10) % 100;// Math.Clamp((int)(avgSentenceLength * 10), 0, 100);
+            int cutting = punctuationCount * 5 % 100; // Math.Clamp(punctuationCount * 5, 0, 100);
+            int speed = (int)(avgWordLength * 10) % 100; // Math.Clamp((int)(avgWordLength * 10), 0, 100);
+            int stamina = charCount % 100; // Math.Clamp(charCount / 10, 0, 100);
 
-            return new Stats
-            {
+            return new Stats {
                 DoughHandling = doughHandling,
                 Toppings = toppings,
                 Cooking = cooking,

@@ -126,14 +126,16 @@ public class GameManager : MonoBehaviour {
         dayBeginButton.gameObject.SetActive(false);
     }
 
-    public void RegisterCreature(GameObject creature) {
+    public void RegisterCreature(GameObject creature, bool secretRegister = false) {
         // ignore city uploads 
-        if (SceneManager.GetActiveScene().name != "MainKitchenScene" && SceneManager.GetActiveScene().name != "TutorialScene") { return; }
+        if (!secretRegister && SceneManager.GetActiveScene().name != "MainKitchenScene" && SceneManager.GetActiveScene().name != "TutorialScene") { return; }
 
         if (creature.GetComponent<CreatureStats>() != null) {
             var cs = creature.GetComponent<CreatureSelect>();
-            // handle cost
-            currentBalance -= GetCurrentUploadCost();
+            if (secretRegister) {
+                // handle cost
+                currentBalance -= GetCurrentUploadCost();
+            }
 
             // is valid creature
             GameObject creatureCopy = Instantiate(creature);
@@ -147,15 +149,18 @@ public class GameManager : MonoBehaviour {
                 Destroy(creature);
             }
 
-            if (registeredCreatures.Count == 1) {
-                // auto take control of just first upload
-                cs.SelectCreature();
-                GameObject.Find(CreatureManagerUIController.sceneName).GetComponent<CreatureManagerUIController>().HideCreatureUI();
-            } else {
-                GameObject.Find(CreatureManagerUIController.sceneName).GetComponent<CreatureManagerUIController>().LoadUI();
+            var uiController = GameObject.Find(CreatureManagerUIController.sceneName);
+            if (uiController != null) {
+                if (registeredCreatures.Count == 1) {
+                    // auto take control of just first upload
+                    cs.SelectCreature();
+                    uiController.GetComponent<CreatureManagerUIController>().HideCreatureUI();
+                } else {
+                    uiController.GetComponent<CreatureManagerUIController>().LoadUI();
+                }
+                UpdateFileUploadButton();
+                UpdateMoneyLabel();
             }
-            UpdateFileUploadButton();
-            UpdateMoneyLabel();
         }
     }
     
