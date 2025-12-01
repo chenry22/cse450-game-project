@@ -15,7 +15,7 @@ public class AutoDriver : MonoBehaviour {
     }
 
     void FixedUpdate() {
-        if (waypoints != null || currentIndex >= waypoints.Length || currentIndex < 0) {
+        if (waypoints == null || currentIndex >= waypoints.Length || currentIndex < 0) {
             return;
         }
         Vector2 target = waypoints[currentIndex].position;
