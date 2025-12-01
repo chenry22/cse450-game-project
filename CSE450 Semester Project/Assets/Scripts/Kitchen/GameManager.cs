@@ -132,7 +132,7 @@ public class GameManager : MonoBehaviour {
 
         if (creature.GetComponent<CreatureStats>() != null) {
             var cs = creature.GetComponent<CreatureSelect>();
-            if (secretRegister) {
+            if (!secretRegister) {
                 // handle cost
                 currentBalance -= GetCurrentUploadCost();
             }

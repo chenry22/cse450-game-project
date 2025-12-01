@@ -52,7 +52,7 @@ public class CreatureMove : MonoBehaviour {
                 pct = Mathf.Clamp01(pct);
 
                 staminaFill.localScale = new Vector3(pct, 1f, 1f);
-                staminaUI.SetActive(pct >= 1f);
+                staminaUI.SetActive(pct < 1f);
             }
         } else {
             if (staminaUI != null) staminaUI.SetActive(false);
