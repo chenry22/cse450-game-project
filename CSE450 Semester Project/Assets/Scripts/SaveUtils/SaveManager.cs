@@ -8,12 +8,31 @@ public class SaveManager : MonoBehaviour
 {
     private CreatureMove creatureMover;
 
+    public GameObject saveUI;
+
     private static string _saveFileName = "gamesave.json";
     private static string _saveGamePath;
 
     private void Awake()
     {
         _saveGamePath = Path.Combine(Application.persistentDataPath, _saveFileName);
+    }
+
+    void Start() {
+        HideSaveUI();
+    }
+
+    void Update() {
+        if (Input.GetKeyDown(KeyCode.Escape)) {
+            saveUI.SetActive(!saveUI.activeSelf);
+        }
+    }
+
+    public void ShowSaveUI() {
+        saveUI.SetActive(true);
+    }
+    public void HideSaveUI() {
+        saveUI.SetActive(false);
     }
 
     public void SaveGameStateButton()

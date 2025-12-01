@@ -130,6 +130,14 @@ public class PostOfficeController : MonoBehaviour {
         EndInteraction(true);
     }
 
+    public void CancelLetter() {
+        letterUI.SetActive(false);
+        dialogueBox.SetActive(true);
+        dialogue.gameObject.SetActive(true);
+        nextInstruct.gameObject.SetActive(true);
+        p = Phase.Begin;
+    }
+
     void OnTriggerEnter2D(Collider2D collision) {
         if (collision.tag == "Player") {
             interacting = true;
