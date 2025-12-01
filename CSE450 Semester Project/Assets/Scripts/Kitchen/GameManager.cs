@@ -76,10 +76,10 @@ public class GameManager : MonoBehaviour {
             dayBeginButton.onClick.AddListener(delegate { BeginDay(); });
             creatureUI.LinkComponents();
             orderUI.LinkComponents();
-            var mon = Instantiate(registeredCreatures[0].gameObject, GameObject.Find("Spawner").transform);
+            var mon = Instantiate(playerCreature, GameObject.Find("Spawner").transform);
             mon.transform.localPosition = new Vector3(Random.Range(-0.5f, .5f), Random.Range(-0.5f, .5f), 0);
             mon.SetActive(true);
-            mon.GetComponent<CreatureSelect>().CopyCreature(registeredCreatures[0].GetComponent<CreatureSelect>());
+            mon.GetComponent<CreatureSelect>().CopyCreature(playerCreature.GetComponent<CreatureSelect>());
             mon.GetComponent<CreatureSelect>().SelectCreature();
             GameObject.Find("CreatureManagerUI").GetComponent<CreatureManagerUIController>().HideCreatureUI();
         }

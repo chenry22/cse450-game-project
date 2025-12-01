@@ -15,6 +15,9 @@ public class AutoDriver : MonoBehaviour {
     }
 
     void FixedUpdate() {
+        if (waypoints != null || currentIndex >= waypoints.Length || currentIndex < 0) {
+            return;
+        }
         Vector2 target = waypoints[currentIndex].position;
         Vector2 newPos = Vector2.MoveTowards(rb.position, target, moveSpeed * Time.fixedDeltaTime);
         Vector2 direction = (newPos - rb.position).normalized;
