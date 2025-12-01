@@ -2,9 +2,12 @@ using System.IO;
 using UnityEngine;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public class SaveManager : MonoBehaviour
 {
+    private CreatureMove creatureMover;
+
     private static string _saveFileName = "gamesave.json";
     private static string _saveGamePath;
 
@@ -78,6 +81,8 @@ public class SaveManager : MonoBehaviour
 
         if (Camera.main == null) Debug.LogError("[!] Camera destroyed");
 
+        var lastItem = loadedData.creatures.LastOrDefault();
+        creatureMover = GameObject.Find("CreatureHandler").GetComponent<CreatureMove>();
         foreach (var c in loadedData.creatures)
         {
             GameObject prefab = fileUpload.Ext2Prefab(c.extension);
@@ -88,6 +93,11 @@ public class SaveManager : MonoBehaviour
             var dataHolder = creature.AddComponent<CreatureDataHolder>();
             dataHolder.savedCreature = c;
             Debug.Log($"Loaded object {c.name}");
+            if (c == lastItem)
+            {
+                Debug.Log("Loaded last creature");
+                creatureMover.UpdateSelectedCreature(creature);
+            }
         }
         Debug.Log("Loaded game state");
         return;
