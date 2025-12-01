@@ -48,3 +48,6 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: tree
+    uniqueID: 3650254031
+    locked: 0

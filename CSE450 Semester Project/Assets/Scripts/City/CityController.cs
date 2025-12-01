@@ -20,7 +20,7 @@ public class CityController : MonoBehaviour {
     public int populationLimit = 25;  
 
     void Start() {
-        map.SetActive(false);
+        // map.SetActive(false);
         if (GameManager.instance?.lastCity != null) {
             CreateCityFromDirectory(GameManager.instance.lastCity);
         }
@@ -75,6 +75,7 @@ public class CityController : MonoBehaviour {
 
     public void AddPlayerAndBuddy(){
         var player = Instantiate(GameManager.instance.playerCreature);
+        player.transform.position = Vector2.zero;
         player.GetComponent<CreatureSelect>().SetTextSelected();
         player.tag = "Player";
         GameObject.Find("CreatureHandler").GetComponent<CreatureMove>().selectedCreature = player;

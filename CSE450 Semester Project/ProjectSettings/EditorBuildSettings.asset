@@ -18,6 +18,9 @@ EditorBuildSettings:
     path: Assets/Scenes/City.unity
     guid: cfb3c7c09a0d542de8ee952a0229b572
   - enabled: 1
+    path: Assets/Scenes/Minigames/Driving.unity
+    guid: b43cb53bcba634ad38e391b578fccb2d
+  - enabled: 1
     path: Assets/Scenes/Minigames/BandRhythmGame.unity
     guid: a73be2f514ed84bd2a9d9550ec41424d
   - enabled: 1
