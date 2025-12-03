@@ -543,8 +543,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selectedCreature: {fileID: 0}
   movementEnabled: 1
-  speed: 3
-  lowStaminaUI: {fileID: 0}
+  staminaUI: {fileID: 0}
+  staminaFill: {fileID: 0}
+  buddyCreature: {fileID: 0}
+  buddyCloseEnoughDist: 2.2
 --- !u!4 &175230507
 Transform:
   m_ObjectHideFlags: 0
@@ -559,6 +561,51 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1002400107}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &211161698
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 211161700}
+  - component: {fileID: 211161699}
+  m_Layer: 0
+  m_Name: MusicManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &211161699
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 211161698}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19c2ad2d46f8d466499543e1209e929f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useMainTheme: 1
+--- !u!4 &211161700
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 211161698}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 355.92627, y: 167.27232, z: -1.2274388}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &310947002
@@ -1684,6 +1731,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca0d439626ded4282acdcc5d28440c44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  instructText: {fileID: 0}
+  sceneName: 
 --- !u!4 &1349195888
 Transform:
   m_ObjectHideFlags: 0
@@ -1997,3 +2046,4 @@ SceneRoots:
   - {fileID: 331332147}
   - {fileID: 1349195888}
   - {fileID: 38629486}
+  - {fileID: 211161700}

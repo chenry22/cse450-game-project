@@ -3129,8 +3129,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selectedCreature: {fileID: 0}
   movementEnabled: 1
-  speed: 3
-  lowStaminaUI: {fileID: 0}
+  staminaUI: {fileID: 0}
+  staminaFill: {fileID: 0}
+  buddyCreature: {fileID: 0}
+  buddyCloseEnoughDist: 2.2
 --- !u!114 &354001163
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8744,6 +8746,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5235540b7a23043949b9522eb0818924, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerCreature: {fileID: 0}
+  buddyCreature: {fileID: 0}
   fileUploadButton: {fileID: 431231119}
   dayBeginButton: {fileID: 1793959154}
   managerWall: {fileID: 56914641}
@@ -8901,6 +8905,51 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 20, y: 0.1}
   m_EdgeRadius: 0
+--- !u!1 &1299221340
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1299221342}
+  - component: {fileID: 1299221341}
+  m_Layer: 0
+  m_Name: MusicManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1299221341
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1299221340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19c2ad2d46f8d466499543e1209e929f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useMainTheme: 1
+--- !u!4 &1299221342
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1299221340}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 355.92627, y: 167.27232, z: -1.2274388}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1315496067
 GameObject:
   m_ObjectHideFlags: 0
@@ -12242,3 +12291,4 @@ SceneRoots:
   - {fileID: 982028368}
   - {fileID: 1644207022}
   - {fileID: 491639157}
+  - {fileID: 1299221342}
