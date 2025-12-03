@@ -232,20 +232,21 @@ public class GameManager : MonoBehaviour {
     public void GameOver()
     {
         // remove all creatures
-        foreach (var creature in GameObject.FindGameObjectsWithTag("Creature"))
-        {
-            registeredCreatures.Remove(creature);
+        foreach (var creature in GameObject.FindGameObjectsWithTag("Creature")) {
             Destroy(creature);
         }
+        foreach(var creature in registeredCreatures) {
+            Destroy(creature);
+        }
+        GameObject.FindWithTag("MainCamera").transform.parent = null;
+        Destroy(GameObject.FindWithTag("Player"));
 
-        // reset game day and balances
-        day = 0;
-        currentBalance = startingBalance;
-        totalProfit = 0;
-
-        ActivateBeginDayButton();
-        UpdateFileUploadButton();
-        UpdateMoneyLabel();
+        GameObject.Find("GameUI").SetActive(false);
+        GameObject.Find("GameOver").transform.GetChild(0).gameObject.SetActive(true);
+    }
+    public void BackToMain() {
+        SceneManager.LoadScene("StartMenu");
+        Destroy(this.gameObject);
     }
     
     public void UpdateOrdersCompleted(int completed, int total) {
