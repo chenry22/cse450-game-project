@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CreatureInteract : MonoBehaviour
 {
@@ -32,6 +33,7 @@ public class CreatureInteract : MonoBehaviour
                 StopCoroutine("DialogueInteraction");
                 StartCoroutine("DialogueInteraction");
             } else if (Input.GetKeyDown(transferKey)) {
+                if (SceneManager.GetActiveScene().name == "City") { return; }
                 if (Input.GetKey(KeyCode.LeftShift)) {
                     TransferPieIfPossible();
 

@@ -188,7 +188,7 @@ public class GameManager : MonoBehaviour {
     }
 
     public int GetDay() { return day; }
-    public float GetBalance() { return currentBalance; }
+    public float GetBalance() { return Mathf.Round(currentBalance * 100) / 100f; }
     public void SetBalance(float bal) { currentBalance = bal; }
     public float GetProfit() { return totalProfit; }
     
