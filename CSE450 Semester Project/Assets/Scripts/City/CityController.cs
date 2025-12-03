@@ -89,6 +89,7 @@ public class CityController : MonoBehaviour {
             buddy.GetComponent<CreatureSelect>().SetTextBuddy();
             buddy.tag = "Partner";
             GameObject.Find("CreatureHandler").GetComponent<CreatureMove>().buddyCreature = buddy;
+            buddy.transform.position = new Vector2(-1, 0);
             buddy.SetActive(true);
         }
     }

@@ -55,9 +55,21 @@ public class CreatureManagerUIController : MonoBehaviour {
             exitButton.SetActive(false);
         }
 
+        var init = 1;
+        var buddy = GameObject.FindWithTag("Partner");
+        if (buddy) {
+            var stats = buddy.GetComponent<CreatureStats>().GetStats();
+            var cs = buddy.GetComponent<CreatureSelect>();
+
+            activeCreatures[1] = cs;
+            names.Add(cs.GetName());
+            SetActiveCreatureSlot(activeSlots[1].transform, cs.GetSprite(), cs.GetSpriteColor(), cs.GetName(), stats);
+            init++;
+        }
+
         var creatures = GameObject.FindGameObjectsWithTag("Creature");
         var offset = 0;
-        for (int i = 1; i < activeSlots.Length; i++) {
+        for (int i = init; i < activeSlots.Length; i++) {
             if (creatures.Length <= i - 1 + offset) { break; }
             var c = creatures[i - 1 + offset];
             var stats = c.GetComponent<CreatureStats>().GetStats();

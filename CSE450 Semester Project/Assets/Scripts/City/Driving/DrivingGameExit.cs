@@ -21,7 +21,7 @@ public class DrivingGameExit : MonoBehaviour
 
     void OnTriggerExit2D(Collider2D collision) {
         if(collision.tag == "Player") {
-            returnTxt.SetActive(false);
+            returnTxt?.SetActive(false);
         }  
     }
 }

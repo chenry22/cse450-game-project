@@ -79,10 +79,20 @@ public class GameManager : MonoBehaviour {
             creatureUI.LinkComponents();
             orderUI.LinkComponents();
             var mon = Instantiate(playerCreature, GameObject.Find("Spawner").transform);
-            mon.transform.localPosition = new Vector3(Random.Range(-0.5f, .5f), Random.Range(-0.5f, .5f), 0);
+            mon.transform.localPosition = new Vector3(Random.Range(-0.5f, 0), Random.Range(-0.5f, 0), 0);
             mon.SetActive(true);
             mon.GetComponent<CreatureSelect>().CopyCreature(playerCreature.GetComponent<CreatureSelect>());
             mon.GetComponent<CreatureSelect>().SelectCreature();
+
+            if (buddyCreature != null) {
+                var bud = Instantiate(buddyCreature, GameObject.Find("Spawner").transform);
+                bud.transform.localPosition = new Vector3(Random.Range(0, .5f), Random.Range(0, .5f), 0);
+                bud.SetActive(true);
+                bud.GetComponent<CreatureSelect>().CopyCreature(buddyCreature.GetComponent<CreatureSelect>());
+                GameObject.Find("CreatureHandler").GetComponent<CreatureMove>().UpdateBuddyCreature(bud);
+                bud.tag = "Partner";
+            }
+
             GameObject.Find("CreatureManagerUI").GetComponent<CreatureManagerUIController>().HideCreatureUI();
         }
     }
