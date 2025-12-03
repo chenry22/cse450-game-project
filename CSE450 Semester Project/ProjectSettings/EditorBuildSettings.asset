@@ -18,6 +18,9 @@ EditorBuildSettings:
     path: Assets/Scenes/City.unity
     guid: cfb3c7c09a0d542de8ee952a0229b572
   - enabled: 1
+    path: Assets/Scenes/Minigames/Computer.unity
+    guid: 06e21eb7a2c0d4516840f7008b8018df
+  - enabled: 1
     path: Assets/Scenes/Minigames/Driving.unity
     guid: b43cb53bcba634ad38e391b578fccb2d
   - enabled: 1

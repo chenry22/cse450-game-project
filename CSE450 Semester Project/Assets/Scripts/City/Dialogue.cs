@@ -3,21 +3,24 @@ public static class Dialogue {
         "Hi", "What's up?", "Yo", "Hello", "Hey",
         "Oh, hi", "?", "Hey there", "Omg hi!!!", "Yo yo yo!!",
         "Um, hi...", "!!", "Hey you.", "Greetings", "Hola",
-        "Meow", ":)"
+        "Meow", ":)", "Hi there!", "hiii", "Salutations", "!"
     };
 
     public static string[] startResponse = {
         "How are you?", "Lovely weather we're having", "Yeah...", "Um, yeah...", "How've you been?",
         "Wow good to see you!", "Where are you off to?", "Watch where you're going, pal.", "Do I know you?",
         "Yeah?", "Meow", "!?!?", "Erm, ok...", "No.", "Yeah!!",
-        "I have so much to say", "I am alive.", "I am a file", "I see you"
+        "I have so much to say", "I am alive.", "I am a file", "I see you",
+        "I love this city!", "Nice to see you", "What a time to be alive",
+        "I love it here", "This is a cool place to live, right?", 
     };
 
     public static string[] endReponse = {
         "Yeah, I guess", "Sure", "Um, sure", "Yeah...", "That's interesting.",
         "What?", "I'm not sure...", "???", "Oh, you know...", "I guess so", "Whatever",
         "I don't know what to say.", "Where am I?", "Okay", "Meow", "Lets talk another time.",
-        "Ok I'm leaving", "Ok bye", "Bye"
+        "Ok I'm leaving", "Ok bye", "Bye", "Good talk :)", "Nice talking to you!",
+        ":)", "Yeah, ok", "Ok...", "Cool", "Whatever."
     };
 
     public static string[] fleeing = {
@@ -29,7 +32,7 @@ public static class Dialogue {
     public static string[] byeResponse = {
         "Ok, bye!", "See you around!", "See you later!", "Bye :)", "Nice talking to you!",
         "Come back soon!", "Don't be a stranger!", "See you next time!", "Goodbye!",
-        "Ciao!", "Until next time!"
+        "Ciao!", "Until next time!", "See ya!"
     };
 
     public static string[] postOffice = {
@@ -39,12 +42,24 @@ public static class Dialogue {
         "Thanks for sticking around! We don't get enough people in here...", "Really, write a letter. It might unlock something in you (or something)",
         "You work at that pizza place right? I still haven't had the chance to try it out.", "You could say my whole life is the post office",
         "You don't even have to tell us where the letter should go- we'll figure it out", "Just a few more hours and my shift is over...",
-        "As a letter myself, I think we need more letters in the world",
-        "I love mail! Don't you?", "Letters... letters.... and more letters."
+        "As a letter myself, I think we need more letters in the world", "Shoutout mail",
+        "I love mail! Don't you?", "Letters... letters.... and more letters.",
+        "You couldn't possibly understand how much I love mail.",
     };
     public static string[] sentLetter = {
         "Awesome, we'll send that out right away!", "Thanks for stopping by!", "Your precious letter will be sent!",
         "We'll deliver this as soon as possible!", "This letter will be delivered with force and velocity.",
         "Consider the letter sent!", "Congrats on writing your letter!"  
+    };
+
+    public static string[] hatShop = {
+        "What would we even do without hats?", "I love hats soooo much!!!", "Are you going to buy something?",
+        "If you were a hat, what kind of hat would you be?", "I'm something of a hat expert actually.",
+        "Hats, hats, hats.", "I love hats so much I'm even wearing one!",
+        "A cool hat can change your life", "Feel free to buy something!", "We have no bad hats, seriously.",
+        "One of our hats is even animated! Isn't that crazy?", "Oh to be a hat... what a life",
+        "There's never any wind in this city, so your hat will be totally safe",
+        "Hat.... sounds kind of like... cat..... think about it.",
+        "These hats are one of a kind!", "These are the best hats on the market. Buy now!!!!"
     };
 }

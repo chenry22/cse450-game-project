@@ -20,6 +20,8 @@ public class GameManager : MonoBehaviour {
     private float totalProfit = 0;
     private float currentBalance = startingBalance; // start with 50 so you can buy a guy on day 0 if you want :)
     private List<GameObject> registeredCreatures = new List<GameObject>();
+
+    private List<string> unlockedHats = new List<string>();
     
     public GameObject playerCreature = null;
     public GameObject buddyCreature = null;
@@ -167,6 +169,14 @@ public class GameManager : MonoBehaviour {
     public List<GameObject> GetRegisteredCreatures() {
         return registeredCreatures;
     }
+
+    public bool HatUnlocked(string hatID) {
+        return unlockedHats.Contains(hatID);
+    }
+    public void UnlockHat(string hatID) {
+        unlockedHats.Add(hatID);
+    }
+
     public int GetDay() { return day; }
     public float GetBalance() { return currentBalance; }
     public void SetBalance(float bal) { currentBalance = bal; }

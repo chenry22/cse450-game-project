@@ -60,7 +60,7 @@ public class CityCreatureBehavior : MonoBehaviour
 
                     phase = CreaturePhase.Move;
                     interval = Random.Range(minMoveTime, maxMoveTime);
-                } else if (Random.Range(0, 1f) < (stats.Extroversion / 150f) - 0.25f) {
+                } else if (Random.Range(0, 1f) < (stats.Extroversion / 120f) - 0.25f) {
                     phase = CreaturePhase.Dance;
                     StartCoroutine("Dance");
                 }
@@ -159,7 +159,7 @@ public class CityCreatureBehavior : MonoBehaviour
 
             // only one of the creatures should act.
             if (gameObject.GetInstanceID() < other.gameObject.GetInstanceID()) {
-                if (Random.Range(0, 1f) < 0.2f - (stats.Extroversion / 150f)) {
+                if (Random.Range(0, 1f) < 0.25f - (stats.Extroversion / 120f)) {
                     Debug.Log("FLEEING, extroversion: " + stats.Extroversion);
                     timer = 0f;
                     interval = Random.Range(minFleeTime, maxFleeTime);

@@ -24,6 +24,8 @@ public class CityController : MonoBehaviour {
         if (GameManager.instance?.lastCity != null) {
             CreateCityFromDirectory(GameManager.instance.lastCity);
         }
+
+        GameObject.Find("BalanceText").GetComponent<TMP_Text>().text = "Balance: $" + GameManager.instance.GetBalance();
     }
     
     public void LoadTestCity1() {

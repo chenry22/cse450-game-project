@@ -2,6 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
+using FileAnalysis;
 
 public class SaunaGameController : MonoBehaviour
 {
@@ -109,7 +110,14 @@ public class SaunaGameController : MonoBehaviour
         dialogueText.text = SaunaDialogue.endText;
         choicePanel.SetActive(false);
 
-        stats.GetStats().Cooking += 1;
+        var name = GameManager.instance.playerCreature.GetComponent<CreatureSelect>().GetName();
+        for(int i = 0; i < GameManager.instance.GetRegisteredCreatures().Count; i++) {
+            var registered = GameManager.instance.GetRegisteredCreatures()[i];
+            if (registered.GetComponent<CreatureSelect>().GetName() == name) {
+                registered.GetComponent<CreatureStats>().GetStats().Cooking += 1;
+                break;
+            }
+        }
         
         returnButton.SetActive(true);
     }
