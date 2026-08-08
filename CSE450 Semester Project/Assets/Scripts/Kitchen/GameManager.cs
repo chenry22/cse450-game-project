@@ -241,8 +241,11 @@ public class GameManager : MonoBehaviour {
         GameObject.FindWithTag("MainCamera").transform.parent = null;
         Destroy(GameObject.FindWithTag("Player"));
 
-        GameObject.Find("GameUI").SetActive(false);
-        GameObject.Find("GameOver").transform.GetChild(0).gameObject.SetActive(true);
+        // GameObject.Find("GameUI").SetActive(false);
+        // GameObject.Find("GameOver").transform.GetChild(0).gameObject.SetActive(true);
+
+        SceneManager.LoadScene("StartMenu");
+        Destroy(this.gameObject);
     }
     public void BackToMain() {
         SceneManager.LoadScene("StartMenu");
